@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="NeuralisAPP_1.Views.Profile.NotificationPreferencesPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    BackgroundColor="{StaticResource BgPrimary}"
+    NavigationPage.HasNavigationBar="False"
+    Shell.NavBarIsVisible="False">
+
+    <Grid RowDefinitions="Auto,*">
+        <Grid Grid.Row="0" Padding="24,20,24,0" ColumnDefinitions="Auto,*">
+            <Border
+                Grid.Column="0"
+                Padding="6,4"
+                StrokeShape="RoundRectangle 10"
+                BackgroundColor="Transparent">
+                <Border.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="OnBackTapped"/>
+                </Border.GestureRecognizers>
+                <HorizontalStackLayout Spacing="6">
+                    <Label Text="arrow_back" FontFamily="MaterialIcons" FontSize="20" TextColor="{StaticResource TextSecondary}" VerticalOptions="Center"/>
+                    <Label Text="Back" FontSize="13" TextColor="{StaticResource TextSecondary}" VerticalOptions="Center"/>
+                </HorizontalStackLayout>
+            </Border>
+            <Label
+                Grid.Column="1"
+                Text="Notification preferences"
+                FontSize="18"
+                FontAttributes="Bold"
+                TextColor="{StaticResource TextPrimary}"
+                HorizontalOptions="Center"
+                VerticalOptions="Center"/>
+        </Grid>
+
+        <ScrollView Grid.Row="1">
+            <VerticalStackLayout Padding="24" Spacing="18" MaximumWidthRequest="680" HorizontalOptions="Center">
+
+                <Border Padding="22" Style="{StaticResource HoverCardStyle}">
+                    <VerticalStackLayout Spacing="8">
+                        <Label Style="{StaticResource SectionLabel}" Text="Alerts"/>
+                        <Label FontSize="12" TextColor="{StaticResource Muted}" Text="Changes are saved automatically."/>
+                        <BoxView HeightRequest="1" Color="#143A42" Margin="0,8"/>
+
+                        <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="14" RowSpacing="14">
+                            <Label Grid.Row="0" Grid.Column="0" Text="psychology" FontFamily="MaterialIcons" FontSize="20" TextColor="{StaticResource Accent}" VerticalOptions="Center"/>
+                            <VerticalStackLayout Grid.Row="0" Grid.Column="1" Spacing="2" VerticalOptions="Center">
+                                <Label Text="AI analysis alerts" FontSize="14" TextColor="{StaticResource TextPrimary}"/>
+                                <Label Text="Receive a notification when an AI analysis result is ready." FontSize="11" TextColor="{StaticResource Muted}" LineBreakMode="WordWrap"/>
+                            </VerticalStackLayout>
+                            <Switch Grid.Row="0" Grid.Column="2" x:Name="AiAnalysisSwitch" OnColor="{StaticResource Accent}" Toggled="OnAiAnalysisToggled"/>
+
+                            <Label Grid.Row="1" Grid.Column="0" Text="event" FontFamily="MaterialIcons" FontSize="20" TextColor="{StaticResource Accent}" VerticalOptions="Center"/>
+                            <VerticalStackLayout Grid.Row="1" Grid.Column="1" Spacing="2" VerticalOptions="Center">
+                                <Label Text="Appointment reminders" FontSize="14" TextColor="{StaticResource TextPrimary}"/>
+                                <Label Text="Get reminded about upcoming visits." FontSize="11" TextColor="{StaticResource Muted}" LineBreakMode="WordWrap"/>
+                            </VerticalStackLayout>
+                            <Switch Grid.Row="1" Grid.Column="2" x:Name="AppointmentsSwitch" OnColor="{StaticResource Accent}" Toggled="OnAppointmentsToggled"/>
+
+                            <Label Grid.Row="2" Grid.Column="0" Text="security" FontFamily="MaterialIcons" FontSize="20" TextColor="{StaticResource Accent}" VerticalOptions="Center"/>
+                            <VerticalStackLayout Grid.Row="2" Grid.Column="1" Spacing="2" VerticalOptions="Center">
+                                <Label Text="Security notifications" FontSize="14" TextColor="{StaticResource TextPrimary}"/>
+                                <Label Text="New sign-ins, password changes, and access events." FontSize="11" TextColor="{StaticResource Muted}" LineBreakMode="WordWrap"/>
+                            </VerticalStackLayout>
+                            <Switch Grid.Row="2" Grid.Column="2" x:Name="SecuritySwitch" OnColor="{StaticResource Accent}" Toggled="OnSecurityToggled"/>
+
+                            <Label Grid.Row="3" Grid.Column="0" Text="campaign" FontFamily="MaterialIcons" FontSize="20" TextColor="{StaticResource Accent}" VerticalOptions="Center"/>
+                            <VerticalStackLayout Grid.Row="3" Grid.Column="1" Spacing="2" VerticalOptions="Center">
+                                <Label Text="System updates" FontSize="14" TextColor="{StaticResource TextPrimary}"/>
+                                <Label Text="Product news and platform changes." FontSize="11" TextColor="{StaticResource Muted}" LineBreakMode="WordWrap"/>
+                            </VerticalStackLayout>
+                            <Switch Grid.Row="3" Grid.Column="2" x:Name="SystemSwitch" OnColor="{StaticResource Accent}" Toggled="OnSystemToggled"/>
+
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+                        </Grid>
+                    </VerticalStackLayout>
+                </Border>
+            </VerticalStackLayout>
+        </ScrollView>
+    </Grid>
+</ContentPage>

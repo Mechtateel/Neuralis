@@ -1,0 +1,255 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:controls="clr-namespace:NeuralisAPP_1.Views.Main.Controls"
+    xmlns:shared="clr-namespace:NeuralisAPP_1.Views.Shared"
+    x:Class="NeuralisAPP_1.Views.Main.MainPage"
+    BackgroundColor="#071A1F"
+    NavigationPage.HasNavigationBar="False"
+    Shell.NavBarIsVisible="False">
+
+    <shared:MainLayout x:Name="GlobalLayout">
+        <shared:MainLayout.SidebarContent>
+            <controls:UserAppSidebarView x:Name="AppSidebar" />
+        </shared:MainLayout.SidebarContent>
+
+        <shared:MainLayout.PageContent>
+            <Grid>
+                <Image
+                    Aspect="AspectFill"
+                    InputTransparent="True"
+                    Opacity="0.25"
+                    Source="back_img.png" />
+
+                <ScrollView>
+                    <controls:MainContentWrapper x:Name="MainWrapper">
+                        <Grid RowSpacing="20">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+
+                            <Grid
+                                x:Name="HeaderGrid"
+                                Grid.Row="0"
+                                ColumnSpacing="20"
+                                Margin="0,0,0,8">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition x:Name="HeaderImageColumnDefinition" Width="0" />
+                                </Grid.ColumnDefinitions>
+
+                                <VerticalStackLayout Grid.Column="0" Spacing="6">
+                                    <Label
+                                        x:Name="DashboardTitleLabel"
+                                        Text="Welcome to Neuralis"
+                                        FontSize="24"
+                                        FontAttributes="Bold"
+                                        TextColor="White"
+                                        LineBreakMode="WordWrap" />
+                                    <Label
+                                        x:Name="DashboardSubtitleLabel"
+                                        Text="AI-powered Medical Assistant"
+                                        FontSize="13"
+                                        TextColor="#9FBFC4"
+                                        LineBreakMode="WordWrap" />
+                                </VerticalStackLayout>
+
+                                <Image
+                                    x:Name="HeaderHeroImage"
+                                    Grid.Column="1"
+                                    Source="neuralis.png"
+                                    Opacity="0.95"
+                                    Margin="24,0,0,-10"
+                                    IsVisible="False" />
+                            </Grid>
+
+                            <Grid Grid.Row="1" RowSpacing="16">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                </Grid.RowDefinitions>
+
+                                <Label
+                                    Grid.Row="0"
+                                    Text="System Overview"
+                                    FontSize="20"
+                                    FontAttributes="Bold"
+                                    TextColor="White"
+                                    LineBreakMode="WordWrap" />
+
+                                <Grid
+                                    x:Name="OverviewCardsGrid"
+                                    Grid.Row="1"
+                                    ColumnSpacing="16"
+                                    RowSpacing="16">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition x:Name="OverviewCol1" Width="*" />
+                                        <ColumnDefinition x:Name="OverviewCol2" Width="0" />
+                                        <ColumnDefinition x:Name="OverviewCol3" Width="0" />
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                    </Grid.RowDefinitions>
+
+                                    <Border
+                                        x:Name="OverviewCard1"
+                                        Grid.Column="0"
+                                        Grid.Row="0"
+                                        Style="{StaticResource HoverCardStyle}"
+                                        Padding="20">
+                                        <VerticalStackLayout Spacing="10">
+                                            <HorizontalStackLayout Spacing="12">
+                                                <Label Text="psychology" FontFamily="MaterialIcons" FontSize="22" TextColor="#3FE0C5" />
+                                                <Label Text="AI Analysis" FontAttributes="Bold" FontSize="16" TextColor="#3FE0C5" LineBreakMode="WordWrap" />
+                                            </HorizontalStackLayout>
+                                            <Label Text="Symptom interpretation and AI diagnostics." FontSize="13" TextColor="#B6D6DB" LineBreakMode="WordWrap" />
+                                        </VerticalStackLayout>
+                                        <Border.GestureRecognizers>
+                                            <TapGestureRecognizer Tapped="OnAiAnalysisTapped" />
+                                        </Border.GestureRecognizers>
+                                    </Border>
+
+                                    <Border
+                                        x:Name="OverviewCard2"
+                                        Grid.Column="1"
+                                        Grid.Row="1"
+                                        Style="{StaticResource HoverCardStyle}"
+                                        Padding="20">
+                                        <VerticalStackLayout Spacing="10">
+                                            <HorizontalStackLayout Spacing="12">
+                                                <Label Text="monitor_heart" FontFamily="MaterialIcons" FontSize="22" TextColor="#3FE0C5" />
+                                                <Label Text="Medical Insights" FontAttributes="Bold" FontSize="16" TextColor="#3FE0C5" LineBreakMode="WordWrap" />
+                                            </HorizontalStackLayout>
+                                            <Label Text="Clinical decision support and insights." FontSize="13" TextColor="#B6D6DB" LineBreakMode="WordWrap" />
+                                        </VerticalStackLayout>
+                                    </Border>
+
+                                    <Border
+                                        x:Name="OverviewCard3"
+                                        Grid.Column="2"
+                                        Grid.Row="2"
+                                        Style="{StaticResource HoverCardStyle}"
+                                        Padding="20">
+                                        <VerticalStackLayout Spacing="10">
+                                            <HorizontalStackLayout Spacing="12">
+                                                <Label Text="security" FontFamily="MaterialIcons" FontSize="22" TextColor="#3FE0C5" />
+                                                <Label Text="Secure Data" FontAttributes="Bold" FontSize="16" TextColor="#3FE0C5" LineBreakMode="WordWrap" />
+                                            </HorizontalStackLayout>
+                                            <Label Text="Privacy-focused medical data handling." FontSize="13" TextColor="#B6D6DB" LineBreakMode="WordWrap" />
+                                        </VerticalStackLayout>
+                                    </Border>
+                                </Grid>
+                            </Grid>
+
+                            <Grid
+                                x:Name="ServicesAndNewsLayoutGrid"
+                                Grid.Row="2"
+                                ColumnSpacing="16"
+                                RowSpacing="16"
+                                Margin="0,12,0,0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition x:Name="ServicesColumnDefinition" Width="*" />
+                                    <ColumnDefinition x:Name="NewsColumnDefinition" Width="0" />
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition x:Name="ServicesNewsRow1" Height="Auto" />
+                                    <RowDefinition x:Name="ServicesNewsRow2" Height="Auto" />
+                                </Grid.RowDefinitions>
+
+                                <VerticalStackLayout
+                                    x:Name="ServicesColumn"
+                                    Grid.Column="0"
+                                    Grid.Row="0"
+                                    Spacing="14">
+                                    <Border Style="{StaticResource HoverCardStyle}" Padding="20">
+                                        <HorizontalStackLayout Spacing="12">
+                                            <Label Text="person" FontFamily="MaterialIcons" FontSize="20" TextColor="#3FE0C5" />
+                                            <Label Text="Patient Services" FontAttributes="Bold" TextColor="#3FE0C5" LineBreakMode="WordWrap" />
+                                        </HorizontalStackLayout>
+                                        <Border.GestureRecognizers>
+                                            <TapGestureRecognizer Tapped="OnPatientServicesTapped" />
+                                        </Border.GestureRecognizers>
+                                    </Border>
+
+                                    <Border Style="{StaticResource HoverCardStyle}" Padding="20">
+                                        <HorizontalStackLayout Spacing="12">
+                                            <Label Text="medical_services" FontFamily="MaterialIcons" FontSize="20" TextColor="#3FE0C5" />
+                                            <Label Text="Medical Services" FontAttributes="Bold" TextColor="#3FE0C5" LineBreakMode="WordWrap" />
+                                        </HorizontalStackLayout>
+                                        <Border.GestureRecognizers>
+                                            <TapGestureRecognizer Tapped="OnMedicalServicesTapped" />
+                                        </Border.GestureRecognizers>
+                                    </Border>
+
+                                    <Border Style="{StaticResource HoverCardStyle}" Padding="20">
+                                        <HorizontalStackLayout Spacing="12">
+                                            <Label Text="extension" FontFamily="MaterialIcons" FontSize="20" TextColor="#3FE0C5" />
+                                            <Label Text="Additional Services" FontAttributes="Bold" TextColor="#3FE0C5" LineBreakMode="WordWrap" />
+                                        </HorizontalStackLayout>
+                                    </Border>
+                                </VerticalStackLayout>
+
+                                <VerticalStackLayout
+                                    x:Name="NewsColumn"
+                                    Grid.Column="0"
+                                    Grid.Row="1"
+                                    Spacing="16">
+                                    <Grid ColumnDefinitions="*,Auto">
+                                        <Label
+                                            Grid.Column="0"
+                                            Text="Latest Updates"
+                                            FontSize="20"
+                                            FontAttributes="Bold"
+                                            TextColor="{StaticResource TextPrimary}"
+                                            VerticalOptions="Center"
+                                            LineBreakMode="WordWrap" />
+                                        <Label
+                                            Grid.Column="1"
+                                            Text="View all →"
+                                            FontSize="14"
+                                            FontAttributes="Bold"
+                                            TextColor="{StaticResource Accent}"
+                                            VerticalOptions="Center"
+                                            Margin="16,0,0,0"
+                                            LineBreakMode="WordWrap">
+                                            <Label.GestureRecognizers>
+                                                <TapGestureRecognizer Tapped="OnLatestUpdatesTapped" />
+                                            </Label.GestureRecognizers>
+                                        </Label>
+                                    </Grid>
+
+                                    <ActivityIndicator
+                                        x:Name="NewsPreviewLoading"
+                                        IsVisible="False"
+                                        IsRunning="False"
+                                        Color="{StaticResource Accent}"
+                                        HorizontalOptions="Start" />
+
+                                    <Label
+                                        x:Name="NewsPreviewEmptyLabel"
+                                        Text="No updates yet. Check back soon."
+                                        FontSize="13"
+                                        TextColor="{StaticResource TextMuted}"
+                                        IsVisible="False"
+                                        LineBreakMode="WordWrap" />
+
+                                    <Grid
+                                        x:Name="DashboardNewsGrid"
+                                        ColumnSpacing="16"
+                                        RowSpacing="16" />
+                                </VerticalStackLayout>
+                            </Grid>
+                        </Grid>
+                    </controls:MainContentWrapper>
+                </ScrollView>
+            </Grid>
+        </shared:MainLayout.PageContent>
+    </shared:MainLayout>
+</ContentPage>
+
+

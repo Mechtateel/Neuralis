@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="NeuralisAPP_1.Views.Admin.AdminNewsPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:shared="clr-namespace:NeuralisAPP_1.Views.Shared"
+    xmlns:admincontrols="clr-namespace:NeuralisAPP_1.Views.Admin.Controls"
+    BackgroundColor="#04141C"
+    NavigationPage.HasNavigationBar="False"
+    Shell.NavBarIsVisible="False">
+
+    <ContentPage.Resources>
+        <Style x:Key="NewsCardStyle" TargetType="Border">
+            <Setter Property="BackgroundColor" Value="#0A1F27"/>
+            <Setter Property="Stroke" Value="#163B43"/>
+            <Setter Property="StrokeThickness" Value="1"/>
+            <Setter Property="StrokeShape" Value="RoundRectangle 16"/>
+            <Setter Property="Padding" Value="20"/>
+        </Style>
+
+        <Style x:Key="NewsRowStyle" TargetType="Border">
+            <Setter Property="BackgroundColor" Value="#081A21"/>
+            <Setter Property="Stroke" Value="#143641"/>
+            <Setter Property="StrokeThickness" Value="1"/>
+            <Setter Property="StrokeShape" Value="RoundRectangle 14"/>
+            <Setter Property="Padding" Value="16"/>
+        </Style>
+
+        <Style x:Key="ChipStyle" TargetType="Border">
+            <Setter Property="BackgroundColor" Value="#0D2B31"/>
+            <Setter Property="Stroke" Value="#1F5260"/>
+            <Setter Property="StrokeThickness" Value="1"/>
+            <Setter Property="StrokeShape" Value="RoundRectangle 8"/>
+            <Setter Property="Padding" Value="8,3"/>
+        </Style>
+
+        <Style x:Key="TabButtonStyle" TargetType="Button">
+            <Setter Property="BackgroundColor" Value="#0E2E36"/>
+            <Setter Property="TextColor" Value="#9DBEC7"/>
+            <Setter Property="BorderColor" Value="#163E47"/>
+            <Setter Property="BorderWidth" Value="1"/>
+            <Setter Property="CornerRadius" Value="20"/>
+            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="FontAttributes" Value="Bold"/>
+            <Setter Property="Padding" Value="14,6"/>
+            <Setter Property="MinimumHeightRequest" Value="34"/>
+        </Style>
+
+        <Style x:Key="TabButtonActiveStyle" TargetType="Button" BasedOn="{StaticResource TabButtonStyle}">
+            <Setter Property="BackgroundColor" Value="#0D3C44"/>
+            <Setter Property="BorderColor" Value="#2FE3C9"/>
+            <Setter Property="TextColor" Value="#2FE3C9"/>
+        </Style>
+
+        <Style x:Key="PrimaryButton" TargetType="Button">
+            <Setter Property="BackgroundColor" Value="#2FE3C9"/>
+            <Setter Property="TextColor" Value="#04141C"/>
+            <Setter Property="FontAttributes" Value="Bold"/>
+            <Setter Property="FontSize" Value="13"/>
+            <Setter Property="CornerRadius" Value="10"/>
+            <Setter Property="Padding" Value="16,10"/>
+            <Setter Property="MinimumHeightRequest" Value="40"/>
+        </Style>
+
+        <Style x:Key="GhostButton" TargetType="Button">
+            <Setter Property="BackgroundColor" Value="#0E2E36"/>
+            <Setter Property="TextColor" Value="#E6F7FA"/>
+            <Setter Property="BorderColor" Value="#1F5260"/>
+            <Setter Property="BorderWidth" Value="1"/>
+            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="CornerRadius" Value="8"/>
+            <Setter Property="Padding" Value="12,6"/>
+            <Setter Property="MinimumHeightRequest" Value="34"/>
+        </Style>
+    </ContentPage.Resources>
+
+    <shared:MainLayout>
+        <shared:MainLayout.SidebarContent>
+            <admincontrols:AdminSidebarView x:Name="AdminSidebar"/>
+        </shared:MainLayout.SidebarContent>
+
+        <shared:MainLayout.PageContent>
+            <ScrollView>
+                <Grid Padding="28,18,28,28" RowSpacing="20" RowDefinitions="Auto,Auto,Auto,*">
+
+                    <!-- Header -->
+                    <Grid Grid.Row="0" ColumnDefinitions="*,Auto,Auto" ColumnSpacing="12">
+                        <VerticalStackLayout Spacing="6" VerticalOptions="Center">
+                            <HorizontalStackLayout Spacing="8">
+                                <Label
+                                    Text="Operations · Content"
+                                    FontSize="11"
+                                    FontAttributes="Bold"
+                                    CharacterSpacing="1.4"
+                                    TextColor="#2FE3C9"/>
+                                <Border Style="{StaticResource ChipStyle}" VerticalOptions="Center">
+                                    <HorizontalStackLayout Spacing="6">
+                                        <Ellipse Fill="#4ADE80" WidthRequest="8" HeightRequest="8" VerticalOptions="Center"/>
+                                        <Label Text="LIVE" FontSize="9" FontAttributes="Bold" CharacterSpacing="1.2" TextColor="#4ADE80" VerticalOptions="Center"/>
+                                    </HorizontalStackLayout>
+                                </Border>
+                            </HorizontalStackLayout>
+                            <Label
+                                Text="News &amp; Announcements"
+                                FontSize="26"
+                                FontAttributes="Bold"
+                                TextColor="#E6F7FA"/>
+                            <Label
+                                Text="Publish editorial content that appears instantly on the patient feed."
+                                FontSize="13"
+                                TextColor="#6E8C96"
+                                LineBreakMode="TailTruncation"
+                                MaxLines="1"/>
+                        </VerticalStackLayout>
+
+                        <Button
+                            Grid.Column="1"
+                            Text="Refresh"
+                            Style="{StaticResource GhostButton}"
+                            Clicked="OnRefreshClicked"
+                            VerticalOptions="Center"/>
+
+                        <Button
+                            Grid.Column="2"
+                            Text="+ New article"
+                            Style="{StaticResource PrimaryButton}"
+                            Clicked="OnNewArticleClicked"
+                            VerticalOptions="Center"/>
+                    </Grid>
+
+                    <!-- Stats strip -->
+                    <Border Grid.Row="1" Style="{StaticResource NewsCardStyle}" Padding="20,14">
+                        <Grid ColumnDefinitions="*,*,*,*,Auto" ColumnSpacing="22">
+                            <VerticalStackLayout Spacing="2" Grid.Column="0">
+                                <Label Text="TOTAL" FontSize="10" FontAttributes="Bold" CharacterSpacing="1.5" TextColor="#6E8C96"/>
+                                <Label x:Name="StatTotalLabel" Text="0" FontSize="22" FontAttributes="Bold" TextColor="#E6F7FA"/>
+                            </VerticalStackLayout>
+                            <VerticalStackLayout Spacing="2" Grid.Column="1">
+                                <Label Text="PUBLISHED" FontSize="10" FontAttributes="Bold" CharacterSpacing="1.5" TextColor="#6E8C96"/>
+                                <Label x:Name="StatPublishedLabel" Text="0" FontSize="22" FontAttributes="Bold" TextColor="#4ADE80"/>
+                            </VerticalStackLayout>
+                            <VerticalStackLayout Spacing="2" Grid.Column="2">
+                                <Label Text="DRAFTS" FontSize="10" FontAttributes="Bold" CharacterSpacing="1.5" TextColor="#6E8C96"/>
+                                <Label x:Name="StatDraftsLabel" Text="0" FontSize="22" FontAttributes="Bold" TextColor="#FACC15"/>
+                            </VerticalStackLayout>
+                            <VerticalStackLayout Spacing="2" Grid.Column="3">
+                                <Label Text="ARCHIVED" FontSize="10" FontAttributes="Bold" CharacterSpacing="1.5" TextColor="#6E8C96"/>
+                                <Label x:Name="StatArchivedLabel" Text="0" FontSize="22" FontAttributes="Bold" TextColor="#9DBEC7"/>
+                            </VerticalStackLayout>
+                            <ActivityIndicator
+                                x:Name="HeaderLoading"
+                                Grid.Column="4"
+                                Color="#2FE3C9"
+                                WidthRequest="20"
+                                HeightRequest="20"
+                                IsRunning="False"
+                                IsVisible="False"
+                                VerticalOptions="Center"/>
+                        </Grid>
+                    </Border>
+
+                    <!-- Filters -->
+                    <Border Grid.Row="2" Style="{StaticResource NewsCardStyle}" Padding="20,14">
+                        <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="14" RowSpacing="10">
+                            <HorizontalStackLayout Spacing="8" VerticalOptions="Center">
+                                <Button x:Name="TabAll" Text="All" Style="{StaticResource TabButtonActiveStyle}" Clicked="OnFilterTabClicked"/>
+                                <Button x:Name="TabPublished" Text="Published" Style="{StaticResource TabButtonStyle}" Clicked="OnFilterTabClicked"/>
+                                <Button x:Name="TabDrafts" Text="Drafts" Style="{StaticResource TabButtonStyle}" Clicked="OnFilterTabClicked"/>
+                                <Button x:Name="TabArchived" Text="Archived" Style="{StaticResource TabButtonStyle}" Clicked="OnFilterTabClicked"/>
+                            </HorizontalStackLayout>
+
+                            <Border
+                                Grid.Column="1"
+                                BackgroundColor="#0E2E36"
+                                Stroke="#1F5260"
+                                StrokeThickness="1"
+                                StrokeShape="RoundRectangle 10"
+                                Padding="12,0"
+                                HeightRequest="40"
+                                VerticalOptions="Center">
+                                <Grid ColumnDefinitions="Auto,*" ColumnSpacing="8">
+                                    <Label Text="search" FontFamily="MaterialIcons" FontSize="18" TextColor="#6E8C96" VerticalOptions="Center"/>
+                                    <Entry
+                                        Grid.Column="1"
+                                        x:Name="SearchEntry"
+                                        Placeholder="Search by title, summary or tag…"
+                                        PlaceholderColor="#5E7C86"
+                                        TextColor="#E6F7FA"
+                                        BackgroundColor="Transparent"
+                                        TextChanged="OnSearchTextChanged"
+                                        FontSize="12"
+                                        HeightRequest="40"
+                                        VerticalOptions="Center"/>
+                                </Grid>
+                            </Border>
+
+                            <Picker
+                                Grid.Column="2"
+                                x:Name="CategoryPicker"
+                                Title="All categories"
+                                TitleColor="#6E8C96"
+                                TextColor="#E6F7FA"
+                                BackgroundColor="#0E2E36"
+                                WidthRequest="180"
+                                HeightRequest="40"
+                                SelectedIndexChanged="OnCategoryChanged"
+                                VerticalOptions="Center"/>
+                        </Grid>
+                    </Border>
+
+                    <!-- List -->
+                    <Border Grid.Row="3" Style="{StaticResource NewsCardStyle}">
+                        <VerticalStackLayout Spacing="12">
+                            <Label
+                                x:Name="EmptyLabel"
+                                IsVisible="False"
+                                FontSize="13"
+                                TextColor="#6E8C96"
+                                Text="No articles match the current filters."/>
+
+                            <VerticalStackLayout x:Name="ArticlesList" Spacing="12"/>
+                        </VerticalStackLayout>
+                    </Border>
+
+                </Grid>
+            </ScrollView>
+        </shared:MainLayout.PageContent>
+    </shared:MainLayout>
+</ContentPage>

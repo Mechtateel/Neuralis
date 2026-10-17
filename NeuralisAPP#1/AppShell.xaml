@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Shell
+    x:Class="NeuralisAPP_1.AppShell"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    FlyoutBehavior="Disabled"
+
+    xmlns:auth="clr-namespace:NeuralisAPP_1.Views.Auth"
+    xmlns:main="clr-namespace:NeuralisAPP_1.Views.Main"
+    xmlns:doctor="clr-namespace:NeuralisAPP_1.Views.Doctor"
+    xmlns:admin="clr-namespace:NeuralisAPP_1.Views.Admin">
+
+    <!-- 🔐 AUTH -->
+    <ShellContent
+        Route="Login"
+        ContentTemplate="{DataTemplate auth:LoginPage}" />
+
+    <ShellContent
+        Route="Register"
+        ContentTemplate="{DataTemplate auth:RegisterPage}" />
+
+    <!-- 👤 USER -->
+    <ShellContent
+        Route="Main"
+        ContentTemplate="{DataTemplate main:MainPage}" />
+
+    <ShellContent
+        Route="LatestUpdates"
+        ContentTemplate="{DataTemplate main:LatestUpdatesPage}" />
+
+    <ShellContent
+        Route="PatientServices"
+        ContentTemplate="{DataTemplate main:PatientServicesPage}" />
+
+    <ShellContent
+        Route="MedicalServices"
+        ContentTemplate="{DataTemplate main:MedicalServicesPage}" />
+
+    <ShellContent
+        Route="AIAnalysis"
+        ContentTemplate="{DataTemplate main:AIAnalysisPage}" />
+
+    <!-- 🩺 DOCTOR -->
+    <ShellContent
+    Route="DoctorPending"
+    ContentTemplate="{DataTemplate doctor:DoctorPendingPage}" />
+
+    <ShellContent
+    Route="DoctorDashboard"
+    ContentTemplate="{DataTemplate doctor:DoctorDashboardPage}" />
+
+    <ShellContent
+        Route="LabDashboard"
+        ContentTemplate="{DataTemplate doctor:LabDashboardPage}" />
+
+
+    <!-- 🛡 ADMIN -->
+    <FlyoutItem Route="Admin" Title="Admin">
+        <ShellContent
+            Route="AdminDashboard"
+            ContentTemplate="{DataTemplate admin:AdminDashboardPage}" />
+    </FlyoutItem>
+
+</Shell>

@@ -1,0 +1,360 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="NeuralisAPP_1.Views.Main.LatestUpdatesPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:controls="clr-namespace:NeuralisAPP_1.Views.Main.Controls"
+    xmlns:shared="clr-namespace:NeuralisAPP_1.Views.Shared"
+    xmlns:news="clr-namespace:NeuralisAPP_1.Models.News"
+    Title="Latest Updates"
+    BackgroundColor="#071A1F"
+    NavigationPage.HasNavigationBar="False"
+    Shell.NavBarIsVisible="False">
+
+    <shared:MainLayout x:Name="GlobalLayout">
+        <shared:MainLayout.SidebarContent>
+            <controls:UserAppSidebarView x:Name="AppSidebar" />
+        </shared:MainLayout.SidebarContent>
+
+        <shared:MainLayout.PageContent>
+        <Grid x:Name="NewsMainColumn">
+
+        <Image
+            Aspect="AspectFill"
+            Opacity="0.25"
+            InputTransparent="True"
+            Source="back_img.png"/>
+
+        <RefreshView x:Name="RefreshHost" Refreshing="OnRefreshing">
+            <ScrollView x:Name="MainScroll">
+                <!-- Max-width column centered in main area (matches dashboard inset) -->
+                <controls:MainContentWrapper>
+                    <VerticalStackLayout
+                        HorizontalOptions="Fill"
+                        Spacing="0">
+
+                        <!-- Header → filters: 16px -->
+                        <VerticalStackLayout Spacing="10" Margin="0,0,0,16">
+                            <Label
+                                FontSize="12"
+                                FontAttributes="Bold"
+                                Text="INTELLIGENCE FEED"
+                                TextColor="{StaticResource Accent}"/>
+                            <Label LineBreakMode="WordWrap">
+                                <Label.FormattedText>
+                                    <FormattedString>
+                                        <Span FontAttributes="Bold" FontSize="30" Text="Latest " TextColor="{StaticResource TextPrimary}"/>
+                                        <Span FontAttributes="Bold" FontSize="30" Text="Medical" TextColor="{StaticResource Accent}"/>
+                                        <Span FontAttributes="Bold" FontSize="30" Text=" Breakthroughs" TextColor="{StaticResource TextPrimary}"/>
+                                    </FormattedString>
+                                </Label.FormattedText>
+                            </Label>
+                        </VerticalStackLayout>
+
+                        <!-- Filters → featured: 24px -->
+                        <ScrollView
+                            Margin="0,0,0,24"
+                            HorizontalScrollBarVisibility="Never"
+                            Orientation="Horizontal">
+                            <HorizontalStackLayout
+                                x:Name="FilterChipRow"
+                                Padding="0,0,32,0"
+                                Spacing="10">
+                                <Button
+                                    x:Name="FilterAll"
+                                    Clicked="OnFilterChipClicked"
+                                    Style="{StaticResource FilterChipActiveStyle}"
+                                    Text="All Updates"/>
+                                <Button
+                                    x:Name="FilterAi"
+                                    Clicked="OnFilterChipClicked"
+                                    Style="{StaticResource FilterChipStyle}"
+                                    Text="AI Research"/>
+                                <Button
+                                    x:Name="FilterClinical"
+                                    Clicked="OnFilterChipClicked"
+                                    Style="{StaticResource FilterChipStyle}"
+                                    Text="Clinical Trials"/>
+                                <Button
+                                    x:Name="FilterHealth"
+                                    Clicked="OnFilterChipClicked"
+                                    Style="{StaticResource FilterChipStyle}"
+                                    Text="Health Tips"/>
+                                <Button
+                                    x:Name="FilterBio"
+                                    Clicked="OnFilterChipClicked"
+                                    Style="{StaticResource FilterChipStyle}"
+                                    Text="Bio-Tech"/>
+                            </HorizontalStackLayout>
+                        </ScrollView>
+
+                        <!-- Loading skeleton (inside same column) -->
+                        <VerticalStackLayout
+                            x:Name="LoadingSkeleton"
+                            IsVisible="True"
+                            Spacing="22">
+                            <Border
+                                BackgroundColor="#0f2f38"
+                                HeightRequest="22"
+                                Opacity="0.85"
+                                StrokeThickness="0"
+                                WidthRequest="200">
+                                <Border.StrokeShape>
+                                    <RoundRectangle CornerRadius="8"/>
+                                </Border.StrokeShape>
+                            </Border>
+                            <Border
+                                BackgroundColor="#0B2430"
+                                HeightRequest="280"
+                                Opacity="0.9"
+                                Stroke="#163B41"
+                                StrokeThickness="1">
+                                <Border.StrokeShape>
+                                    <RoundRectangle CornerRadius="16"/>
+                                </Border.StrokeShape>
+                            </Border>
+                            <Grid
+                                ColumnDefinitions="*,*"
+                                ColumnSpacing="22"
+                                RowDefinitions="Auto">
+                                <Border
+                                    Grid.Column="0"
+                                    BackgroundColor="#0B2430"
+                                    HeightRequest="200"
+                                    Stroke="#163B41"
+                                    StrokeThickness="1">
+                                    <Border.StrokeShape>
+                                        <RoundRectangle CornerRadius="16"/>
+                                    </Border.StrokeShape>
+                                </Border>
+                                <Border
+                                    Grid.Column="1"
+                                    BackgroundColor="#0B2430"
+                                    HeightRequest="200"
+                                    Stroke="#163B41"
+                                    StrokeThickness="1">
+                                    <Border.StrokeShape>
+                                        <RoundRectangle CornerRadius="16"/>
+                                    </Border.StrokeShape>
+                                </Border>
+                            </Grid>
+                        </VerticalStackLayout>
+
+                        <!-- Featured + grid -->
+                        <VerticalStackLayout x:Name="NewsContentRoot" IsVisible="False" Spacing="0">
+
+                            <Border
+                                x:Name="FeaturedCard"
+                                IsVisible="False"
+                                Margin="0,0,0,0"
+                                Padding="30"
+                                Style="{StaticResource HoverCardStyle}">
+                                <Border.Shadow>
+                                    <Shadow
+                                        Brush="#332FE3C9"
+                                        Radius="24"
+                                        Opacity="0.45"
+                                        Offset="0,6"/>
+                                </Border.Shadow>
+                                <Grid
+                                    x:Name="FeaturedInnerGrid"
+                                    ColumnSpacing="28"
+                                    RowSpacing="22">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="3*"/>
+                                        <ColumnDefinition Width="2*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto"/>
+                                    </Grid.RowDefinitions>
+
+                                    <Grid
+                                        x:Name="FeaturedImageHost"
+                                        Grid.Row="0"
+                                        Grid.Column="0"
+                                        HeightRequest="260">
+                                        <Border
+                                            Padding="0"
+                                            Stroke="#1B6270"
+                                            StrokeThickness="1">
+                                            <Border.StrokeShape>
+                                                <RoundRectangle CornerRadius="14"/>
+                                            </Border.StrokeShape>
+                                            <Image
+                                                x:Name="FeaturedImage"
+                                                Aspect="AspectFill"/>
+                                        </Border>
+                                        <Border
+                                            Margin="10,10,0,0"
+                                            Padding="8,4"
+                                            BackgroundColor="#CC071A1F"
+                                            HorizontalOptions="Start"
+                                            StrokeThickness="0"
+                                            VerticalOptions="Start">
+                                            <Border.StrokeShape>
+                                                <RoundRectangle CornerRadius="6"/>
+                                            </Border.StrokeShape>
+                                            <Label
+                                                FontAttributes="Bold"
+                                                FontSize="10"
+                                                Text="FEATURED"
+                                                TextColor="{StaticResource Accent}"/>
+                                        </Border>
+                                    </Grid>
+
+                                    <VerticalStackLayout
+                                        x:Name="FeaturedTextColumn"
+                                        Grid.Row="0"
+                                        Grid.Column="1"
+                                        Spacing="14"
+                                        VerticalOptions="Center">
+                                        <HorizontalStackLayout Spacing="8">
+                                            <Label
+                                                FontFamily="MaterialIcons"
+                                                FontSize="16"
+                                                Text="auto_awesome"
+                                                TextColor="{StaticResource Accent}"
+                                                VerticalOptions="Center"/>
+                                            <Label
+                                                x:Name="FeaturedCategoryLabel"
+                                                FontAttributes="Bold"
+                                                FontSize="12"
+                                                TextColor="{StaticResource Accent}"
+                                                VerticalOptions="Center"/>
+                                        </HorizontalStackLayout>
+                                        <Label
+                                            x:Name="FeaturedTitleLabel"
+                                            FontAttributes="Bold"
+                                            FontSize="26"
+                                            LineBreakMode="WordWrap"
+                                            MaxLines="3"
+                                            TextColor="{StaticResource TextPrimary}"/>
+                                        <Label
+                                            x:Name="FeaturedBodyLabel"
+                                            FontSize="14"
+                                            LineBreakMode="TailTruncation"
+                                            MaxLines="4"
+                                            TextColor="{StaticResource TextSecondary}"/>
+                                        <Grid ColumnDefinitions="*,Auto" Margin="0,6,0,0">
+                                            <Label
+                                                x:Name="FeaturedMetaLabel"
+                                                Grid.Column="0"
+                                                FontSize="12"
+                                                TextColor="{StaticResource Muted}"
+                                                VerticalOptions="Center"/>
+                                            <Label
+                                                Grid.Column="1"
+                                                FontAttributes="Bold"
+                                                FontSize="14"
+                                                Text="Read More →"
+                                                TextColor="{StaticResource Accent}"
+                                                VerticalOptions="Center"/>
+                                        </Grid>
+                                    </VerticalStackLayout>
+                                </Grid>
+                                <Border.GestureRecognizers>
+                                    <TapGestureRecognizer Tapped="OnFeaturedCardTapped"/>
+                                </Border.GestureRecognizers>
+                            </Border>
+
+                            <!-- Featured → grid: 36–40px -->
+                            <Label
+                                x:Name="MoreStoriesLabel"
+                                Margin="0,40,0,18"
+                                FontAttributes="Bold"
+                                FontSize="18"
+                                IsVisible="False"
+                                Text="More stories"
+                                TextColor="{StaticResource TextPrimary}"/>
+
+                            <CollectionView
+                                x:Name="NewsGrid"
+                                SelectionMode="None">
+                                <CollectionView.ItemsLayout>
+                                    <GridItemsLayout
+                                        HorizontalItemSpacing="22"
+                                        Orientation="Vertical"
+                                        Span="2"
+                                        VerticalItemSpacing="22"/>
+                                </CollectionView.ItemsLayout>
+                                <CollectionView.ItemTemplate>
+                                    <DataTemplate x:DataType="news:NewsFeedDisplayItem">
+                                        <Border
+                                            Margin="0"
+                                            Padding="0"
+                                            Style="{StaticResource HoverCardStyle}">
+                                            <VerticalStackLayout Padding="0" Spacing="0">
+                                                <Border
+                                                    Margin="0"
+                                                    Padding="0"
+                                                    StrokeThickness="0">
+                                                    <Border.StrokeShape>
+                                                        <RoundRectangle CornerRadius="16,16,0,0"/>
+                                                    </Border.StrokeShape>
+                                                    <Image
+                                                        Aspect="AspectFill"
+                                                        HeightRequest="150"
+                                                        Source="{Binding HeroImage}"/>
+                                                </Border>
+                                                <VerticalStackLayout Padding="20,18,20,20" Spacing="10">
+                                                    <HorizontalStackLayout Spacing="8">
+                                                        <Label
+                                                            FontFamily="MaterialIcons"
+                                                            FontSize="14"
+                                                            Text="{Binding CategoryIcon}"
+                                                            TextColor="{StaticResource Accent}"
+                                                            VerticalOptions="Center"/>
+                                                        <Label
+                                                            FontAttributes="Bold"
+                                                            FontSize="11"
+                                                            Text="{Binding CategoryLabel}"
+                                                            TextColor="{StaticResource Accent}"
+                                                            VerticalOptions="Center"/>
+                                                    </HorizontalStackLayout>
+                                                    <Label
+                                                        FontAttributes="Bold"
+                                                        FontSize="16"
+                                                        LineBreakMode="TailTruncation"
+                                                        MaxLines="2"
+                                                        Text="{Binding Title}"
+                                                        TextColor="{StaticResource TextPrimary}"/>
+                                                    <Label
+                                                        FontSize="13"
+                                                        LineBreakMode="TailTruncation"
+                                                        MaxLines="2"
+                                                        Text="{Binding ExcerptCard}"
+                                                        TextColor="{StaticResource TextSecondary}"/>
+                                                    <Grid ColumnDefinitions="*,Auto" Margin="0,4,0,0">
+                                                        <Label
+                                                            Grid.Column="0"
+                                                            FontSize="12"
+                                                            Text="{Binding DateDisplay}"
+                                                            TextColor="{StaticResource Muted}"
+                                                            VerticalOptions="Center"/>
+                                                        <Label
+                                                            Grid.Column="1"
+                                                            FontAttributes="Bold"
+                                                            FontSize="13"
+                                                            Text="Full Article →"
+                                                            TextColor="{StaticResource Accent}"
+                                                            VerticalOptions="Center"/>
+                                                    </Grid>
+                                                </VerticalStackLayout>
+                                            </VerticalStackLayout>
+                                            <Border.GestureRecognizers>
+                                                <TapGestureRecognizer Tapped="OnGridNewsCardTapped"/>
+                                            </Border.GestureRecognizers>
+                                        </Border>
+                                    </DataTemplate>
+                                </CollectionView.ItemTemplate>
+                            </CollectionView>
+                        </VerticalStackLayout>
+                    </VerticalStackLayout>
+                </controls:MainContentWrapper>
+            </ScrollView>
+        </RefreshView>
+
+        </Grid>
+        </shared:MainLayout.PageContent>
+    </shared:MainLayout>
+</ContentPage>

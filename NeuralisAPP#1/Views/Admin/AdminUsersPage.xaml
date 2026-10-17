@@ -1,0 +1,440 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="NeuralisAPP_1.Views.Admin.AdminUsersPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:shared="clr-namespace:NeuralisAPP_1.Views.Shared"
+    xmlns:admincontrols="clr-namespace:NeuralisAPP_1.Views.Admin.Controls"
+    BackgroundColor="#0f172a"
+    NavigationPage.HasNavigationBar="False"
+    Shell.NavBarIsVisible="False"
+    x:Name="RootPage">
+
+    <shared:MainLayout>
+        <shared:MainLayout.SidebarContent>
+            <admincontrols:AdminSidebarView x:Name="AdminSidebar"/>
+        </shared:MainLayout.SidebarContent>
+
+        <shared:MainLayout.PageContent>
+            <ScrollView VerticalScrollBarVisibility="Never">
+            <VerticalStackLayout
+                Spacing="28"
+                Padding="24"
+                HorizontalOptions="Center"
+                WidthRequest="1100"
+                MaximumWidthRequest="1100">
+
+
+                <!-- ===== HEADER ===== -->
+                <!-- ===== HEADER WITH ACTION ===== -->
+                <Grid ColumnDefinitions="*,Auto" RowSpacing="6">
+
+                    <!-- LEFT: TITLE -->
+                    <VerticalStackLayout Spacing="6">
+                        <Label
+						Text="System Users"
+						FontSize="28"
+						FontAttributes="Bold"
+						TextColor="White"/>
+
+                        <Label
+						Text="Manage access, roles, and security protocols for system users"
+						FontSize="14"
+						TextColor="#94a3b8"/>
+                    </VerticalStackLayout>
+
+                    <!-- RIGHT: ADD USER BUTTON -->
+                    <Border
+					Grid.Column="1"
+					BackgroundColor="#0b2533"
+					Stroke="#1e3a4c"
+					StrokeThickness="1"
+					Padding="14,8"
+					VerticalOptions="Center">
+
+                        <Border.StrokeShape>
+                            <RoundRectangle CornerRadius="14"/>
+                        </Border.StrokeShape>
+
+                        <HorizontalStackLayout Spacing="8" VerticalOptions="Center">
+
+                            <!-- ICON -->
+                            <Label
+							Text="add"
+							FontFamily="MaterialIcons"
+							FontSize="18"
+							TextColor="#38bdf8"/>
+
+                            <!-- TEXT -->
+                            <Label
+							Text="Add User"
+							FontSize="14"
+							FontAttributes="Bold"
+							TextColor="#e0f2fe"/>
+                        </HorizontalStackLayout>
+
+                        <Border.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="OnAddUserClicked"/>
+                        </Border.GestureRecognizers>
+
+                    </Border>
+
+                </Grid>
+
+                <!-- ===== SEARCH + FILTER BAR ===== -->
+                <Border
+				BackgroundColor="#0f1c2d"
+				Stroke="#1e293b"
+				Padding="12"
+				Margin="0,0,0,12">
+
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="20"/>
+                    </Border.StrokeShape>
+
+                    <HorizontalStackLayout
+					Spacing="12"
+					VerticalOptions="Center">
+
+                        <!-- SEARCH -->
+                        <Border
+                            WidthRequest="300"
+                            HeightRequest="40"
+                            BackgroundColor="#0b2533"
+                            Stroke="#1e3a4c"
+                            StrokeThickness="1">
+
+                            <Border.StrokeShape>
+                                <RoundRectangle CornerRadius="20"/>
+                            </Border.StrokeShape>
+
+                            <Grid ColumnDefinitions="36,*">
+
+                                <!-- ICON -->
+                                <Label
+								Text="search"
+								FontFamily="MaterialIcons"
+								FontSize="18"
+								TextColor="#64748b"
+								VerticalOptions="Center"
+								HorizontalOptions="Center"/>
+
+                                <!-- ENTRY -->
+                                <Entry
+								Grid.Column="1"
+								Placeholder="Search by email or name..."
+								TextChanged="OnSearchTextChanged"
+								BackgroundColor="Transparent"
+								TextColor="White"
+								PlaceholderColor="#64748b"
+								FontSize="14"
+								VerticalTextAlignment="Center"
+								Margin="0,0,12,0"
+								ClearButtonVisibility="Never"/>
+                            </Grid>
+                        </Border>
+
+
+
+                        <!-- FILTERS -->
+                        <HorizontalStackLayout Spacing="8">
+
+                            <Button Text="All Roles"
+								CommandParameter="All"
+								Clicked="OnRoleFilterClicked"
+								Style="{StaticResource FilterChipStyle}"/>
+
+                            <Button Text="Admins"
+								CommandParameter="Admin"
+								Clicked="OnRoleFilterClicked"
+								Style="{StaticResource FilterChipStyle}"/>
+
+                            <Button Text="Doctors"
+								CommandParameter="Doctor"
+								Clicked="OnRoleFilterClicked"
+								Style="{StaticResource FilterChipStyle}"/>
+
+                            <Button Text="Users"
+								CommandParameter="User"
+								Clicked="OnRoleFilterClicked"
+								Style="{StaticResource FilterChipStyle}"/>
+
+
+                            <Button Text="Support"
+								CommandParameter="Support"
+								Clicked="OnRoleFilterClicked"
+								Style="{StaticResource FilterChipStyle}"/>
+
+                        </HorizontalStackLayout>
+
+                    </HorizontalStackLayout>
+                </Border>
+
+
+                <!-- ===== USERS TABLE ===== -->
+                <Border
+    BackgroundColor="#0f1c2d"
+    Stroke="#1e293b"
+    Margin="0,12,0,0">
+
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="16"/>
+                    </Border.StrokeShape>
+
+                    <!-- ROOT GRID -->
+                    <Grid
+        RowDefinitions="Auto,Auto,*,Auto,Auto"
+        RowSpacing="0">
+
+                        <!-- ===== TABLE HEADER ===== -->
+                        <Grid
+            Grid.Row="0"
+            ColumnDefinitions="40,3*,100,100,Auto"
+            ColumnSpacing="16"
+            Padding="16,12">
+
+                            <Label Grid.Column="1"
+                   Text="USER"
+                   FontSize="12"
+                   TextColor="#64748b"/>
+
+                            <Label Grid.Column="2"
+                   Text="ROLE"
+                   FontSize="12"
+                   TextColor="#64748b"
+                   HorizontalOptions="Center"/>
+
+                            <Label Grid.Column="3"
+                   Text="STATUS"
+                   FontSize="12"
+                   TextColor="#64748b"
+                   HorizontalOptions="Center"/>
+
+                            <Label Grid.Column="4"
+                   Text="ACTIONS"
+                   FontSize="12"
+                   TextColor="#64748b"
+                   HorizontalOptions="Center"/>
+                        </Grid>
+
+                        <!-- HEADER DIVIDER -->
+                        <BoxView
+            Grid.Row="1"
+            HeightRequest="1"
+            BackgroundColor="#1e293b"/>
+
+                        <!-- ===== USERS LIST ===== -->
+                        <CollectionView
+            Grid.Row="2"
+            x:Name="UsersList"
+            SelectionMode="None"
+            ItemsLayout="VerticalList"
+            VerticalOptions="FillAndExpand">
+
+                            <CollectionView.ItemTemplate>
+                                <DataTemplate>
+
+                                    <Grid
+                        ColumnDefinitions="40,2*,100,100,Auto"
+                        ColumnSpacing="16"
+                        Padding="16,12">
+
+                                        <!-- AVATAR -->
+                                        <Frame
+                            WidthRequest="40"
+                            HeightRequest="40"
+                            CornerRadius="20"
+                            BackgroundColor="#1e293b"
+                            HasShadow="False">
+
+                                            <Label
+                                Text="{Binding Initials}"
+                                HorizontalOptions="Center"
+                                VerticalOptions="Center"
+                                TextColor="#38bdf8"
+                                FontAttributes="Bold"/>
+                                        </Frame>
+
+                                        <!-- USER -->
+                                        <VerticalStackLayout Grid.Column="1" Spacing="2">
+                                            <Label
+                                Text="{Binding DisplayName}"
+                                FontSize="14"
+                                TextColor="White"
+                                FontAttributes="Bold"/>
+
+                                            <Label
+                                Text="{Binding Email}"
+                                FontSize="11"
+                                TextColor="#64748b"/>
+                                        </VerticalStackLayout>
+
+                                        <!-- ROLE -->
+                                        <Border
+                            Grid.Column="2"
+                            WidthRequest="84"
+                            HeightRequest="26"
+                            BackgroundColor="{Binding RoleColor}"
+                            HorizontalOptions="Center"
+                            VerticalOptions="Center">
+
+                                            <Border.StrokeShape>
+                                                <RoundRectangle CornerRadius="13"/>
+                                            </Border.StrokeShape>
+
+                                            <Label
+                                Text="{Binding RoleText}"
+                                FontSize="12"
+                                FontAttributes="Bold"
+                                TextColor="White"
+                                HorizontalOptions="Center"
+                                VerticalOptions="Center"/>
+                                        </Border>
+
+                                        <!-- STATUS -->
+                                        <HorizontalStackLayout
+                            Grid.Column="3"
+                            Spacing="6"
+                            VerticalOptions="Center">
+
+                                            <BoxView
+                                WidthRequest="8"
+                                HeightRequest="8"
+                                CornerRadius="4"
+                                Color="{Binding IsBlocked,
+                                        Converter={StaticResource BoolToStatusColorConverter}}"/>
+
+                                            <Label
+                                Text="{Binding IsBlockedText}"
+                                TextColor="{Binding IsBlockedColor}"
+                                FontSize="12"/>
+                                        </HorizontalStackLayout>
+
+                                        <!-- ACTIONS -->
+                                        <HorizontalStackLayout
+                            Grid.Column="4"
+                            Spacing="10"
+                            VerticalOptions="Center">
+
+                                            <Button
+                                Text="{Binding IsBlocked,
+                                       Converter={StaticResource BoolToActionIconConverter}}"
+                                FontFamily="MaterialIcons"
+                                BackgroundColor="Transparent"
+                                TextColor="#f87171"
+                                CommandParameter="{Binding}"
+                                Clicked="OnBlockToggleClicked"/>
+
+                                            <Button
+                                Text="edit"
+                                FontFamily="MaterialIcons"
+                                BackgroundColor="Transparent"
+                                TextColor="#38bdf8"/>
+                                        </HorizontalStackLayout>
+
+                                    </Grid>
+
+                                </DataTemplate>
+                            </CollectionView.ItemTemplate>
+                        </CollectionView>
+
+                        <!-- DIVIDER -->
+                        <BoxView
+            Grid.Row="3"
+            HeightRequest="1"
+            BackgroundColor="#1e293b"/>
+
+                        <!-- ===== PAGINATION ===== -->
+                        <Grid
+    Grid.Row="4"
+    Padding="16"
+    ColumnDefinitions="*,Auto"
+    VerticalOptions="Center">
+
+                            <!-- LEFT: INFO -->
+                            <Label
+        Text="{Binding PaginationText}"
+        FontSize="12"
+        TextColor="#64748b"
+        VerticalOptions="Center"/>
+
+                            <!-- RIGHT: PAGINATION -->
+                            <HorizontalStackLayout
+        Grid.Column="1"
+        Spacing="8"
+        VerticalOptions="Center"
+        HorizontalOptions="End">
+
+                                <!-- PREV -->
+                                <Button
+            Text="chevron_left"
+            FontFamily="MaterialIcons"
+            WidthRequest="36"
+            HeightRequest="36"
+            CornerRadius="6"
+            Padding="0"
+            BackgroundColor="#0b2533"
+            TextColor="White"
+            VerticalOptions="Center"
+            Clicked="OnPrevPage"/>
+
+                                <!-- PAGE NUMBERS -->
+                                <HorizontalStackLayout
+    BindableLayout.ItemsSource="{Binding Pages}"
+    Spacing="6"
+    VerticalOptions="Center">
+
+                                    <BindableLayout.ItemTemplate>
+                                        <DataTemplate>
+                                            <Button
+                Text="{Binding .}"
+                WidthRequest="36"
+                HeightRequest="36"
+                CornerRadius="6"
+                Padding="0"
+                FontSize="13"
+                BackgroundColor="#0b2533"
+                TextColor="#94a3b8"
+                VerticalOptions="Center"
+                Clicked="OnPageClicked">
+
+                                                <!-- ACTIVE PAGE -->
+                                                <Button.Triggers>
+                                                    <DataTrigger
+                        TargetType="Button"
+                        Binding="{Binding Source={x:Reference RootPage}, Path=BindingContext.CurrentPage}"
+                        Value="{Binding .}">
+                                                        <Setter Property="BackgroundColor" Value="#38bdf8"/>
+                                                        <Setter Property="TextColor" Value="White"/>
+                                                    </DataTrigger>
+                                                </Button.Triggers>
+
+                                            </Button>
+                                        </DataTemplate>
+                                    </BindableLayout.ItemTemplate>
+                                </HorizontalStackLayout>
+
+                                <!-- NEXT -->
+                                <Button
+            Text="chevron_right"
+            FontFamily="MaterialIcons"
+            WidthRequest="36"
+            HeightRequest="36"
+            CornerRadius="6"
+            Padding="0"
+            BackgroundColor="#0b2533"
+            TextColor="White"
+            VerticalOptions="Center"
+            Clicked="OnNextPage"/>
+
+                            </HorizontalStackLayout>
+                        </Grid>
+
+                    </Grid>
+                </Border>
+
+            </VerticalStackLayout>
+            </ScrollView>
+        </shared:MainLayout.PageContent>
+    </shared:MainLayout>
+</ContentPage>

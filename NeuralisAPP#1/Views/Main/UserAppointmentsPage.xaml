@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="NeuralisAPP_1.Views.Main.UserAppointmentsPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:controls="clr-namespace:NeuralisAPP_1.Views.Main.Controls"
+    xmlns:shared="clr-namespace:NeuralisAPP_1.Views.Shared"
+    BackgroundColor="#071A1F"
+    NavigationPage.HasNavigationBar="False"
+    Shell.NavBarIsVisible="False">
+
+    <shared:MainLayout x:Name="GlobalLayout">
+        <shared:MainLayout.SidebarContent>
+            <controls:UserAppSidebarView x:Name="AppSidebar"/>
+        </shared:MainLayout.SidebarContent>
+
+        <shared:MainLayout.PageContent>
+        <Grid>
+            <Image
+                Aspect="AspectFill"
+                InputTransparent="True"
+                Opacity="0.25"
+                Source="back_img.png"/>
+
+            <RefreshView x:Name="RefreshHost" Refreshing="OnRefreshing">
+                <ScrollView>
+                    <controls:MainContentWrapper>
+                    <VerticalStackLayout
+                        HorizontalOptions="Fill"
+                        Spacing="14">
+
+                        <Grid ColumnDefinitions="*,Auto" ColumnSpacing="16">
+                            <VerticalStackLayout Grid.Row="0" Grid.Column="0" Spacing="6">
+                                <Label
+                                    Style="{StaticResource TitleLabel}"
+                                    Text="My appointments"/>
+                                <Label
+                                    FontSize="14"
+                                    LineBreakMode="WordWrap"
+                                    Text="Upcoming and past visits with your care team."
+                                    TextColor="{StaticResource TextMuted}"/>
+                            </VerticalStackLayout>
+                            <Button
+                                x:Name="BookNewHeaderButton"
+                                Grid.Row="0"
+                                Grid.Column="1"
+                                Clicked="OnBookNewTapped"
+                                HorizontalOptions="End"
+                                MaximumWidthRequest="220"
+                                Style="{StaticResource PrimaryButton}"
+                                Text="Book new"
+                                VerticalOptions="Start"/>
+                        </Grid>
+
+                        <VerticalStackLayout x:Name="AppointmentsStack" Spacing="0"/>
+
+                        <Border
+                            x:Name="EmptyStateCard"
+                            IsVisible="False"
+                            Margin="0,8,0,0"
+                            Padding="24"
+                            Style="{StaticResource HoverCardStyle}">
+                            <VerticalStackLayout Spacing="14">
+                                <HorizontalStackLayout Spacing="10" HorizontalOptions="Center">
+                                    <Label
+                                        FontFamily="MaterialIcons"
+                                        FontSize="28"
+                                        Text="event_available"
+                                        TextColor="{StaticResource TextMuted}"
+                                        VerticalOptions="Center"/>
+                                    <Label
+                                        FontAttributes="Bold"
+                                        FontSize="16"
+                                        Text="No appointments yet"
+                                        TextColor="{StaticResource TextPrimary}"
+                                        VerticalOptions="Center"/>
+                                </HorizontalStackLayout>
+                                <Label
+                                    FontSize="13"
+                                    HorizontalTextAlignment="Center"
+                                    LineBreakMode="WordWrap"
+                                    Text="Schedule a session with a verified doctor when you are ready."
+                                    TextColor="{StaticResource TextMuted}"/>
+                                <Button
+                                    Clicked="OnBookNewTapped"
+                                    HorizontalOptions="Center"
+                                    Style="{StaticResource PrimaryButton}"
+                                    Text="Schedule new session"/>
+                            </VerticalStackLayout>
+                        </Border>
+                    </VerticalStackLayout>
+                    </controls:MainContentWrapper>
+                </ScrollView>
+            </RefreshView>
+        </Grid>
+        </shared:MainLayout.PageContent>
+    </shared:MainLayout>
+</ContentPage>

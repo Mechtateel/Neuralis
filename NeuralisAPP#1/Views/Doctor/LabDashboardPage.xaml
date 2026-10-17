@@ -1,0 +1,404 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="NeuralisAPP_1.Views.Doctor.LabDashboardPage"
+    x:Name="PageRoot"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:controls="clr-namespace:NeuralisAPP_1.Views.Doctor.Controls"
+    xmlns:viewmodels="clr-namespace:NeuralisAPP_1.ViewModels.Lab"
+    NavigationPage.HasNavigationBar="False"
+    Shell.NavBarIsVisible="False">
+
+    <Grid ColumnDefinitions="260,*">
+
+        <controls:LabSidebar
+            x:Name="LabNav"
+            Grid.Column="0"
+            Invoked="OnLabSidebarInvoked"/>
+
+        <Grid Grid.Column="1">
+            <Grid.Background>
+                <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                    <GradientStop Offset="0" Color="#0A0C0D"/>
+                    <GradientStop Offset="0.55" Color="#0b1520"/>
+                    <GradientStop Offset="1" Color="#0d2430"/>
+                </LinearGradientBrush>
+            </Grid.Background>
+
+            <Grid Padding="20,16" RowDefinitions="Auto,*" RowSpacing="16">
+
+                <Grid Grid.Row="0" ColumnDefinitions="*,Auto" ColumnSpacing="12">
+                    <VerticalStackLayout Spacing="4" VerticalOptions="Center">
+                        <Label
+                            FontAttributes="Bold"
+                            FontSize="20"
+                            Text="Patient records"
+                            TextColor="White"/>
+                        <Label
+                            FontSize="12"
+                            Text="Assigned clinical cases and uploads"
+                            TextColor="#94a3b8"/>
+                    </VerticalStackLayout>
+                    <ActivityIndicator
+                        Grid.Column="1"
+                        IsRunning="{Binding IsBusy}"
+                        IsVisible="{Binding IsBusy}"
+                        Color="#2EE6C5"
+                        VerticalOptions="Center"/>
+                </Grid>
+
+                <ScrollView Grid.Row="1">
+            <Grid
+                ColumnDefinitions="7*,3*"
+                ColumnSpacing="22"
+                RowDefinitions="Auto">
+
+                <!-- ========== LEFT (70%) ========== -->
+                <VerticalStackLayout
+                    Grid.Column="0"
+                    Spacing="22">
+
+                    <!-- Assigned patients header -->
+                    <Grid ColumnDefinitions="*,Auto" ColumnSpacing="12">
+                        <VerticalStackLayout Spacing="6">
+                            <Label
+                                FontAttributes="Bold"
+                                FontSize="22"
+                                Text="Assigned Patients"
+                                TextColor="White"/>
+                            <Label
+                                FontSize="13"
+                                LineBreakMode="WordWrap"
+                                Text="Pending specimens and clinical workflows for today"
+                                TextColor="#94a3b8"/>
+                        </VerticalStackLayout>
+                        <Border
+                            Grid.Column="1"
+                            Padding="12,8"
+                            BackgroundColor="#132a30"
+                            Stroke="#2EE6C5"
+                            StrokeShape="RoundRectangle 20"
+                            VerticalOptions="Start">
+                            <Label
+                                FontAttributes="Bold"
+                                FontSize="12"
+                                Text="{Binding PendingBadgeText}"
+                                TextColor="#2EE6C5"/>
+                        </Border>
+                    </Grid>
+
+                    <Label
+                        FontSize="13"
+                        IsVisible="{Binding LoadFailed}"
+                        Text="Failed to load lab data. Check your connection."
+                        TextColor="#f87171"/>
+
+                    <VerticalStackLayout
+                        Spacing="4"
+                        IsVisible="{Binding ShowPatientRosterHint}">
+                        <Label
+                            FontSize="13"
+                            Text="No active lab cases yet."
+                            TextColor="#94a3b8"/>
+                        <Label
+                            FontSize="13"
+                            LineBreakMode="WordWrap"
+                            Text="Patients will appear after booking appointments with doctors."
+                            TextColor="#94a3b8"/>
+                    </VerticalStackLayout>
+
+                    <Label
+                        FontSize="11"
+                        IsVisible="{Binding ShowDebugHint}"
+                        Text="Only patients with active doctor appointments are shown"
+                        TextColor="#64748b"/>
+
+                    <CollectionView ItemsSource="{Binding Patients}" SelectionMode="None">
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate x:DataType="viewmodels:LabPatientRowViewModel">
+                                <Border
+                                    Margin="0,0,0,12"
+                                    Padding="18"
+                                    BackgroundColor="#0F2A2F"
+                                    Stroke="{Binding CardStroke}"
+                                    StrokeShape="RoundRectangle 16"
+                                    StrokeThickness="1">
+                                    <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="14" RowDefinitions="Auto,Auto,Auto,Auto">
+                                        <Border
+                                            Grid.RowSpan="4"
+                                            Padding="0"
+                                            BackgroundColor="#132a32"
+                                            HeightRequest="48"
+                                            Stroke="#1f3b42"
+                                            StrokeShape="RoundRectangle 24"
+                                            WidthRequest="48"
+                                            VerticalOptions="Start">
+                                            <Label
+                                                FontFamily="MaterialIcons"
+                                                FontSize="24"
+                                                HorizontalOptions="Center"
+                                                Text="person"
+                                                TextColor="#2EE6C5"
+                                                VerticalOptions="Center"/>
+                                        </Border>
+                                        <Label
+                                            Grid.Column="1"
+                                            FontAttributes="Bold"
+                                            FontSize="16"
+                                            Text="{Binding FullName}"
+                                            TextColor="White"/>
+                                        <Label
+                                            Grid.Row="1"
+                                            Grid.Column="1"
+                                            FontSize="11"
+                                            Text="{Binding PatientIdLine}"
+                                            TextColor="#64748b"/>
+                                        <HorizontalStackLayout
+                                            Grid.Row="2"
+                                            Grid.Column="1"
+                                            Spacing="8">
+                                            <Ellipse
+                                                HeightRequest="8"
+                                                VerticalOptions="Center"
+                                                WidthRequest="8"
+                                                Fill="{Binding StatusColor}"/>
+                                            <Label
+                                                FontAttributes="Bold"
+                                                FontSize="11"
+                                                Text="{Binding StatusText}"
+                                                TextColor="{Binding StatusColor}"/>
+                                        </HorizontalStackLayout>
+                                        <Label
+                                            Grid.Row="3"
+                                            Grid.Column="1"
+                                            FontSize="12"
+                                            Text="{Binding EmailLine}"
+                                            TextColor="#7dd3c0"/>
+                                        <Button
+                                            Grid.RowSpan="4"
+                                            Grid.Column="2"
+                                            Padding="14,10"
+                                            BackgroundColor="#1e3d44"
+                                            Clicked="OnOpenResultEntry"
+                                            CornerRadius="18"
+                                            IsVisible="{Binding IsWaiting}"
+                                            Text="Result Entry"
+                                            TextColor="#00FFC6"
+                                            VerticalOptions="Center"/>
+                                        <Border
+                                            Grid.RowSpan="4"
+                                            Grid.Column="2"
+                                            Padding="14,10"
+                                            BackgroundColor="#1a2528"
+                                            Stroke="#334155"
+                                            StrokeShape="RoundRectangle 18"
+                                            IsVisible="{Binding HasUploadedResults}"
+                                            VerticalOptions="Center">
+                                            <Label
+                                                FontSize="12"
+                                                HorizontalOptions="Center"
+                                                Text="Completed"
+                                                TextColor="#64748b"
+                                                VerticalOptions="Center"/>
+                                        </Border>
+                                    </Grid>
+                                </Border>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+
+                    <Border
+                        Padding="16"
+                        BackgroundColor="#0F2A2F"
+                        Stroke="#00FFC6"
+                        StrokeShape="RoundRectangle 16"
+                        StrokeThickness="1">
+                        <VerticalStackLayout Spacing="6">
+                            <Label
+                                FontAttributes="Bold"
+                                FontSize="14"
+                                Text="Result Entry"
+                                TextColor="#00FFC6"/>
+                            <Label
+                                FontSize="12"
+                                LineBreakMode="WordWrap"
+                                Text="Upload clinical assets, tags, and metadata from the full Result Entry workspace (sidebar → Result Entry)."
+                                TextColor="#94a3b8"/>
+                        </VerticalStackLayout>
+                    </Border>
+                </VerticalStackLayout>
+
+                <!-- ========== RIGHT (30%) ========== -->
+                <VerticalStackLayout
+                    Grid.Column="1"
+                    Spacing="18">
+
+                    <Border
+                        Padding="16"
+                        BackgroundColor="#0F2A2F"
+                        Stroke="#1a3338"
+                        StrokeShape="RoundRectangle 16">
+                        <VerticalStackLayout Spacing="14">
+                            <Label
+                                FontAttributes="Bold"
+                                FontSize="15"
+                                Text="Today's Lab Pulse"
+                                TextColor="White"/>
+                            <Grid ColumnDefinitions="*,*" ColumnSpacing="10">
+                                <Border
+                                    Padding="12"
+                                    BackgroundColor="#0c1f24"
+                                    StrokeShape="RoundRectangle 12">
+                                    <VerticalStackLayout Spacing="4">
+                                        <Label
+                                            FontSize="10"
+                                            Text="PROCESSED"
+                                            TextColor="#64748b"/>
+                                        <Label
+                                            FontAttributes="Bold"
+                                            FontSize="20"
+                                            Text="{Binding ProcessedToday}"
+                                            TextColor="#2EE6C5"/>
+                                        <Label
+                                            FontSize="10"
+                                            Text="today (uploads)"
+                                            TextColor="#64748b"/>
+                                    </VerticalStackLayout>
+                                </Border>
+                                <Border
+                                    Grid.Column="1"
+                                    Padding="12"
+                                    BackgroundColor="#0c1f24"
+                                    StrokeShape="RoundRectangle 12">
+                                    <VerticalStackLayout Spacing="4">
+                                        <Label
+                                            FontSize="10"
+                                            Text="IN QUEUE"
+                                            TextColor="#64748b"/>
+                                        <Label
+                                            FontAttributes="Bold"
+                                            FontSize="20"
+                                            Text="{Binding InQueue}"
+                                            TextColor="#EAB308"/>
+                                        <Label
+                                            FontSize="10"
+                                            Text="waiting for lab"
+                                            TextColor="#64748b"/>
+                                    </VerticalStackLayout>
+                                </Border>
+                            </Grid>
+                        </VerticalStackLayout>
+                    </Border>
+
+                    <Border
+                        Padding="16"
+                        BackgroundColor="#0F2A2F"
+                        Stroke="#1a3338"
+                        StrokeShape="RoundRectangle 16">
+                        <VerticalStackLayout Spacing="12">
+                            <Label
+                                FontAttributes="Bold"
+                                FontSize="15"
+                                Text="Recent Lab Files"
+                                TextColor="White"/>
+                            <CollectionView ItemsSource="{Binding RecentFiles}" SelectionMode="None">
+                                <CollectionView.EmptyView>
+                                    <Label
+                                        Margin="0,8,0,0"
+                                        FontSize="12"
+                                        Text="No uploads yet."
+                                        TextColor="#64748b"/>
+                                </CollectionView.EmptyView>
+                                <CollectionView.ItemTemplate>
+                                    <DataTemplate x:DataType="viewmodels:LabRecentFileViewModel">
+                                        <Border
+                                            Margin="0,0,0,10"
+                                            Padding="12"
+                                            BackgroundColor="#0c1f24"
+                                            StrokeShape="RoundRectangle 12">
+                                            <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="10">
+                                                <Label
+                                                    FontFamily="MaterialIcons"
+                                                    FontSize="22"
+                                                    Text="description"
+                                                    TextColor="#2EE6C5"
+                                                    VerticalOptions="Center"/>
+                                                <VerticalStackLayout Grid.Column="1" Spacing="2">
+                                                    <Label
+                                                        FontAttributes="Bold"
+                                                        FontSize="12"
+                                                        LineBreakMode="TailTruncation"
+                                                        Text="{Binding FileName}"
+                                                        TextColor="White"/>
+                                                    <Label
+                                                        FontSize="10"
+                                                        LineBreakMode="TailTruncation"
+                                                        Text="{Binding Subtitle}"
+                                                        TextColor="#94a3b8"/>
+                                                </VerticalStackLayout>
+                                                <Button
+                                                    Grid.Column="2"
+                                                    Padding="8"
+                                                    BackgroundColor="Transparent"
+                                                    Command="{Binding Source={x:Reference PageRoot}, Path=BindingContext.OpenRecentFileCommand}"
+                                                    CommandParameter="{Binding .}"
+                                                    FontFamily="MaterialIcons"
+                                                    FontSize="20"
+                                                    Text="open_in_new"
+                                                    TextColor="#2EE6C5"
+                                                    VerticalOptions="Center"/>
+                                            </Grid>
+                                        </Border>
+                                    </DataTemplate>
+                                </CollectionView.ItemTemplate>
+                            </CollectionView>
+                        </VerticalStackLayout>
+                    </Border>
+
+                    <Border
+                        Padding="16"
+                        BackgroundColor="#0F2A2F"
+                        Stroke="#1a3338"
+                        StrokeShape="RoundRectangle 16">
+                        <VerticalStackLayout Spacing="14">
+                            <Label
+                                FontAttributes="Bold"
+                                FontSize="15"
+                                Text="System status"
+                                TextColor="White"/>
+                            <HorizontalStackLayout Spacing="8">
+                                <Ellipse
+                                    HeightRequest="8"
+                                    WidthRequest="8"
+                                    VerticalOptions="Center"
+                                    Fill="{Binding ConnectionDotColor}"/>
+                                <Label
+                                    FontSize="12"
+                                    Text="API connectivity"
+                                    TextColor="#94a3b8"
+                                    VerticalOptions="Center"/>
+                                <Label
+                                    FontAttributes="Bold"
+                                    FontSize="12"
+                                    Text="{Binding ApiStatusLabel}"
+                                    TextColor="{Binding ApiStatusLabelColor}"
+                                    VerticalOptions="Center"/>
+                            </HorizontalStackLayout>
+                            <Label
+                                FontSize="11"
+                                Text="Last data refresh"
+                                TextColor="#64748b"/>
+                            <Label
+                                FontSize="12"
+                                FontAttributes="Bold"
+                                Text="{Binding LastSyncDisplay}"
+                                TextColor="White"/>
+                        </VerticalStackLayout>
+                    </Border>
+                </VerticalStackLayout>
+            </Grid>
+                </ScrollView>
+            </Grid>
+        </Grid>
+    </Grid>
+</ContentPage>

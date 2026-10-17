@@ -1,0 +1,33 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.14.36811.4
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NeuralisAPP#1", "NeuralisAPP#1\NeuralisAPP#1.csproj", "{F1BA682A-99A9-4AAC-A5AE-D813105E06DD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NeuralisAPI", "NeuralisAPI\NeuralisAPI.csproj", "{4096D4CB-33FE-41A0-B299-227F6F0AE714}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{F1BA682A-99A9-4AAC-A5AE-D813105E06DD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F1BA682A-99A9-4AAC-A5AE-D813105E06DD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F1BA682A-99A9-4AAC-A5AE-D813105E06DD}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{F1BA682A-99A9-4AAC-A5AE-D813105E06DD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F1BA682A-99A9-4AAC-A5AE-D813105E06DD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F1BA682A-99A9-4AAC-A5AE-D813105E06DD}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{4096D4CB-33FE-41A0-B299-227F6F0AE714}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4096D4CB-33FE-41A0-B299-227F6F0AE714}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4096D4CB-33FE-41A0-B299-227F6F0AE714}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4096D4CB-33FE-41A0-B299-227F6F0AE714}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {15C2E454-70A9-4F3B-A5B6-1E593E60F4EB}
+	EndGlobalSection
+EndGlobal

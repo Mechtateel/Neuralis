@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView
+    x:Class="NeuralisAPP_1.Views.Doctor.Controls.LabSidebar"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:doctorcontrols="clr-namespace:NeuralisAPP_1.Views.Doctor.Controls"
+    x:Name="SidebarRoot">
+
+    <Grid
+        Padding="20,28"
+        BackgroundColor="#0f172a"
+        RowDefinitions="Auto,*,Auto">
+
+        <!-- Logo (match Doctor dashboard) -->
+        <HorizontalStackLayout Grid.Row="0" Spacing="12">
+            <Ellipse
+                WidthRequest="28"
+                HeightRequest="28"
+                Fill="#2dd4bf"/>
+            <VerticalStackLayout Spacing="2" VerticalOptions="Center">
+                <Label
+                    FontAttributes="Bold"
+                    FontSize="16"
+                    Text="NEURALIS"
+                    TextColor="#e5e7eb"/>
+                <Label
+                    FontSize="9"
+                    Text="LAB WORKFLOWS"
+                    TextColor="#94a3b8"/>
+            </VerticalStackLayout>
+        </HorizontalStackLayout>
+
+        <VerticalStackLayout
+            Grid.Row="1"
+            Margin="0,36,0,0"
+            Spacing="10">
+
+            <Border
+                x:Name="NavPatientRecords"
+                Padding="10"
+                BackgroundColor="Transparent"
+                StrokeShape="RoundRectangle 12">
+                <HorizontalStackLayout Spacing="12">
+                    <Label
+                        FontFamily="MaterialIcons"
+                        FontSize="20"
+                        Text="folder_shared"
+                        TextColor="#9ca3af"
+                        VerticalOptions="Center"/>
+                    <Label
+                        FontSize="14"
+                        Text="Patient Records"
+                        TextColor="#9ca3af"
+                        VerticalOptions="Center"/>
+                </HorizontalStackLayout>
+                <Border.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="OnPatientRecordsTapped"/>
+                    <PointerGestureRecognizer
+                        PointerEntered="OnNavPointerEntered"
+                        PointerExited="OnNavPointerExited"/>
+                </Border.GestureRecognizers>
+            </Border>
+
+            <Border
+                x:Name="NavSpecimenQueue"
+                Padding="10"
+                BackgroundColor="Transparent"
+                StrokeShape="RoundRectangle 12">
+                <HorizontalStackLayout Spacing="12">
+                    <Label
+                        FontFamily="MaterialIcons"
+                        FontSize="20"
+                        Text="biotech"
+                        TextColor="#9ca3af"
+                        VerticalOptions="Center"/>
+                    <Label
+                        FontSize="14"
+                        Text="Specimen Queue"
+                        TextColor="#9ca3af"
+                        VerticalOptions="Center"/>
+                </HorizontalStackLayout>
+                <Border.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="OnSpecimenQueueTapped"/>
+                    <PointerGestureRecognizer
+                        PointerEntered="OnNavPointerEntered"
+                        PointerExited="OnNavPointerExited"/>
+                </Border.GestureRecognizers>
+            </Border>
+
+            <Border
+                x:Name="NavResultEntry"
+                Padding="10"
+                BackgroundColor="Transparent"
+                StrokeShape="RoundRectangle 12">
+                <HorizontalStackLayout Spacing="12">
+                    <Label
+                        FontFamily="MaterialIcons"
+                        FontSize="20"
+                        Text="edit_note"
+                        TextColor="#9ca3af"
+                        VerticalOptions="Center"/>
+                    <Label
+                        FontSize="14"
+                        Text="Result Entry"
+                        TextColor="#9ca3af"
+                        VerticalOptions="Center"/>
+                </HorizontalStackLayout>
+                <Border.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="OnResultEntryTapped"/>
+                    <PointerGestureRecognizer
+                        PointerEntered="OnNavPointerEntered"
+                        PointerExited="OnNavPointerExited"/>
+                </Border.GestureRecognizers>
+            </Border>
+
+            <Border
+                x:Name="NavInventory"
+                Padding="10"
+                BackgroundColor="Transparent"
+                StrokeShape="RoundRectangle 12">
+                <HorizontalStackLayout Spacing="12">
+                    <Label
+                        FontFamily="MaterialIcons"
+                        FontSize="20"
+                        Text="inventory_2"
+                        TextColor="#9ca3af"
+                        VerticalOptions="Center"/>
+                    <Label
+                        FontSize="14"
+                        Text="Inventory"
+                        TextColor="#9ca3af"
+                        VerticalOptions="Center"/>
+                </HorizontalStackLayout>
+                <Border.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="OnInventoryTapped"/>
+                    <PointerGestureRecognizer
+                        PointerEntered="OnNavPointerEntered"
+                        PointerExited="OnNavPointerExited"/>
+                </Border.GestureRecognizers>
+            </Border>
+
+            <Border
+                x:Name="NavSystemHealth"
+                Padding="10"
+                BackgroundColor="Transparent"
+                StrokeShape="RoundRectangle 12">
+                <HorizontalStackLayout Spacing="12">
+                    <Label
+                        FontFamily="MaterialIcons"
+                        FontSize="20"
+                        Text="monitor_heart"
+                        TextColor="#9ca3af"
+                        VerticalOptions="Center"/>
+                    <Label
+                        FontSize="14"
+                        Text="System Health"
+                        TextColor="#9ca3af"
+                        VerticalOptions="Center"/>
+                </HorizontalStackLayout>
+                <Border.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="OnSystemHealthTapped"/>
+                    <PointerGestureRecognizer
+                        PointerEntered="OnNavPointerEntered"
+                        PointerExited="OnNavPointerExited"/>
+                </Border.GestureRecognizers>
+            </Border>
+        </VerticalStackLayout>
+
+        <doctorcontrols:SidebarProfileView x:Name="SidebarProfile" Grid.Row="2"/>
+    </Grid>
+</ContentView>

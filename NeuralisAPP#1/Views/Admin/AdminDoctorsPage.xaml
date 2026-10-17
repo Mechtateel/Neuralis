@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="NeuralisAPP_1.Views.Admin.AdminDoctorsPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:shared="clr-namespace:NeuralisAPP_1.Views.Shared"
+    xmlns:admincontrols="clr-namespace:NeuralisAPP_1.Views.Admin.Controls"
+    BackgroundColor="#0f172a"
+    NavigationPage.HasNavigationBar="False"
+    Shell.NavBarIsVisible="False">
+
+    <shared:MainLayout>
+        <shared:MainLayout.SidebarContent>
+            <admincontrols:AdminSidebarView x:Name="AdminSidebar"/>
+        </shared:MainLayout.SidebarContent>
+
+        <shared:MainLayout.PageContent>
+            <ScrollView>
+            <VerticalStackLayout Spacing="28" Padding="24">
+
+                <!-- ===== HEADER ===== -->
+                <VerticalStackLayout Spacing="6">
+                    <Label
+                    Text="Doctor Applications"
+                    FontSize="28"
+                    FontAttributes="Bold"
+                    TextColor="White"/>
+
+                    <Label
+                    Text="Review and verify incoming medical professionals"
+                    FontSize="14"
+                    TextColor="#94a3b8"/>
+                </VerticalStackLayout>
+
+                <!-- ===== TABS ===== -->
+                <HorizontalStackLayout Spacing="12">
+
+                    <Button
+        x:Name="PendingTab"
+        Text="Pending"
+        Clicked="OnPendingClicked"
+        Style="{StaticResource FilterChipStyle}" />
+
+                    <Button
+        x:Name="ApprovedTab"
+        Text="Approved"
+        Clicked="OnApprovedClicked"
+        Style="{StaticResource FilterChipStyle}" />
+
+                    <Button
+        x:Name="RejectedTab"
+        Text="Rejected"
+        Clicked="OnRejectedClicked"
+        Style="{StaticResource FilterChipStyle}" />
+
+                </HorizontalStackLayout>
+
+
+                <!-- ===== SEARCH ===== -->
+                <Border
+    BackgroundColor="#0f1c2d"
+    Stroke="#1e293b"
+    Padding="8">
+
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="20"/>
+                    </Border.StrokeShape>
+
+                    <Grid ColumnDefinitions="36,*,Auto" VerticalOptions="Center">
+
+                        <!-- 🔍 SEARCH ICON -->
+                        <Label
+            Text="search"
+            FontFamily="MaterialIcons"
+            FontSize="18"
+            TextColor="#64748b"
+            VerticalOptions="Center"
+            HorizontalOptions="Center"/>
+
+                        <!-- 🧠 SEARCH ENTRY -->
+                        <Entry
+            Grid.Column="1"
+            Placeholder="Search by name, email or specialization"
+            TextChanged="OnSearchChanged"
+            BackgroundColor="Transparent"
+            TextColor="White"
+            PlaceholderColor="#64748b"
+            FontSize="14"
+            Margin="0,0,8,0"/>
+
+                        <!-- 🎛 FILTER BUTTON -->
+                        <Border
+            Grid.Column="2"
+            BackgroundColor="#0b2533"
+            Stroke="#1e3a4c"
+            Padding="10,6"
+            VerticalOptions="Center">
+
+                            <Border.StrokeShape>
+                                <RoundRectangle CornerRadius="14"/>
+                            </Border.StrokeShape>
+
+                            <HorizontalStackLayout Spacing="6" VerticalOptions="Center">
+                                <Label
+                    Text="tune"
+                    FontFamily="MaterialIcons"
+                    FontSize="16"
+                    TextColor="#38bdf8"/>
+
+                                <Label
+                    Text="Filter"
+                    FontSize="13"
+                    TextColor="#e0f2fe"/>
+                            </HorizontalStackLayout>
+
+                            <Border.GestureRecognizers>
+                                <TapGestureRecognizer
+        Tapped="OnFilterClicked"/>
+                            </Border.GestureRecognizers>
+
+                        </Border>
+
+                    </Grid>
+                </Border>
+
+
+                <!-- ===== LOADING ===== -->
+                <ActivityIndicator
+                x:Name="LoadingIndicator"
+                IsVisible="False"
+                IsRunning="False"
+                Color="#38bdf8"/>
+
+                <!-- ===== EMPTY STATE ===== -->
+                <Label
+                x:Name="EmptyLabel"
+                IsVisible="False"
+                Text="No doctor applications found"
+                TextColor="#64748b"
+                HorizontalOptions="Center"/>
+
+                <!-- ===== LIST ===== -->
+                <CollectionView
+                x:Name="ApplicationsList"
+                SelectionMode="None">
+
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+
+                            <Border Style="{StaticResource DoctorCardStyle}">
+
+                                <Border.StrokeShape>
+                                    <RoundRectangle CornerRadius="16"/>
+                                </Border.StrokeShape>
+
+                                <Border.GestureRecognizers>
+                                    <PointerGestureRecognizer
+                                    PointerPressed="OnCardPressed"
+                                    PointerReleased="OnCardReleased"/>
+                                </Border.GestureRecognizers>
+
+
+
+                                <VerticalStackLayout Spacing="8">
+
+                                    <Label
+                                    Text="{Binding FullName}"
+                                    FontSize="16"
+                                    FontAttributes="Bold"
+                                    TextColor="White"/>
+
+                                    <Label
+                                    Text="{Binding Specialization}"
+                                    FontSize="13"
+                                    TextColor="#38bdf8"/>
+
+                                    <Label
+                                    Text="{Binding Email}"
+                                    FontSize="11"
+                                    TextColor="#94a3b8"/>
+
+                                    <HorizontalStackLayout
+                                    IsVisible="{Binding IsPending}"
+                                    Spacing="12"
+                                    Margin="0,8,0,0">
+
+                                        <Button
+                                        Text="Approve"
+                                        Clicked="OnApproveClicked"
+                                        CommandParameter="{Binding}"
+                                        Style="{StaticResource ApproveButtonStyle}"/>
+
+                                        <Button
+                                        Text="Reject"
+                                        Clicked="OnRejectClicked"
+                                        CommandParameter="{Binding}"
+                                        Style="{StaticResource RejectButtonStyle}"/>
+
+                                    </HorizontalStackLayout>
+
+                                </VerticalStackLayout>
+
+                            </Border>
+
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+
+            </VerticalStackLayout>
+            </ScrollView>
+        </shared:MainLayout.PageContent>
+    </shared:MainLayout>
+</ContentPage>

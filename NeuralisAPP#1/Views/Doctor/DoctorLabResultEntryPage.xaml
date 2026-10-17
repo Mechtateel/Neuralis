@@ -1,0 +1,429 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="NeuralisAPP_1.Views.Doctor.DoctorLabResultEntryPage"
+    x:Name="PageRoot"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:controls="clr-namespace:NeuralisAPP_1.Views.Doctor.Controls"
+    xmlns:viewmodels="clr-namespace:NeuralisAPP_1.ViewModels.Lab"
+    xmlns:loc="clr-namespace:NeuralisAPP_1.Localization"
+    BackgroundColor="#0B0E11"
+    NavigationPage.HasNavigationBar="False"
+    Shell.NavBarIsVisible="False">
+
+    <Grid ColumnDefinitions="260,*">
+
+        <controls:LabSidebar
+            x:Name="LabNav"
+            Grid.Column="0"
+            Invoked="OnLabSidebarInvoked"/>
+
+        <Grid Grid.Column="1">
+            <Grid.Background>
+                <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                    <GradientStop Offset="0" Color="#0B0E11"/>
+                    <GradientStop Offset="0.5" Color="#0d1520"/>
+                    <GradientStop Offset="1" Color="#0a1218"/>
+                </LinearGradientBrush>
+            </Grid.Background>
+
+            <Grid Padding="16,14" RowDefinitions="Auto,*">
+                <Grid Grid.Row="0" ColumnDefinitions="*,Auto" ColumnSpacing="12">
+                    <VerticalStackLayout Spacing="4" VerticalOptions="Center">
+                        <Label
+                            FontAttributes="Bold"
+                            FontSize="22"
+                            Text="Result Entry"
+                            TextColor="#e5e7eb"/>
+                        <Label
+                            FontSize="12"
+                            LineBreakMode="WordWrap"
+                            Text="Upload high-resolution clinical assets with metadata. Max 12 MB • PDF and images."
+                            TextColor="#64748b"/>
+                    </VerticalStackLayout>
+                    <ActivityIndicator
+                        Grid.Column="1"
+                        IsRunning="{Binding IsBusy}"
+                        IsVisible="{Binding IsBusy}"
+                        Color="#00FFC6"
+                        VerticalOptions="Center"/>
+                </Grid>
+
+                <ScrollView Grid.Row="1" VerticalScrollBarVisibility="Default">
+                    <Grid
+                        ColumnDefinitions="280,*,300"
+                        ColumnSpacing="18"
+                        Padding="0,8,0,24"
+                        RowDefinitions="Auto">
+
+                        <!-- LEFT: patient context -->
+                        <Border
+                            Grid.Column="0"
+                            Padding="18"
+                            BackgroundColor="#151b22"
+                            Stroke="#253038"
+                            StrokeShape="RoundRectangle 20">
+                            <Border.Shadow>
+                                <Shadow Brush="#000000" Opacity="0.35" Radius="18" Offset="0,6"/>
+                            </Border.Shadow>
+                            <VerticalStackLayout Spacing="16">
+                                <Label
+                                    FontAttributes="Bold"
+                                    FontSize="11"
+                                    Text="PATIENT CONTEXT"
+                                    TextColor="#00FFC6"/>
+                                <Label
+                                    FontSize="12"
+                                    Text="Assigned case"
+                                    TextColor="#64748b"/>
+                                <Picker
+                                    Title="Select patient"
+                                    BackgroundColor="#0c1218"
+                                    ItemDisplayBinding="{Binding FullName}"
+                                    ItemsSource="{Binding Patients}"
+                                    SelectedItem="{Binding SelectedPatient}"
+                                    TextColor="#e5e7eb"/>
+                                <Label
+                                    FontSize="11"
+                                    IsVisible="{Binding LoadFailed}"
+                                    Text="Could not load patients."
+                                    TextColor="#f87171"/>
+                                <BoxView HeightRequest="1" Color="#253038"/>
+                                <VerticalStackLayout Spacing="4">
+                                    <Label
+                                        FontAttributes="Bold"
+                                        FontSize="13"
+                                        Text="{Binding SelectedPatient.FullName, FallbackValue='—'}"
+                                        TextColor="#e5e7eb"/>
+                                    <Label
+                                        FontSize="11"
+                                        Text="{Binding SelectedPatient.PatientIdLine, FallbackValue=''}"
+                                        TextColor="#64748b"/>
+                                    <Label
+                                        FontSize="11"
+                                        Text="{Binding SelectedPatient.EmailLine, FallbackValue=''}"
+                                        TextColor="#94a3b8"/>
+                                </VerticalStackLayout>
+                                <Label
+                                    FontSize="11"
+                                    LineBreakMode="WordWrap"
+                                    Text="{Binding ContextDisplayLines}"
+                                    TextColor="#9ca3af"/>
+                            </VerticalStackLayout>
+                        </Border>
+
+                        <!-- CENTER: upload -->
+                        <VerticalStackLayout Grid.Column="1" Spacing="18">
+                            <Border
+                                Padding="22"
+                                BackgroundColor="#151b22"
+                                Stroke="#00FFC6"
+                                StrokeShape="RoundRectangle 22"
+                                StrokeThickness="1">
+                                <Border.Shadow>
+                                    <Shadow Brush="#00FFC6" Opacity="0.12" Radius="24" Offset="0,0"/>
+                                </Border.Shadow>
+                                <VerticalStackLayout Spacing="14">
+                                    <Label
+                                        FontFamily="MaterialIcons"
+                                        FontSize="40"
+                                        HorizontalOptions="Center"
+                                        Text="cloud_upload"
+                                        TextColor="#00FFC6"/>
+                                    <Label
+                                        FontAttributes="Bold"
+                                        FontSize="14"
+                                        HorizontalTextAlignment="Center"
+                                        Text="Drop clinical assets here"
+                                        TextColor="#e5e7eb"/>
+                                    <Label
+                                        FontSize="11"
+                                        HorizontalTextAlignment="Center"
+                                        Text="Tap to browse • PDF, PNG, JPG, WEBP • max 12 MB"
+                                        TextColor="#64748b"/>
+                                    <Button
+                                        Padding="14,10"
+                                        BackgroundColor="#1a2832"
+                                        BorderColor="#00FFC6"
+                                        BorderWidth="1"
+                                        CornerRadius="14"
+                                        Text="Browse filesystem"
+                                        TextColor="#00FFC6"
+                                        Clicked="OnBrowseClicked"/>
+                                    <Border
+                                        Padding="18"
+                                        BackgroundColor="#0c1218"
+                                        Stroke="#253038"
+                                        StrokeDashArray="4,4"
+                                        StrokeShape="RoundRectangle 16"
+                                        StrokeThickness="1">
+                                        <Border.GestureRecognizers>
+                                            <TapGestureRecognizer Tapped="OnBrowseClicked"/>
+                                        </Border.GestureRecognizers>
+                                        <Label
+                                            FontSize="12"
+                                            HorizontalTextAlignment="Center"
+                                            LineBreakMode="WordWrap"
+                                            Text="{Binding FileLabel}"
+                                            TextColor="#94a3b8"/>
+                                    </Border>
+                                </VerticalStackLayout>
+                            </Border>
+
+                            <Border
+                                Padding="18"
+                                BackgroundColor="#151b22"
+                                Stroke="#253038"
+                                StrokeShape="RoundRectangle 20">
+                                <VerticalStackLayout Spacing="12">
+                                    <Label
+                                        FontSize="12"
+                                        Text="Upload description"
+                                        TextColor="#64748b"/>
+                                    <Editor
+                                        AutoSize="TextChanges"
+                                        BackgroundColor="#0c1218"
+                                        MaxLength="500"
+                                        Placeholder="Technical observations..."
+                                        PlaceholderColor="#475569"
+                                        Text="{Binding Description, Mode=TwoWay}"
+                                        TextColor="#e5e7eb"/>
+                                    <Label
+                                        FontSize="12"
+                                        Text="Classification tags"
+                                        TextColor="#64748b"/>
+                                    <FlexLayout
+                                        Wrap="Wrap"
+                                        AlignItems="Start"
+                                        AlignContent="Start"
+                                        BindableLayout.ItemsSource="{Binding ActiveTags}">
+                                        <BindableLayout.ItemTemplate>
+                                            <DataTemplate>
+                                                <Border
+                                                    Margin="0,0,8,8"
+                                                    Padding="10,6"
+                                                    BackgroundColor="#0f172a"
+                                                    Stroke="#00FFC6"
+                                                    StrokeShape="RoundRectangle 12">
+                                                    <HorizontalStackLayout Spacing="4">
+                                                        <Label
+                                                            FontSize="12"
+                                                            Text="{Binding .}"
+                                                            TextColor="#00FFC6"
+                                                            VerticalOptions="Center"/>
+                                                        <Button
+                                                            Padding="4"
+                                                            BackgroundColor="Transparent"
+                                                            Command="{Binding Source={x:Reference PageRoot}, Path=BindingContext.RemoveTagCommand}"
+                                                            CommandParameter="{Binding .}"
+                                                            CornerRadius="8"
+                                                            FontFamily="MaterialIcons"
+                                                            FontSize="14"
+                                                            Text="close"
+                                                            TextColor="#94a3b8"
+                                                            VerticalOptions="Center"/>
+                                                    </HorizontalStackLayout>
+                                                </Border>
+                                            </DataTemplate>
+                                        </BindableLayout.ItemTemplate>
+                                    </FlexLayout>
+                                    <Label FontSize="11" Text="Add tag" TextColor="#64748b"/>
+                                    <FlexLayout Wrap="Wrap">
+                                        <Button
+                                            Margin="0,0,8,8"
+                                            Padding="10,6"
+                                            BackgroundColor="#1a2832"
+                                            Command="{Binding Source={x:Reference PageRoot}, Path=BindingContext.AddTagCommand}"
+                                            CommandParameter="Imaging"
+                                            CornerRadius="12"
+                                            FontSize="11"
+                                            Text="Imaging"
+                                            TextColor="#00FFC6"/>
+                                        <Button
+                                            Margin="0,0,8,8"
+                                            Padding="10,6"
+                                            BackgroundColor="#1a2832"
+                                            Command="{Binding Source={x:Reference PageRoot}, Path=BindingContext.AddTagCommand}"
+                                            CommandParameter="Blood"
+                                            CornerRadius="12"
+                                            FontSize="11"
+                                            Text="Blood"
+                                            TextColor="#00FFC6"/>
+                                        <Button
+                                            Margin="0,0,8,8"
+                                            Padding="10,6"
+                                            BackgroundColor="#1a2832"
+                                            Command="{Binding Source={x:Reference PageRoot}, Path=BindingContext.AddTagCommand}"
+                                            CommandParameter="Genomic"
+                                            CornerRadius="12"
+                                            FontSize="11"
+                                            Text="Genomic"
+                                            TextColor="#00FFC6"/>
+                                        <Button
+                                            Margin="0,0,8,8"
+                                            Padding="10,6"
+                                            BackgroundColor="#1a2832"
+                                            Command="{Binding Source={x:Reference PageRoot}, Path=BindingContext.AddTagCommand}"
+                                            CommandParameter="MRI"
+                                            CornerRadius="12"
+                                            FontSize="11"
+                                            Text="MRI"
+                                            TextColor="#00FFC6"/>
+                                        <Button
+                                            Margin="0,0,8,8"
+                                            Padding="10,6"
+                                            BackgroundColor="#1a2832"
+                                            Command="{Binding Source={x:Reference PageRoot}, Path=BindingContext.AddTagCommand}"
+                                            CommandParameter="CT"
+                                            CornerRadius="12"
+                                            FontSize="11"
+                                            Text="CT"
+                                            TextColor="#00FFC6"/>
+                                    </FlexLayout>
+                                    <Button
+                                        Padding="16,14"
+                                        BackgroundColor="#00FFC6"
+                                        CornerRadius="18"
+                                        FontAttributes="Bold"
+                                        IsEnabled="{Binding CanUpload}"
+                                        Text="{x:Static loc:LabUiStrings.UploadResult}"
+                                        TextColor="#0B0E11"
+                                        Command="{Binding UploadCommand}"/>
+                                    <ActivityIndicator
+                                        IsRunning="{Binding IsUploading}"
+                                        IsVisible="{Binding IsUploading}"
+                                        Color="#00FFC6"
+                                        HorizontalOptions="Center"/>
+                                </VerticalStackLayout>
+                            </Border>
+                        </VerticalStackLayout>
+
+                        <!-- RIGHT: history -->
+                        <Border
+                            Grid.Column="2"
+                            Padding="16"
+                            BackgroundColor="#151b22"
+                            Stroke="#253038"
+                            StrokeShape="RoundRectangle 20">
+                            <Border.Shadow>
+                                <Shadow Brush="#000000" Opacity="0.35" Radius="18" Offset="0,6"/>
+                            </Border.Shadow>
+                            <VerticalStackLayout Spacing="12">
+                                <HorizontalStackLayout Spacing="8">
+                                    <Label
+                                        FontAttributes="Bold"
+                                        FontSize="11"
+                                        Text="UPLOAD HISTORY"
+                                        TextColor="#00FFC6"
+                                        VerticalOptions="Center"/>
+                                    <Border
+                                        Padding="6,4"
+                                        BackgroundColor="#0f172a"
+                                        Stroke="#253038"
+                                        StrokeShape="RoundRectangle 8">
+                                        <Label
+                                            FontSize="10"
+                                            Text="{Binding UploadHistoryCount, StringFormat='{0} total'}"
+                                            TextColor="#94a3b8"/>
+                                    </Border>
+                                </HorizontalStackLayout>
+                                <CollectionView
+                                    ItemsSource="{Binding UploadHistory}"
+                                    HeightRequest="320"
+                                    SelectionMode="None">
+                                    <CollectionView.EmptyView>
+                                        <Label
+                                            Margin="0,12,0,0"
+                                            FontSize="12"
+                                            Text="No uploads for this patient yet."
+                                            TextColor="#64748b"/>
+                                    </CollectionView.EmptyView>
+                                    <CollectionView.ItemTemplate>
+                                        <DataTemplate x:DataType="viewmodels:LabResultHistoryRowViewModel">
+                                            <Border
+                                                Margin="0,0,0,10"
+                                                Padding="12"
+                                                BackgroundColor="#0c1218"
+                                                Stroke="#253038"
+                                                StrokeShape="RoundRectangle 14">
+                                                <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="10">
+                                                    <Label
+                                                        FontFamily="MaterialIcons"
+                                                        FontSize="22"
+                                                        Text="description"
+                                                        TextColor="#00FFC6"
+                                                        VerticalOptions="Start"/>
+                                                    <VerticalStackLayout Grid.Column="1" Spacing="4">
+                                                        <Label
+                                                            FontAttributes="Bold"
+                                                            FontSize="12"
+                                                            LineBreakMode="TailTruncation"
+                                                            Text="{Binding FileName}"
+                                                            TextColor="#e5e7eb"/>
+                                                        <Label
+                                                            FontSize="10"
+                                                            LineBreakMode="TailTruncation"
+                                                            Text="{Binding SubtitleLine}"
+                                                            TextColor="#64748b"/>
+                                                        <Label
+                                                            FontSize="10"
+                                                            LineBreakMode="TailTruncation"
+                                                            Text="{Binding Tags}"
+                                                            TextColor="#475569"/>
+                                                    </VerticalStackLayout>
+                                                    <Button
+                                                        Grid.Column="2"
+                                                        Padding="6"
+                                                        BackgroundColor="Transparent"
+                                                        Command="{Binding Source={x:Reference PageRoot}, Path=BindingContext.OpenHistoryFileCommand}"
+                                                        CommandParameter="{Binding .}"
+                                                        FontFamily="MaterialIcons"
+                                                        FontSize="18"
+                                                        Text="visibility"
+                                                        TextColor="#00FFC6"
+                                                        VerticalOptions="Start"/>
+                                                </Grid>
+                                            </Border>
+                                        </DataTemplate>
+                                    </CollectionView.ItemTemplate>
+                                </CollectionView>
+                                <Border
+                                    Padding="14"
+                                    BackgroundColor="#0c1218"
+                                    Stroke="#00FFC6"
+                                    StrokeShape="RoundRectangle 16"
+                                    StrokeThickness="1">
+                                    <VerticalStackLayout Spacing="6">
+                                        <Label
+                                            FontAttributes="Bold"
+                                            FontSize="11"
+                                            Text="Latest result"
+                                            TextColor="#00FFC6"/>
+                                        <Label
+                                            FontSize="11"
+                                            LineBreakMode="WordWrap"
+                                            Text="Open from history to preview in the system viewer."
+                                            TextColor="#64748b"/>
+                                        <HorizontalStackLayout Spacing="6">
+                                            <Label
+                                                FontFamily="MaterialIcons"
+                                                FontSize="16"
+                                                Text="visibility"
+                                                TextColor="#00FFC6"
+                                                VerticalOptions="Center"/>
+                                            <Label
+                                                FontSize="10"
+                                                Text="PREVIEW VIA VIEWER"
+                                                TextColor="#94a3b8"
+                                                VerticalOptions="Center"/>
+                                        </HorizontalStackLayout>
+                                    </VerticalStackLayout>
+                                </Border>
+                            </VerticalStackLayout>
+                        </Border>
+                    </Grid>
+                </ScrollView>
+            </Grid>
+        </Grid>
+    </Grid>
+</ContentPage>

@@ -1,0 +1,373 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="NeuralisAPP_1.Views.Admin.AdminNewsEditorPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    BackgroundColor="#04141C"
+    NavigationPage.HasNavigationBar="False"
+    Shell.NavBarIsVisible="False">
+
+    <ContentPage.Resources>
+        <Style x:Key="EditorCard" TargetType="Border">
+            <Setter Property="BackgroundColor" Value="#0A1F27"/>
+            <Setter Property="Stroke" Value="#163B43"/>
+            <Setter Property="StrokeThickness" Value="1"/>
+            <Setter Property="StrokeShape" Value="RoundRectangle 16"/>
+            <Setter Property="Padding" Value="22"/>
+        </Style>
+
+        <Style x:Key="InputBorder" TargetType="Border">
+            <Setter Property="BackgroundColor" Value="#0E2E36"/>
+            <Setter Property="Stroke" Value="#1F5260"/>
+            <Setter Property="StrokeThickness" Value="1"/>
+            <Setter Property="StrokeShape" Value="RoundRectangle 10"/>
+            <Setter Property="Padding" Value="12,6"/>
+            <Setter Property="MinimumHeightRequest" Value="44"/>
+        </Style>
+
+        <Style x:Key="FieldLabel" TargetType="Label">
+            <Setter Property="FontSize" Value="11"/>
+            <Setter Property="FontAttributes" Value="Bold"/>
+            <Setter Property="CharacterSpacing" Value="1.4"/>
+            <Setter Property="TextColor" Value="#6E8C96"/>
+        </Style>
+
+        <Style x:Key="HelperLabel" TargetType="Label">
+            <Setter Property="FontSize" Value="11"/>
+            <Setter Property="TextColor" Value="#6E8C96"/>
+            <Setter Property="LineBreakMode" Value="WordWrap"/>
+        </Style>
+
+        <Style x:Key="PrimaryButton" TargetType="Button">
+            <Setter Property="BackgroundColor" Value="#2FE3C9"/>
+            <Setter Property="TextColor" Value="#04141C"/>
+            <Setter Property="FontAttributes" Value="Bold"/>
+            <Setter Property="FontSize" Value="13"/>
+            <Setter Property="CornerRadius" Value="10"/>
+            <Setter Property="Padding" Value="18,12"/>
+            <Setter Property="MinimumHeightRequest" Value="42"/>
+        </Style>
+
+        <Style x:Key="GhostButton" TargetType="Button">
+            <Setter Property="BackgroundColor" Value="#0E2E36"/>
+            <Setter Property="TextColor" Value="#E6F7FA"/>
+            <Setter Property="BorderColor" Value="#1F5260"/>
+            <Setter Property="BorderWidth" Value="1"/>
+            <Setter Property="FontSize" Value="13"/>
+            <Setter Property="CornerRadius" Value="10"/>
+            <Setter Property="Padding" Value="14,10"/>
+            <Setter Property="MinimumHeightRequest" Value="40"/>
+        </Style>
+
+        <Style x:Key="ChipStyle" TargetType="Border">
+            <Setter Property="BackgroundColor" Value="#0D2B31"/>
+            <Setter Property="Stroke" Value="#1F5260"/>
+            <Setter Property="StrokeThickness" Value="1"/>
+            <Setter Property="StrokeShape" Value="RoundRectangle 8"/>
+            <Setter Property="Padding" Value="10,5"/>
+        </Style>
+    </ContentPage.Resources>
+
+    <Grid RowDefinitions="Auto,*,Auto">
+
+        <!-- Top bar -->
+        <Border
+            Grid.Row="0"
+            BackgroundColor="#0C2530"
+            Stroke="#163D47"
+            StrokeThickness="0"
+            Padding="22,14">
+            <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="14">
+                <Border
+                    x:Name="BackButton"
+                    BackgroundColor="#0E2E36"
+                    Stroke="#1F5260"
+                    StrokeThickness="1"
+                    StrokeShape="RoundRectangle 10"
+                    Padding="10,6"
+                    VerticalOptions="Center">
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="OnBackTapped"/>
+                    </Border.GestureRecognizers>
+                    <HorizontalStackLayout Spacing="6">
+                        <Label Text="arrow_back" FontFamily="MaterialIcons" FontSize="16" TextColor="#9DBEC7" VerticalOptions="Center"/>
+                        <Label Text="Back to news" FontSize="12" TextColor="#9DBEC7" VerticalOptions="Center"/>
+                    </HorizontalStackLayout>
+                </Border>
+
+                <VerticalStackLayout Grid.Column="1" Spacing="2" VerticalOptions="Center">
+                    <HorizontalStackLayout Spacing="8">
+                        <Label Text="Editorial" FontSize="11" FontAttributes="Bold" CharacterSpacing="1.4" TextColor="#2FE3C9"/>
+                        <Border Style="{StaticResource ChipStyle}" VerticalOptions="Center">
+                            <Label x:Name="StatusChipLabel" Text="DRAFT" FontSize="9" FontAttributes="Bold" CharacterSpacing="1.2" TextColor="#FACC15"/>
+                        </Border>
+                    </HorizontalStackLayout>
+                    <Label x:Name="HeaderTitleLabel" Text="New article" FontSize="20" FontAttributes="Bold" TextColor="#E6F7FA" LineBreakMode="TailTruncation" MaxLines="1"/>
+                </VerticalStackLayout>
+
+                <HorizontalStackLayout Grid.Column="2" Spacing="10" VerticalOptions="Center">
+                    <ActivityIndicator
+                        x:Name="HeaderLoading"
+                        IsRunning="False"
+                        IsVisible="False"
+                        Color="#2FE3C9"
+                        WidthRequest="20"
+                        HeightRequest="20"
+                        VerticalOptions="Center"/>
+                    <Button x:Name="PreviewToggle" Text="Preview" Style="{StaticResource GhostButton}" Clicked="OnPreviewToggleClicked"/>
+                    <Button x:Name="SaveDraftButton" Text="Save draft" Style="{StaticResource GhostButton}" Clicked="OnSaveDraftClicked"/>
+                    <Button x:Name="PublishButton" Text="Publish" Style="{StaticResource PrimaryButton}" Clicked="OnPublishClicked"/>
+                </HorizontalStackLayout>
+            </Grid>
+        </Border>
+
+        <!-- Body -->
+        <ScrollView Grid.Row="1">
+            <Grid Padding="32,24" ColumnDefinitions="2*,*" ColumnSpacing="22" RowSpacing="20" RowDefinitions="Auto,Auto">
+
+                <!-- ============= LEFT: editor ============= -->
+                <Border Grid.Row="0" Grid.Column="0" Style="{StaticResource EditorCard}">
+                    <VerticalStackLayout Spacing="18">
+
+                        <VerticalStackLayout Spacing="6">
+                            <Label Text="TITLE" Style="{StaticResource FieldLabel}"/>
+                            <Border Style="{StaticResource InputBorder}" MinimumHeightRequest="56">
+                                <Entry
+                                    x:Name="TitleEntry"
+                                    Placeholder="A clear, scannable headline…"
+                                    PlaceholderColor="#5E7C86"
+                                    TextColor="#E6F7FA"
+                                    BackgroundColor="Transparent"
+                                    FontSize="22"
+                                    FontAttributes="Bold"
+                                    MaxLength="200"/>
+                            </Border>
+                        </VerticalStackLayout>
+
+                        <VerticalStackLayout Spacing="6">
+                            <Label Text="SUBTITLE" Style="{StaticResource FieldLabel}"/>
+                            <Border Style="{StaticResource InputBorder}">
+                                <Entry
+                                    x:Name="SubtitleEntry"
+                                    Placeholder="One-line context, displayed under the title."
+                                    PlaceholderColor="#5E7C86"
+                                    TextColor="#E6F7FA"
+                                    BackgroundColor="Transparent"
+                                    FontSize="14"
+                                    MaxLength="300"/>
+                            </Border>
+                        </VerticalStackLayout>
+
+                        <VerticalStackLayout Spacing="6">
+                            <Label Text="SUMMARY" Style="{StaticResource FieldLabel}"/>
+                            <Border Style="{StaticResource InputBorder}" MinimumHeightRequest="90" Padding="12,8">
+                                <Editor
+                                    x:Name="SummaryEditor"
+                                    Placeholder="Shown on cards. If empty, the first lines of the body are used."
+                                    PlaceholderColor="#5E7C86"
+                                    TextColor="#E6F7FA"
+                                    BackgroundColor="Transparent"
+                                    FontSize="13"
+                                    AutoSize="TextChanges"
+                                    MaxLength="1000"
+                                    MinimumHeightRequest="80"/>
+                            </Border>
+                            <Label Style="{StaticResource HelperLabel}" Text="Aim for a single concrete sentence. This is what patients see in the feed."/>
+                        </VerticalStackLayout>
+
+                        <VerticalStackLayout Spacing="6">
+                            <Label Text="BODY" Style="{StaticResource FieldLabel}"/>
+                            <Border Style="{StaticResource InputBorder}" MinimumHeightRequest="280" Padding="14,10">
+                                <Editor
+                                    x:Name="ContentEditor"
+                                    Placeholder="Write the article. Markdown-friendly: use blank lines for paragraphs, '- ' for bullets, '#' for headings."
+                                    PlaceholderColor="#5E7C86"
+                                    TextColor="#E6F7FA"
+                                    BackgroundColor="Transparent"
+                                    FontSize="14"
+                                    AutoSize="TextChanges"
+                                    MaxLength="4000"
+                                    TextChanged="OnContentChanged"
+                                    MinimumHeightRequest="260"/>
+                            </Border>
+                            <Grid ColumnDefinitions="*,Auto" ColumnSpacing="12">
+                                <Label x:Name="WordCountLabel" Text="0 words · ~1 min read" Style="{StaticResource HelperLabel}"/>
+                                <Label Grid.Column="1" Style="{StaticResource HelperLabel}" Text="Tip: '##' for section, '- ' for bullets, '&gt;' for callouts." HorizontalOptions="End"/>
+                            </Grid>
+                        </VerticalStackLayout>
+
+                    </VerticalStackLayout>
+                </Border>
+
+                <!-- ============= RIGHT: meta ============= -->
+                <VerticalStackLayout Grid.Row="0" Grid.Column="1" Spacing="18">
+
+                    <Border Style="{StaticResource EditorCard}">
+                        <VerticalStackLayout Spacing="14">
+                            <Label Text="Publishing" FontSize="14" FontAttributes="Bold" TextColor="#E6F7FA"/>
+                            <BoxView HeightRequest="1" Color="#143C44"/>
+
+                            <VerticalStackLayout Spacing="6">
+                                <Label Text="STATUS" Style="{StaticResource FieldLabel}"/>
+                                <Border Style="{StaticResource InputBorder}">
+                                    <Picker
+                                        x:Name="StatusPicker"
+                                        TextColor="#E6F7FA"
+                                        BackgroundColor="Transparent"
+                                        TitleColor="#5E7C86"
+                                        FontSize="13"/>
+                                </Border>
+                            </VerticalStackLayout>
+
+                            <Grid ColumnDefinitions="*,Auto" ColumnSpacing="12">
+                                <VerticalStackLayout Spacing="2" VerticalOptions="Center">
+                                    <Label Text="Featured article" FontSize="13" FontAttributes="Bold" TextColor="#E6F7FA"/>
+                                    <Label Text="Pinned to the top of the patient feed." Style="{StaticResource HelperLabel}"/>
+                                </VerticalStackLayout>
+                                <Switch
+                                    Grid.Column="1"
+                                    x:Name="FeaturedSwitch"
+                                    OnColor="#2FE3C9"
+                                    ThumbColor="White"
+                                    VerticalOptions="Center"/>
+                            </Grid>
+
+                            <VerticalStackLayout Spacing="6">
+                                <Label Text="PRIORITY" Style="{StaticResource FieldLabel}"/>
+                                <Border Style="{StaticResource InputBorder}">
+                                    <Picker
+                                        x:Name="PriorityPicker"
+                                        TextColor="#E6F7FA"
+                                        BackgroundColor="Transparent"
+                                        TitleColor="#5E7C86"
+                                        FontSize="13"/>
+                                </Border>
+                            </VerticalStackLayout>
+
+                            <VerticalStackLayout Spacing="6">
+                                <Label Text="PUBLISH DATE" Style="{StaticResource FieldLabel}"/>
+                                <Border Style="{StaticResource InputBorder}">
+                                    <DatePicker
+                                        x:Name="PublishDatePicker"
+                                        TextColor="#E6F7FA"
+                                        BackgroundColor="Transparent"
+                                        Format="ddd, MMM d yyyy"/>
+                                </Border>
+                                <Label Style="{StaticResource HelperLabel}" Text="Defaults to today. Backdating is allowed."/>
+                            </VerticalStackLayout>
+                        </VerticalStackLayout>
+                    </Border>
+
+                    <Border Style="{StaticResource EditorCard}">
+                        <VerticalStackLayout Spacing="14">
+                            <Label Text="Classification" FontSize="14" FontAttributes="Bold" TextColor="#E6F7FA"/>
+                            <BoxView HeightRequest="1" Color="#143C44"/>
+
+                            <VerticalStackLayout Spacing="6">
+                                <Label Text="CATEGORY" Style="{StaticResource FieldLabel}"/>
+                                <Border Style="{StaticResource InputBorder}">
+                                    <Picker
+                                        x:Name="CategoryPicker"
+                                        TextColor="#E6F7FA"
+                                        BackgroundColor="Transparent"
+                                        TitleColor="#5E7C86"
+                                        FontSize="13"/>
+                                </Border>
+                            </VerticalStackLayout>
+
+                            <VerticalStackLayout Spacing="6">
+                                <Label Text="TAGS" Style="{StaticResource FieldLabel}"/>
+                                <Border Style="{StaticResource InputBorder}">
+                                    <Entry
+                                        x:Name="TagsEntry"
+                                        Placeholder="comma, separated, keywords"
+                                        PlaceholderColor="#5E7C86"
+                                        TextColor="#E6F7FA"
+                                        BackgroundColor="Transparent"
+                                        FontSize="13"
+                                        MaxLength="500"/>
+                                </Border>
+                            </VerticalStackLayout>
+
+                            <VerticalStackLayout Spacing="6">
+                                <Label Text="COVER IMAGE" Style="{StaticResource FieldLabel}"/>
+                                <Border Style="{StaticResource InputBorder}">
+                                    <Picker
+                                        x:Name="CoverPicker"
+                                        TextColor="#E6F7FA"
+                                        BackgroundColor="Transparent"
+                                        TitleColor="#5E7C86"
+                                        FontSize="13"/>
+                                </Border>
+                                <Label Style="{StaticResource HelperLabel}" Text="Pick a bundled hero image. Custom uploads will arrive with the media module."/>
+                            </VerticalStackLayout>
+                        </VerticalStackLayout>
+                    </Border>
+
+                    <Border Style="{StaticResource EditorCard}">
+                        <VerticalStackLayout Spacing="10">
+                            <Label Text="Attribution" FontSize="14" FontAttributes="Bold" TextColor="#E6F7FA"/>
+                            <BoxView HeightRequest="1" Color="#143C44"/>
+                            <Label Text="AUTHOR" Style="{StaticResource FieldLabel}"/>
+                            <Label x:Name="AuthorLabel" FontSize="13" TextColor="#E6F7FA" Text="Neuralis Admin"/>
+                            <Label x:Name="MetadataLabel" Style="{StaticResource HelperLabel}" Text="New draft · not saved yet."/>
+                        </VerticalStackLayout>
+                    </Border>
+
+                    <Button
+                        x:Name="DeleteButton"
+                        Text="Delete article"
+                        IsVisible="False"
+                        BackgroundColor="#260E13"
+                        BorderColor="#7A1A1A"
+                        BorderWidth="1"
+                        TextColor="#F87171"
+                        CornerRadius="10"
+                        Padding="14,10"
+                        MinimumHeightRequest="40"
+                        Clicked="OnDeleteClicked"/>
+
+                </VerticalStackLayout>
+
+                <!-- ============= PREVIEW PANE ============= -->
+                <Border
+                    x:Name="PreviewPane"
+                    Grid.Row="1"
+                    Grid.ColumnSpan="2"
+                    Style="{StaticResource EditorCard}"
+                    IsVisible="False">
+                    <VerticalStackLayout Spacing="14">
+                        <HorizontalStackLayout Spacing="10">
+                            <Label Text="Preview" FontSize="14" FontAttributes="Bold" TextColor="#E6F7FA"/>
+                            <Border Style="{StaticResource ChipStyle}">
+                                <Label Text="PATIENT VIEW" FontSize="9" FontAttributes="Bold" CharacterSpacing="1.2" TextColor="#2FE3C9"/>
+                            </Border>
+                        </HorizontalStackLayout>
+                        <BoxView HeightRequest="1" Color="#143C44"/>
+
+                        <Border BackgroundColor="#06181E" Stroke="#163B43" StrokeThickness="1" StrokeShape="RoundRectangle 14" Padding="22">
+                            <VerticalStackLayout Spacing="10">
+                                <HorizontalStackLayout Spacing="8">
+                                    <Label x:Name="PreviewCategoryLabel" Text="CATEGORY" FontSize="10" FontAttributes="Bold" CharacterSpacing="1.4" TextColor="#2FE3C9"/>
+                                    <Label x:Name="PreviewMetaLabel" Text="—" FontSize="11" TextColor="#6E8C96"/>
+                                </HorizontalStackLayout>
+                                <Label x:Name="PreviewTitleLabel" FontSize="22" FontAttributes="Bold" TextColor="#E6F7FA" LineBreakMode="WordWrap"/>
+                                <Label x:Name="PreviewSubtitleLabel" FontSize="13" TextColor="#9DBEC7" LineBreakMode="WordWrap"/>
+                                <BoxView HeightRequest="1" Color="#143C44" Margin="0,6"/>
+                                <VerticalStackLayout x:Name="PreviewBodyHost" Spacing="10"/>
+                            </VerticalStackLayout>
+                        </Border>
+                    </VerticalStackLayout>
+                </Border>
+            </Grid>
+        </ScrollView>
+
+        <!-- Footer status -->
+        <Border Grid.Row="2" BackgroundColor="#0C2530" Padding="22,10" StrokeThickness="0">
+            <Grid ColumnDefinitions="*,Auto">
+                <Label x:Name="FooterStatus" Text="Ready" FontSize="11" TextColor="#6E8C96" VerticalOptions="Center"/>
+                <Label Grid.Column="1" Text="Press ⌘/Ctrl+S to save · ⌘/Ctrl+Enter to publish" FontSize="11" TextColor="#6E8C96" VerticalOptions="Center"/>
+            </Grid>
+        </Border>
+    </Grid>
+</ContentPage>

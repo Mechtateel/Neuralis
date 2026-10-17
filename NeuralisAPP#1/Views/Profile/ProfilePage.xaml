@@ -1,0 +1,855 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="NeuralisAPP_1.Views.Profile.ProfilePage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    BackgroundColor="{StaticResource BgPrimary}"
+    NavigationPage.HasNavigationBar="False"
+    Shell.NavBarIsVisible="False">
+
+    <ContentPage.Resources>
+        <!-- ===== INFO ROW ===== -->
+        <Style x:Key="InfoLabelKey" TargetType="Label">
+            <Setter Property="FontSize" Value="11"/>
+            <Setter Property="FontAttributes" Value="Bold"/>
+            <Setter Property="TextColor" Value="{StaticResource Muted}"/>
+            <Setter Property="CharacterSpacing" Value="1"/>
+        </Style>
+        <Style x:Key="InfoValueKey" TargetType="Label">
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="TextColor" Value="{StaticResource TextPrimary}"/>
+            <Setter Property="LineBreakMode" Value="WordWrap"/>
+        </Style>
+
+        <!-- ===== STAT TILE ===== -->
+        <Style x:Key="StatTileStyle" TargetType="Border" BasedOn="{StaticResource HoverCardStyle}">
+            <Setter Property="Padding" Value="18"/>
+            <Setter Property="StrokeShape" Value="RoundRectangle 16"/>
+        </Style>
+
+        <!-- ===== ACTION ROW ===== -->
+        <Style x:Key="ActionRowStyle" TargetType="Border">
+            <Setter Property="BackgroundColor" Value="Transparent"/>
+            <Setter Property="Padding" Value="12,10"/>
+            <Setter Property="StrokeShape" Value="RoundRectangle 10"/>
+            <Setter Property="StrokeThickness" Value="0"/>
+        </Style>
+
+        <Style x:Key="StaticCardStyle" TargetType="Border" BasedOn="{StaticResource GlassCardStyle}">
+            <Setter Property="BackgroundColor" Value="#0B2830"/>
+            <Setter Property="Stroke" Value="#1A4A53"/>
+            <Setter Property="StrokeThickness" Value="1"/>
+            <Setter Property="Padding" Value="22"/>
+            <Setter Property="StrokeShape" Value="RoundRectangle 18"/>
+            <Setter Property="Shadow">
+                <Shadow
+                    Brush="#22000000"
+                    Radius="18"
+                    Opacity="0.3"
+                    Offset="0,8" />
+            </Setter>
+        </Style>
+
+        <!-- ===================== MODAL DESIGN SYSTEM ===================== -->
+
+        <!-- Section card inside a modal body -->
+        <Style x:Key="ModalSectionStyle" TargetType="Border">
+            <Setter Property="BackgroundColor" Value="#0B2731"/>
+            <Setter Property="Stroke" Value="#163E47"/>
+            <Setter Property="StrokeThickness" Value="1"/>
+            <Setter Property="StrokeShape" Value="RoundRectangle 14"/>
+            <Setter Property="Padding" Value="18"/>
+        </Style>
+
+        <!-- Section title (e.g. "Identity", "Contact details") -->
+        <Style x:Key="ModalSectionTitleStyle" TargetType="Label">
+            <Setter Property="FontSize" Value="13"/>
+            <Setter Property="FontAttributes" Value="Bold"/>
+            <Setter Property="TextColor" Value="{StaticResource TextPrimary}"/>
+            <Setter Property="CharacterSpacing" Value="0.4"/>
+        </Style>
+
+        <Style x:Key="ModalSectionDescStyle" TargetType="Label">
+            <Setter Property="FontSize" Value="11"/>
+            <Setter Property="TextColor" Value="{StaticResource Muted}"/>
+            <Setter Property="LineBreakMode" Value="WordWrap"/>
+        </Style>
+
+        <!-- Field label (e.g. "EMAIL", "PHONE") -->
+        <Style x:Key="ModalFieldLabelStyle" TargetType="Label">
+            <Setter Property="FontSize" Value="10"/>
+            <Setter Property="FontAttributes" Value="Bold"/>
+            <Setter Property="CharacterSpacing" Value="1.4"/>
+            <Setter Property="TextColor" Value="{StaticResource Muted}"/>
+        </Style>
+
+        <!-- Helper / hint text below a field -->
+        <Style x:Key="ModalFieldHelperStyle" TargetType="Label">
+            <Setter Property="FontSize" Value="11"/>
+            <Setter Property="TextColor" Value="{StaticResource Muted}"/>
+            <Setter Property="LineBreakMode" Value="WordWrap"/>
+        </Style>
+
+        <!-- Inline validation / error message -->
+        <Style x:Key="ModalValidationLabelStyle" TargetType="Label">
+            <Setter Property="FontSize" Value="11"/>
+            <Setter Property="TextColor" Value="#F87171"/>
+            <Setter Property="LineBreakMode" Value="WordWrap"/>
+        </Style>
+
+        <!-- Read-only value chip -->
+        <Style x:Key="ModalReadOnlyValueStyle" TargetType="Label">
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="TextColor" Value="{StaticResource TextPrimary}"/>
+            <Setter Property="LineBreakMode" Value="WordWrap"/>
+        </Style>
+
+        <!-- Wrapping border for inputs (Entry / Picker / DatePicker) -->
+        <Style x:Key="ModalInputBorderStyle" TargetType="Border">
+            <Setter Property="BackgroundColor" Value="#0E2E36"/>
+            <Setter Property="Stroke" Value="#214955"/>
+            <Setter Property="StrokeThickness" Value="1"/>
+            <Setter Property="StrokeShape" Value="RoundRectangle 10"/>
+            <Setter Property="Padding" Value="12,2"/>
+            <Setter Property="MinimumHeightRequest" Value="44"/>
+        </Style>
+
+        <!-- Primary action button (accent fill) -->
+        <Style x:Key="ModalPrimaryButtonStyle" TargetType="Button">
+            <Setter Property="BackgroundColor" Value="{StaticResource Accent}"/>
+            <Setter Property="TextColor" Value="#06131A"/>
+            <Setter Property="FontAttributes" Value="Bold"/>
+            <Setter Property="FontSize" Value="13"/>
+            <Setter Property="CornerRadius" Value="10"/>
+            <Setter Property="Padding" Value="18,12"/>
+            <Setter Property="MinimumWidthRequest" Value="140"/>
+            <Setter Property="MinimumHeightRequest" Value="42"/>
+        </Style>
+
+        <!-- Secondary action button (outlined / muted) -->
+        <Style x:Key="ModalSecondaryButtonStyle" TargetType="Button">
+            <Setter Property="BackgroundColor" Value="#0E2E36"/>
+            <Setter Property="TextColor" Value="{StaticResource TextPrimary}"/>
+            <Setter Property="BorderColor" Value="#1F5260"/>
+            <Setter Property="BorderWidth" Value="1"/>
+            <Setter Property="FontSize" Value="13"/>
+            <Setter Property="CornerRadius" Value="10"/>
+            <Setter Property="Padding" Value="18,12"/>
+            <Setter Property="MinimumWidthRequest" Value="120"/>
+            <Setter Property="MinimumHeightRequest" Value="42"/>
+        </Style>
+
+        <!-- Modal toggle row -->
+        <Style x:Key="ModalToggleRowStyle" TargetType="Border">
+            <Setter Property="BackgroundColor" Value="#0E2E36"/>
+            <Setter Property="Stroke" Value="#1A4A55"/>
+            <Setter Property="StrokeThickness" Value="1"/>
+            <Setter Property="StrokeShape" Value="RoundRectangle 12"/>
+            <Setter Property="Padding" Value="14,12"/>
+        </Style>
+
+        <!-- Modal chip / badge -->
+        <Style x:Key="ModalChipStyle" TargetType="Border">
+            <Setter Property="BackgroundColor" Value="#0D2B31"/>
+            <Setter Property="Stroke" Value="#1F5260"/>
+            <Setter Property="StrokeThickness" Value="1"/>
+            <Setter Property="StrokeShape" Value="RoundRectangle 8"/>
+            <Setter Property="Padding" Value="8,3"/>
+        </Style>
+    </ContentPage.Resources>
+
+    <Grid x:Name="ShellGrid" ColumnDefinitions="260,*">
+
+        <!-- ============== SIDEBAR ============== -->
+        <Grid
+            x:Name="SidebarColumn"
+            Grid.Column="0"
+            BackgroundColor="#081E26"
+            Padding="20,24"
+            RowDefinitions="Auto,*,Auto"
+            RowSpacing="14">
+
+            <VerticalStackLayout Grid.Row="0" Spacing="20">
+                <HorizontalStackLayout Spacing="10">
+                    <Ellipse WidthRequest="26" HeightRequest="26" Fill="{StaticResource Accent}"/>
+                    <VerticalStackLayout>
+                        <Label
+                            Text="NEURALIS"
+                            FontSize="15"
+                            FontAttributes="Bold"
+                            TextColor="{StaticResource TextPrimary}"/>
+                        <Label
+                            x:Name="SidebarSubtitleLabel"
+                            Text="PROFILE"
+                            FontSize="9"
+                            CharacterSpacing="2"
+                            TextColor="{StaticResource Accent}"/>
+                    </VerticalStackLayout>
+                </HorizontalStackLayout>
+
+                <BoxView HeightRequest="1" Color="#143A42"/>
+
+                <!-- Active item: Profile -->
+                <Border
+                    Padding="12"
+                    BackgroundColor="#08343A"
+                    Stroke="{StaticResource Accent}"
+                    StrokeThickness="1"
+                    StrokeShape="RoundRectangle 12">
+                    <HorizontalStackLayout Spacing="12">
+                        <Label
+                            Text="account_circle"
+                            FontFamily="MaterialIcons"
+                            FontSize="20"
+                            TextColor="{StaticResource Accent}"
+                            VerticalOptions="Center"/>
+                        <Label
+                            Text="Profile"
+                            FontSize="14"
+                            TextColor="{StaticResource TextPrimary}"
+                            VerticalOptions="Center"/>
+                    </HorizontalStackLayout>
+                </Border>
+
+                <!-- Back to dashboard -->
+                <Border
+                    x:Name="NavBack"
+                    Padding="12"
+                    BackgroundColor="Transparent"
+                    StrokeShape="RoundRectangle 12">
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="OnBackToDashboardTapped"/>
+                        <PointerGestureRecognizer
+                            PointerEntered="OnNavPointerEntered"
+                            PointerExited="OnNavPointerExited"/>
+                    </Border.GestureRecognizers>
+                    <HorizontalStackLayout Spacing="12">
+                        <Label
+                            Text="arrow_back"
+                            FontFamily="MaterialIcons"
+                            FontSize="20"
+                            TextColor="{StaticResource TextSecondary}"
+                            VerticalOptions="Center"/>
+                        <Label
+                            x:Name="BackToDashboardLabel"
+                            Text="Back to dashboard"
+                            FontSize="14"
+                            TextColor="{StaticResource TextSecondary}"
+                            VerticalOptions="Center"/>
+                    </HorizontalStackLayout>
+                </Border>
+            </VerticalStackLayout>
+
+            <Grid Grid.Row="1"/>
+
+            <Border
+                Grid.Row="2"
+                Padding="14"
+                BackgroundColor="#06181E"
+                Stroke="#143A42"
+                StrokeThickness="1"
+                StrokeShape="RoundRectangle 14">
+                <VerticalStackLayout Spacing="10">
+                    <HorizontalStackLayout Spacing="10">
+                        <Border WidthRequest="34" HeightRequest="34" BackgroundColor="#0F3138" StrokeShape="RoundRectangle 17">
+                            <Label
+                                Text="person"
+                                FontFamily="MaterialIcons"
+                                FontSize="18"
+                                TextColor="{StaticResource Accent}"
+                                HorizontalOptions="Center"
+                                VerticalOptions="Center"/>
+                        </Border>
+                        <VerticalStackLayout Spacing="2" VerticalOptions="Center">
+                            <Label
+                                x:Name="SidebarUserNameLabel"
+                                FontAttributes="Bold"
+                                FontSize="13"
+                                Text="User"
+                                TextColor="{StaticResource TextPrimary}"
+                                LineBreakMode="TailTruncation"
+                                MaxLines="1"/>
+                            <Label
+                                x:Name="SidebarRoleLabel"
+                                FontSize="10"
+                                Text="—"
+                                TextColor="{StaticResource Muted}"
+                                LineBreakMode="TailTruncation"
+                                MaxLines="1"/>
+                        </VerticalStackLayout>
+                    </HorizontalStackLayout>
+
+                    <Border
+                        x:Name="SidebarLogoutRow"
+                        Style="{StaticResource ActionRowStyle}">
+                        <Border.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="OnLogoutTapped"/>
+                        </Border.GestureRecognizers>
+                        <HorizontalStackLayout Spacing="12" VerticalOptions="Center">
+                            <Label
+                                Text="logout"
+                                FontFamily="MaterialIcons"
+                                FontSize="18"
+                                TextColor="#F87171"
+                                VerticalOptions="Center"/>
+                            <Label
+                                Text="Logout"
+                                FontSize="13"
+                                TextColor="#F87171"
+                                VerticalOptions="Center"/>
+                        </HorizontalStackLayout>
+                    </Border>
+                </VerticalStackLayout>
+            </Border>
+        </Grid>
+
+        <!-- ============== CONTENT ============== -->
+        <ScrollView Grid.Column="1" x:Name="ContentScroll">
+            <Grid Padding="32,28" RowSpacing="24" RowDefinitions="Auto,Auto,*">
+
+                <!-- Breadcrumb + title -->
+                <VerticalStackLayout Grid.Row="0" Spacing="8">
+                    <HorizontalStackLayout Spacing="6">
+                        <Label
+                            x:Name="BreadcrumbRootLabel"
+                            Text="Dashboard"
+                            FontSize="12"
+                            TextColor="{StaticResource TextSecondary}"
+                            VerticalOptions="Center">
+                            <Label.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="OnBackToDashboardTapped"/>
+                            </Label.GestureRecognizers>
+                        </Label>
+                        <Label
+                            Text="/"
+                            FontSize="12"
+                            TextColor="{StaticResource Muted}"
+                            VerticalOptions="Center"/>
+                        <Label
+                            Text="Profile"
+                            FontSize="12"
+                            FontAttributes="Bold"
+                            TextColor="{StaticResource Accent}"
+                            VerticalOptions="Center"/>
+                    </HorizontalStackLayout>
+                    <Label
+                        Style="{StaticResource TitleLabel}"
+                        Text="Profile"/>
+                    <Label
+                        x:Name="ProfileSubtitleLabel"
+                        FontSize="14"
+                        Text="Account overview, identity, and clinical activity."
+                        TextColor="{StaticResource TextSecondary}"/>
+                </VerticalStackLayout>
+
+                <!-- HERO CARD -->
+                <Border
+                    Grid.Row="1"
+                    Padding="24"
+                    Style="{StaticResource HoverCardStyle}">
+                    <Grid
+                        x:Name="HeroGrid"
+                        ColumnDefinitions="Auto,*,Auto"
+                        ColumnSpacing="22">
+
+                        <!-- Avatar -->
+                        <Grid
+                            Grid.Column="0"
+                            HeightRequest="76"
+                            WidthRequest="76"
+                            VerticalOptions="Center">
+                            <Ellipse
+                                Fill="#0F3138"
+                                HeightRequest="76"
+                                WidthRequest="76"/>
+                            <Ellipse
+                                Stroke="{StaticResource Accent}"
+                                StrokeThickness="1"
+                                HeightRequest="76"
+                                WidthRequest="76"/>
+                            <Label
+                                x:Name="AvatarInitialsLabel"
+                                FontAttributes="Bold"
+                                FontSize="26"
+                                HorizontalOptions="Center"
+                                VerticalOptions="Center"
+                                TextColor="{StaticResource Accent}"
+                                Text="N"/>
+                            <Ellipse
+                                x:Name="OnlineDot"
+                                Fill="#4ADE80"
+                                HeightRequest="14"
+                                WidthRequest="14"
+                                HorizontalOptions="End"
+                                VerticalOptions="End"
+                                Stroke="#081E26"
+                                StrokeThickness="2"/>
+                        </Grid>
+
+                        <!-- Identity -->
+                        <VerticalStackLayout
+                            Grid.Column="1"
+                            Spacing="8"
+                            VerticalOptions="Center">
+                            <Label
+                                x:Name="HeroNameLabel"
+                                FontAttributes="Bold"
+                                FontSize="24"
+                                TextColor="{StaticResource TextPrimary}"
+                                Text="—"/>
+                            <Label
+                                x:Name="HeroEmailLabel"
+                                FontSize="13"
+                                TextColor="{StaticResource TextSecondary}"
+                                Text="—"/>
+                            <HorizontalStackLayout Spacing="8">
+                                <Border
+                                    x:Name="RoleBadge"
+                                    Padding="10,4"
+                                    BackgroundColor="#0D2B31"
+                                    Stroke="{StaticResource Accent}"
+                                    StrokeThickness="1"
+                                    StrokeShape="RoundRectangle 14">
+                                    <Label
+                                        x:Name="RoleBadgeLabel"
+                                        FontSize="10"
+                                        FontAttributes="Bold"
+                                        CharacterSpacing="1"
+                                        Text="ROLE"
+                                        TextColor="{StaticResource Accent}"/>
+                                </Border>
+                                <Border
+                                    x:Name="VerifiedBadge"
+                                    IsVisible="False"
+                                    Padding="10,4"
+                                    BackgroundColor="#0F2A1A"
+                                    Stroke="#4ADE80"
+                                    StrokeThickness="1"
+                                    StrokeShape="RoundRectangle 14">
+                                    <HorizontalStackLayout Spacing="6">
+                                        <Label
+                                            Text="verified"
+                                            FontFamily="MaterialIcons"
+                                            FontSize="12"
+                                            TextColor="#4ADE80"
+                                            VerticalOptions="Center"/>
+                                        <Label
+                                            Text="VERIFIED"
+                                            FontSize="10"
+                                            FontAttributes="Bold"
+                                            CharacterSpacing="1"
+                                            TextColor="#4ADE80"
+                                            VerticalOptions="Center"/>
+                                    </HorizontalStackLayout>
+                                </Border>
+                                <Border
+                                    x:Name="OnlineChip"
+                                    Padding="10,4"
+                                    BackgroundColor="#091C24"
+                                    Stroke="#1F4F55"
+                                    StrokeThickness="1"
+                                    StrokeShape="RoundRectangle 14">
+                                    <HorizontalStackLayout Spacing="6">
+                                        <Ellipse Fill="#4ADE80" WidthRequest="8" HeightRequest="8" VerticalOptions="Center"/>
+                                        <Label
+                                            Text="Online"
+                                            FontSize="11"
+                                            TextColor="{StaticResource TextSecondary}"
+                                            VerticalOptions="Center"/>
+                                    </HorizontalStackLayout>
+                                </Border>
+                            </HorizontalStackLayout>
+                            <Label
+                                x:Name="HeroBioLabel"
+                                FontSize="12"
+                                LineBreakMode="WordWrap"
+                                MaxLines="2"
+                                TextColor="{StaticResource Muted}"
+                                Text="Member of the Neuralis platform."/>
+                        </VerticalStackLayout>
+
+                        <!-- Quick action -->
+                        <VerticalStackLayout
+                            Grid.Column="2"
+                            Spacing="8"
+                            VerticalOptions="Center">
+                            <Label
+                                Text="MEMBER SINCE"
+                                FontSize="10"
+                                FontAttributes="Bold"
+                                CharacterSpacing="1"
+                                TextColor="{StaticResource Muted}"/>
+                            <Label
+                                x:Name="MemberSinceLabel"
+                                FontSize="14"
+                                FontAttributes="Bold"
+                                TextColor="{StaticResource TextPrimary}"
+                                Text="—"/>
+                            <Label
+                                x:Name="AccountIdLabel"
+                                FontSize="11"
+                                TextColor="{StaticResource Muted}"
+                                Text="ID —"/>
+                        </VerticalStackLayout>
+                    </Grid>
+                </Border>
+
+                <!-- BODY: two-column layout -->
+                <Grid
+                    Grid.Row="2"
+                    x:Name="BodyGrid"
+                    ColumnDefinitions="2*,*"
+                    ColumnSpacing="24"
+                    RowSpacing="24">
+
+                    <!-- LEFT COLUMN -->
+                    <VerticalStackLayout Grid.Column="0" Spacing="24">
+
+                        <!-- Account information -->
+                        <Border Padding="22" Style="{StaticResource StaticCardStyle}">
+                            <VerticalStackLayout Spacing="14">
+                                <Label Style="{StaticResource SectionLabel}" Text="Account information"/>
+                                <Grid
+                                    x:Name="InfoGrid"
+                                    ColumnDefinitions="*,*"
+                                    ColumnSpacing="20"
+                                    RowSpacing="14"/>
+                            </VerticalStackLayout>
+                        </Border>
+
+                        <!-- Role stats -->
+                        <Border Padding="22" Style="{StaticResource HoverCardStyle}">
+                            <VerticalStackLayout Spacing="14">
+                                <HorizontalStackLayout Spacing="10">
+                                    <Label x:Name="StatsSectionTitle" Style="{StaticResource SectionLabel}" Text="Activity overview"/>
+                                    <Border
+                                        Padding="8,2"
+                                        BackgroundColor="#0D2B31"
+                                        Stroke="{StaticResource Accent}"
+                                        StrokeThickness="1"
+                                        StrokeShape="RoundRectangle 8"
+                                        VerticalOptions="Center">
+                                        <Label
+                                            Text="LIVE"
+                                            FontSize="9"
+                                            FontAttributes="Bold"
+                                            CharacterSpacing="1"
+                                            TextColor="{StaticResource Accent}"/>
+                                    </Border>
+                                </HorizontalStackLayout>
+                                <Grid
+                                    x:Name="StatsGrid"
+                                    ColumnDefinitions="*,*,*,*"
+                                    ColumnSpacing="14"
+                                    RowSpacing="14"/>
+                            </VerticalStackLayout>
+                        </Border>
+
+                        <!-- Role-specific timeline / overview card -->
+                        <Border Padding="22" Style="{StaticResource HoverCardStyle}">
+                            <VerticalStackLayout Spacing="14">
+                                <Label x:Name="TimelineSectionTitle" Style="{StaticResource SectionLabel}" Text="Recent activity"/>
+                                <Label
+                                    x:Name="TimelineDescriptionLabel"
+                                    FontSize="12"
+                                    TextColor="{StaticResource Muted}"
+                                    LineBreakMode="WordWrap"
+                                    Text="—"/>
+                                <ActivityIndicator
+                                    x:Name="TimelineLoading"
+                                    IsRunning="False"
+                                    IsVisible="False"
+                                    Color="{StaticResource Accent}"
+                                    HorizontalOptions="Start"/>
+                                <VerticalStackLayout x:Name="TimelineStack" Spacing="10"/>
+                                <Label
+                                    x:Name="TimelineEmptyLabel"
+                                    FontSize="13"
+                                    TextColor="{StaticResource TextSecondary}"
+                                    IsVisible="False"
+                                    LineBreakMode="WordWrap"/>
+                            </VerticalStackLayout>
+                        </Border>
+
+                    </VerticalStackLayout>
+
+                    <!-- RIGHT COLUMN -->
+                    <VerticalStackLayout Grid.Column="1" Spacing="24">
+
+                        <!-- Account management -->
+                        <Border Padding="22" Style="{StaticResource HoverCardStyle}">
+                            <VerticalStackLayout Spacing="10">
+                                <Label Style="{StaticResource SectionLabel}" Text="Account management"/>
+                                <Label
+                                    FontSize="12"
+                                    TextColor="{StaticResource Muted}"
+                                    Text="Manage identity, security and preferences."/>
+                                <BoxView HeightRequest="1" Color="#143A42" Margin="0,4"/>
+                                <Border
+                                    x:Name="EditProfileRow"
+                                    Style="{StaticResource ActionRowStyle}">
+                                    <Border.GestureRecognizers>
+                                        <TapGestureRecognizer Tapped="OnEditProfileTapped"/>
+                                        <PointerGestureRecognizer
+                                            PointerEntered="OnActionPointerEntered"
+                                            PointerExited="OnActionPointerExited"
+                                            PointerPressed="OnActionPointerPressed"
+                                            PointerReleased="OnActionPointerReleased"/>
+                                    </Border.GestureRecognizers>
+                                    <HorizontalStackLayout Spacing="12">
+                                        <Label x:Name="EditProfileIcon" Text="edit" FontFamily="MaterialIcons" FontSize="18" TextColor="{StaticResource Accent}" VerticalOptions="Center"/>
+                                        <Label Text="Edit profile" FontSize="13" TextColor="{StaticResource TextPrimary}" VerticalOptions="Center"/>
+                                    </HorizontalStackLayout>
+                                </Border>
+                                <Border
+                                    x:Name="ChangePasswordRow"
+                                    Style="{StaticResource ActionRowStyle}">
+                                    <Border.GestureRecognizers>
+                                        <TapGestureRecognizer Tapped="OnChangePasswordTapped"/>
+                                        <PointerGestureRecognizer
+                                            PointerEntered="OnActionPointerEntered"
+                                            PointerExited="OnActionPointerExited"
+                                            PointerPressed="OnActionPointerPressed"
+                                            PointerReleased="OnActionPointerReleased"/>
+                                    </Border.GestureRecognizers>
+                                    <HorizontalStackLayout Spacing="12">
+                                        <Label x:Name="ChangePasswordIcon" Text="lock_reset" FontFamily="MaterialIcons" FontSize="18" TextColor="{StaticResource Accent}" VerticalOptions="Center"/>
+                                        <Label Text="Change password" FontSize="13" TextColor="{StaticResource TextPrimary}" VerticalOptions="Center"/>
+                                    </HorizontalStackLayout>
+                                </Border>
+                                <Border
+                                    x:Name="NotificationsRow"
+                                    Style="{StaticResource ActionRowStyle}">
+                                    <Border.GestureRecognizers>
+                                        <TapGestureRecognizer Tapped="OnNotificationsTapped"/>
+                                        <PointerGestureRecognizer
+                                            PointerEntered="OnActionPointerEntered"
+                                            PointerExited="OnActionPointerExited"
+                                            PointerPressed="OnActionPointerPressed"
+                                            PointerReleased="OnActionPointerReleased"/>
+                                    </Border.GestureRecognizers>
+                                    <HorizontalStackLayout Spacing="12">
+                                        <Label x:Name="NotificationsIcon" Text="notifications" FontFamily="MaterialIcons" FontSize="18" TextColor="{StaticResource Accent}" VerticalOptions="Center"/>
+                                        <Label Text="Notification preferences" FontSize="13" TextColor="{StaticResource TextPrimary}" VerticalOptions="Center"/>
+                                    </HorizontalStackLayout>
+                                </Border>
+                                <Border
+                                    x:Name="PrivacyRow"
+                                    Style="{StaticResource ActionRowStyle}">
+                                    <Border.GestureRecognizers>
+                                        <TapGestureRecognizer Tapped="OnPrivacyTapped"/>
+                                        <PointerGestureRecognizer
+                                            PointerEntered="OnActionPointerEntered"
+                                            PointerExited="OnActionPointerExited"
+                                            PointerPressed="OnActionPointerPressed"
+                                            PointerReleased="OnActionPointerReleased"/>
+                                    </Border.GestureRecognizers>
+                                    <HorizontalStackLayout Spacing="12">
+                                        <Label x:Name="PrivacyIcon" Text="shield" FontFamily="MaterialIcons" FontSize="18" TextColor="{StaticResource Accent}" VerticalOptions="Center"/>
+                                        <Label Text="Privacy settings" FontSize="13" TextColor="{StaticResource TextPrimary}" VerticalOptions="Center"/>
+                                    </HorizontalStackLayout>
+                                </Border>
+                                <Border
+                                    x:Name="LanguageRow"
+                                    Style="{StaticResource ActionRowStyle}">
+                                    <Border.GestureRecognizers>
+                                        <TapGestureRecognizer Tapped="OnLanguageTapped"/>
+                                        <PointerGestureRecognizer
+                                            PointerEntered="OnActionPointerEntered"
+                                            PointerExited="OnActionPointerExited"
+                                            PointerPressed="OnActionPointerPressed"
+                                            PointerReleased="OnActionPointerReleased"/>
+                                    </Border.GestureRecognizers>
+                                    <HorizontalStackLayout Spacing="12">
+                                        <Label x:Name="LanguageIcon" Text="language" FontFamily="MaterialIcons" FontSize="18" TextColor="{StaticResource Accent}" VerticalOptions="Center"/>
+                                        <VerticalStackLayout VerticalOptions="Center">
+                                            <Label Text="Language" FontSize="13" TextColor="{StaticResource TextPrimary}"/>
+                                            <Label x:Name="LanguageCurrentLabel" Text="English (in-app)" FontSize="11" TextColor="{StaticResource Muted}"/>
+                                        </VerticalStackLayout>
+                                    </HorizontalStackLayout>
+                                </Border>
+                                <BoxView HeightRequest="1" Color="#143A42" Margin="0,4"/>
+                                <Border
+                                    x:Name="MainLogoutRow"
+                                    Style="{StaticResource ActionRowStyle}">
+                                    <Border.GestureRecognizers>
+                                        <TapGestureRecognizer Tapped="OnLogoutTapped"/>
+                                        <PointerGestureRecognizer
+                                            PointerEntered="OnActionPointerEntered"
+                                            PointerExited="OnActionPointerExited"
+                                            PointerPressed="OnActionPointerPressed"
+                                            PointerReleased="OnActionPointerReleased"/>
+                                    </Border.GestureRecognizers>
+                                    <HorizontalStackLayout Spacing="12">
+                                        <Label x:Name="MainLogoutIcon" Text="logout" FontFamily="MaterialIcons" FontSize="18" TextColor="#F87171" VerticalOptions="Center"/>
+                                        <Label Text="Logout" FontSize="13" TextColor="#F87171" VerticalOptions="Center"/>
+                                    </HorizontalStackLayout>
+                                </Border>
+                            </VerticalStackLayout>
+                        </Border>
+
+                        <!-- Role status card -->
+                        <Border Padding="22" Style="{StaticResource HoverCardStyle}">
+                            <VerticalStackLayout Spacing="12">
+                                <Label
+                                    x:Name="StatusCardTitle"
+                                    Style="{StaticResource SectionLabel}"
+                                    Text="Account status"/>
+                                <VerticalStackLayout x:Name="StatusCardBody" Spacing="10"/>
+                            </VerticalStackLayout>
+                        </Border>
+                    </VerticalStackLayout>
+                </Grid>
+
+            </Grid>
+        </ScrollView>
+        <Grid
+            x:Name="ModalOverlay"
+            Grid.ColumnSpan="2"
+            IsVisible="False"
+            Opacity="0"
+            InputTransparent="False"
+            BackgroundColor="#B3050E14"
+            ZIndex="10"
+            Padding="24">
+            <Grid.GestureRecognizers>
+                <TapGestureRecognizer Tapped="OnModalBackdropTapped"/>
+            </Grid.GestureRecognizers>
+
+            <Border
+                x:Name="ModalCard"
+                Padding="0"
+                HorizontalOptions="Center"
+                VerticalOptions="Center"
+                WidthRequest="560"
+                MaximumWidthRequest="640"
+                MinimumWidthRequest="320"
+                MaximumHeightRequest="640"
+                BackgroundColor="#0E2A33"
+                Stroke="#1F5260"
+                StrokeThickness="1"
+                StrokeShape="RoundRectangle 20">
+                <Border.Shadow>
+                    <Shadow
+                        Brush="#55000000"
+                        Radius="32"
+                        Opacity="0.55"
+                        Offset="0,16"/>
+                </Border.Shadow>
+                <Border.GestureRecognizers>
+                    <TapGestureRecognizer/>
+                </Border.GestureRecognizers>
+
+                <Grid RowDefinitions="Auto,*,Auto">
+
+                    <!-- Header -->
+                    <Grid
+                        Grid.Row="0"
+                        Padding="24,20,20,18"
+                        ColumnDefinitions="*,Auto"
+                        ColumnSpacing="12"
+                        BackgroundColor="#0C2530">
+                        <VerticalStackLayout Spacing="4" VerticalOptions="Center">
+                            <Label
+                                x:Name="ModalTitleLabel"
+                                FontSize="19"
+                                FontAttributes="Bold"
+                                TextColor="{StaticResource TextPrimary}"
+                                Text="Settings"
+                                LineBreakMode="TailTruncation"
+                                MaxLines="1"/>
+                            <Label
+                                x:Name="ModalSubtitleLabel"
+                                FontSize="12"
+                                TextColor="{StaticResource Muted}"
+                                Text="Configure account settings."
+                                LineBreakMode="WordWrap"
+                                MaxLines="2"/>
+                        </VerticalStackLayout>
+                        <Border
+                            x:Name="ModalCloseButton"
+                            Grid.Column="1"
+                            WidthRequest="36"
+                            HeightRequest="36"
+                            BackgroundColor="#0E333A"
+                            Stroke="#1F5A64"
+                            StrokeThickness="1"
+                            StrokeShape="RoundRectangle 10"
+                            HorizontalOptions="End"
+                            VerticalOptions="Center">
+                            <Border.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="OnModalCloseTapped"/>
+                                <PointerGestureRecognizer
+                                    PointerEntered="OnModalClosePointerEntered"
+                                    PointerExited="OnModalClosePointerExited"/>
+                            </Border.GestureRecognizers>
+                            <Label
+                                Text="close"
+                                FontFamily="MaterialIcons"
+                                FontSize="18"
+                                TextColor="{StaticResource TextSecondary}"
+                                HorizontalOptions="Center"
+                                VerticalOptions="Center"/>
+                        </Border>
+                    </Grid>
+
+                    <!-- Divider -->
+                    <BoxView Grid.Row="0" HeightRequest="1" Color="#163D47" VerticalOptions="End"/>
+
+                    <!-- Scrollable body -->
+                    <ScrollView Grid.Row="1" Padding="0">
+                        <VerticalStackLayout
+                            x:Name="ModalBodyHost"
+                            Padding="24,20,24,20"
+                            Spacing="16"/>
+                    </ScrollView>
+
+                    <!-- Sticky footer with action buttons -->
+                    <Grid
+                        x:Name="ModalFooter"
+                        Grid.Row="2"
+                        BackgroundColor="#0C2530"
+                        Padding="24,14"
+                        ColumnDefinitions="Auto,*,Auto,Auto"
+                        ColumnSpacing="12">
+                        <BoxView
+                            Grid.ColumnSpan="4"
+                            HeightRequest="1"
+                            Color="#163D47"
+                            VerticalOptions="Start"/>
+                        <ActivityIndicator
+                            x:Name="ModalLoadingIndicator"
+                            Grid.Column="0"
+                            IsRunning="False"
+                            IsVisible="False"
+                            Color="{StaticResource Accent}"
+                            WidthRequest="20"
+                            HeightRequest="20"
+                            VerticalOptions="Center"/>
+                        <Label
+                            x:Name="ModalFooterStatus"
+                            Grid.Column="1"
+                            FontSize="12"
+                            TextColor="{StaticResource Muted}"
+                            VerticalOptions="Center"
+                            LineBreakMode="TailTruncation"
+                            MaxLines="1"
+                            Text=""/>
+                        <Button
+                            x:Name="ModalSecondaryAction"
+                            Grid.Column="2"
+                            Style="{StaticResource ModalSecondaryButtonStyle}"
+                            Text="Cancel"
+                            Clicked="OnModalSecondaryActionClicked"/>
+                        <Button
+                            x:Name="ModalPrimaryAction"
+                            Grid.Column="3"
+                            Style="{StaticResource ModalPrimaryButtonStyle}"
+                            Text="Save"
+                            Clicked="OnModalPrimaryActionClicked"/>
+                    </Grid>
+                </Grid>
+            </Border>
+        </Grid>
+    </Grid>
+</ContentPage>

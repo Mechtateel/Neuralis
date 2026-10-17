@@ -1,0 +1,10 @@
+
+bin/
+obj/
+.vs/
+*.user
+*.suo
+*.slnLaunch.user
+.env
+.env.*
+!.env.example

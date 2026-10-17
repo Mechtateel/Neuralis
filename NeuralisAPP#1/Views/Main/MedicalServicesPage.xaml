@@ -1,0 +1,862 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="NeuralisAPP_1.Views.Main.MedicalServicesPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:controls="clr-namespace:NeuralisAPP_1.Views.Main.Controls"
+    xmlns:shared="clr-namespace:NeuralisAPP_1.Views.Shared"
+    BackgroundColor="#071A1F"
+    NavigationPage.HasNavigationBar="False"
+    Shell.NavBarIsVisible="False">
+
+    <ContentPage.Resources>
+        <Style x:Key="LabTableRowStyle" TargetType="Border">
+            <Setter Property="BackgroundColor" Value="#081820"/>
+            <Setter Property="Stroke" Value="#163B41"/>
+            <Setter Property="StrokeThickness" Value="1"/>
+            <Setter Property="Padding" Value="14,12"/>
+            <Setter Property="StrokeShape">
+                <Setter.Value>
+                    <RoundRectangle CornerRadius="12"/>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="VisualStateManager.VisualStateGroups">
+                <VisualStateGroupList>
+                    <VisualStateGroup Name="CommonStates">
+                        <VisualState Name="Normal">
+                            <VisualState.Setters>
+                                <Setter Property="BackgroundColor" Value="#081820"/>
+                            </VisualState.Setters>
+                        </VisualState>
+                        <VisualState Name="PointerOver">
+                            <VisualState.Setters>
+                                <Setter Property="BackgroundColor" Value="#0F2830"/>
+                            </VisualState.Setters>
+                        </VisualState>
+                    </VisualStateGroup>
+                </VisualStateGroupList>
+            </Setter>
+        </Style>
+
+        <Style x:Key="InfoBadgeStyle" TargetType="Border" BasedOn="{StaticResource AccentCard}">
+            <Setter Property="Padding" Value="14,12"/>
+            <Setter Property="StrokeShape">
+                <Setter.Value>
+                    <RoundRectangle CornerRadius="14"/>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="Shadow">
+                <Setter.Value>
+                    <Shadow Brush="#442FE3C9" Radius="12" Opacity="0.35" Offset="0,2"/>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="StatusPillHigh" TargetType="Border">
+            <Setter Property="BackgroundColor" Value="#2D1518"/>
+            <Setter Property="Stroke" Value="#F87171"/>
+            <Setter Property="StrokeThickness" Value="1"/>
+            <Setter Property="Padding" Value="8,4"/>
+            <Setter Property="StrokeShape">
+                <Setter.Value>
+                    <RoundRectangle CornerRadius="8"/>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style x:Key="StatusPillNormal" TargetType="Border">
+            <Setter Property="BackgroundColor" Value="#0F2A1A"/>
+            <Setter Property="Stroke" Value="#4ADE80"/>
+            <Setter Property="StrokeThickness" Value="1"/>
+            <Setter Property="Padding" Value="8,4"/>
+            <Setter Property="StrokeShape">
+                <Setter.Value>
+                    <RoundRectangle CornerRadius="8"/>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style x:Key="StatusPillLow" TargetType="Border">
+            <Setter Property="BackgroundColor" Value="#0F1F2E"/>
+            <Setter Property="Stroke" Value="#60A5FA"/>
+            <Setter Property="StrokeThickness" Value="1"/>
+            <Setter Property="Padding" Value="8,4"/>
+            <Setter Property="StrokeShape">
+                <Setter.Value>
+                    <RoundRectangle CornerRadius="8"/>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="PrescriptionItemStyle" TargetType="Border">
+            <Setter Property="Padding" Value="16"/>
+            <Setter Property="BackgroundColor" Value="#081820"/>
+            <Setter Property="Stroke" Value="#163B41"/>
+            <Setter Property="StrokeThickness" Value="1"/>
+            <Setter Property="StrokeShape">
+                <Setter.Value>
+                    <RoundRectangle CornerRadius="14"/>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="VisualStateManager.VisualStateGroups">
+                <VisualStateGroupList>
+                    <VisualStateGroup Name="CommonStates">
+                        <VisualState Name="Normal"/>
+                        <VisualState Name="PointerOver">
+                            <VisualState.Setters>
+                                <Setter Property="BackgroundColor" Value="#0F2830"/>
+                            </VisualState.Setters>
+                        </VisualState>
+                    </VisualStateGroup>
+                </VisualStateGroupList>
+            </Setter>
+        </Style>
+    </ContentPage.Resources>
+
+    <shared:MainLayout x:Name="GlobalLayout">
+        <shared:MainLayout.SidebarContent>
+            <controls:UserAppSidebarView x:Name="AppSidebar"/>
+        </shared:MainLayout.SidebarContent>
+
+        <shared:MainLayout.PageContent>
+        <Grid x:Name="MedicalMainColumn">
+
+            <Image
+                Aspect="AspectFill"
+                InputTransparent="True"
+                Opacity="0.25"
+                Source="back_img.png"/>
+
+            <ScrollView>
+                <controls:MainContentWrapper>
+                    <VerticalStackLayout
+                        HorizontalOptions="Fill"
+                        Spacing="24">
+
+                        <!-- Header: breadcrumb hierarchy + title (Dashboard → this page only; not in sidebar) -->
+                        <Grid ColumnDefinitions="*,Auto" ColumnSpacing="20" RowDefinitions="Auto">
+                            <VerticalStackLayout Grid.Column="0" Spacing="6">
+                                <HorizontalStackLayout Spacing="6" VerticalOptions="Start">
+                                    <Label
+                                        FontSize="12"
+                                        Text="Dashboard"
+                                        TextColor="{StaticResource TextMuted}"
+                                        VerticalOptions="Center">
+                                        <Label.GestureRecognizers>
+                                            <TapGestureRecognizer Tapped="OnBreadcrumbDashboardTapped"/>
+                                        </Label.GestureRecognizers>
+                                    </Label>
+                                    <Label
+                                        FontSize="12"
+                                        Text="/"
+                                        TextColor="{StaticResource Muted}"
+                                        VerticalOptions="Center"/>
+                                    <Label
+                                        FontAttributes="Bold"
+                                        FontSize="12"
+                                        Text="Medical Services"
+                                        TextColor="{StaticResource Accent}"
+                                        VerticalOptions="Center"/>
+                                </HorizontalStackLayout>
+                                <Label
+                                    Style="{StaticResource TitleLabel}"
+                                    Text="Medical Services"/>
+                                <Label
+                                    FontSize="14"
+                                    LineBreakMode="WordWrap"
+                                    Text="Real-time precision intelligence and clinical oversight."
+                                    TextColor="{StaticResource TextMuted}"/>
+                            </VerticalStackLayout>
+                            <HorizontalStackLayout
+                                Grid.Column="1"
+                                Spacing="12"
+                                VerticalOptions="Start">
+                                <Border Style="{StaticResource InfoBadgeStyle}">
+                                    <Label LineBreakMode="WordWrap">
+                                        <Label.FormattedText>
+                                            <FormattedString>
+                                                <Span FontAttributes="Bold" FontSize="12" Text="Active Patient: " TextColor="{StaticResource Accent}"/>
+                                                <Span FontAttributes="Bold" FontSize="12" Text="Elena Rostova" TextColor="{StaticResource TextPrimary}"/>
+                                            </FormattedString>
+                                        </Label.FormattedText>
+                                    </Label>
+                                </Border>
+                                <Border Style="{StaticResource InfoBadgeStyle}">
+                                    <Label LineBreakMode="WordWrap">
+                                        <Label.FormattedText>
+                                            <FormattedString>
+                                                <Span FontAttributes="Bold" FontSize="12" Text="System Status: " TextColor="{StaticResource Accent}"/>
+                                                <Span FontAttributes="Bold" FontSize="12" Text="Secure / Synchronized" TextColor="{StaticResource TextPrimary}"/>
+                                            </FormattedString>
+                                        </Label.FormattedText>
+                                    </Label>
+                                </Border>
+                            </HorizontalStackLayout>
+                        </Grid>
+
+                        <!-- Main 65/35 + stacked lab -->
+                        <Grid
+                            x:Name="MedicalBodyGrid"
+                            ColumnSpacing="24"
+                            RowSpacing="24">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="13*"/>
+                                <ColumnDefinition Width="7*"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+
+                            <!-- AI Analysis -->
+                            <Border
+                                x:Name="AiAnalysisBorder"
+                                Grid.Row="0"
+                                Grid.Column="0"
+                                Padding="24"
+                                Style="{StaticResource HoverCardStyle}">
+                                <Grid ColumnDefinitions="*,Auto" ColumnSpacing="20" RowDefinitions="Auto">
+                                    <VerticalStackLayout Grid.Column="0" Spacing="20">
+                                        <HorizontalStackLayout Spacing="10">
+                                            <Label
+                                                FontFamily="MaterialIcons"
+                                                FontSize="24"
+                                                Text="analytics"
+                                                TextColor="{StaticResource Accent}"
+                                                VerticalOptions="Center"/>
+                                            <Label
+                                                FontAttributes="Bold"
+                                                FontSize="18"
+                                                Text="AI-Assisted Analysis"
+                                                TextColor="{StaticResource TextPrimary}"
+                                                VerticalOptions="Center"/>
+                                        </HorizontalStackLayout>
+                                        <VerticalStackLayout Spacing="6">
+                                            <Label
+                                                FontAttributes="Bold"
+                                                FontSize="11"
+                                                Text="CLINICAL FINDINGS"
+                                                TextColor="{StaticResource Accent}"/>
+                                            <Label
+                                                FontSize="13"
+                                                LineBreakMode="WordWrap"
+                                                Text="Inflammatory markers within expected variance. No acute ischemic signatures detected on last sync."
+                                                TextColor="{StaticResource TextMuted}"/>
+                                        </VerticalStackLayout>
+                                        <VerticalStackLayout Spacing="6">
+                                            <Label
+                                                FontAttributes="Bold"
+                                                FontSize="11"
+                                                Text="PREDICTIVE VECTOR"
+                                                TextColor="{StaticResource Accent}"/>
+                                            <Label
+                                                FontSize="13"
+                                                LineBreakMode="WordWrap"
+                                                Text="Short-term risk trajectory stable. Continued monitoring recommended for metabolic panel drift."
+                                                TextColor="{StaticResource TextMuted}"/>
+                                        </VerticalStackLayout>
+                                    </VerticalStackLayout>
+                                    <VerticalStackLayout
+                                        Grid.Column="1"
+                                        Spacing="8"
+                                        HorizontalOptions="Center"
+                                        VerticalOptions="Center"
+                                        WidthRequest="140">
+                                        <controls:ConfidenceRingView x:Name="ConfidenceRing" Progress="0.86"/>
+                                        <Label
+                                            FontAttributes="Bold"
+                                            FontSize="22"
+                                            HorizontalTextAlignment="Center"
+                                            Text="86%"
+                                            TextColor="{StaticResource Accent}"/>
+                                        <Label
+                                            FontSize="12"
+                                            HorizontalTextAlignment="Center"
+                                            Text="Confidence"
+                                            TextColor="{StaticResource TextMuted}"/>
+                                        <Button
+                                            Clicked="OnGenerateReportClicked"
+                                            HorizontalOptions="Fill"
+                                            Style="{StaticResource PrimaryButton}"
+                                            Text="Generate Report"/>
+                                    </VerticalStackLayout>
+                                </Grid>
+                            </Border>
+
+                            <!-- Lab Results -->
+                            <Border
+                                x:Name="LabResultsBorder"
+                                Grid.Row="1"
+                                Grid.Column="0"
+                                Padding="20"
+                                Style="{StaticResource HoverCardStyle}">
+                                <VerticalStackLayout Spacing="16">
+                                    <Grid ColumnDefinitions="*,Auto">
+                                        <HorizontalStackLayout Spacing="10">
+                                            <Label
+                                                FontFamily="MaterialIcons"
+                                                FontSize="22"
+                                                Text="science"
+                                                TextColor="{StaticResource Accent}"
+                                                VerticalOptions="Center"/>
+                                            <Label
+                                                FontAttributes="Bold"
+                                                FontSize="18"
+                                                Text="Lab Results"
+                                                TextColor="{StaticResource TextPrimary}"
+                                                VerticalOptions="Center"/>
+                                        </HorizontalStackLayout>
+                                        <HorizontalStackLayout
+                                            Grid.Column="1"
+                                            Spacing="12"
+                                            VerticalOptions="Center">
+                                            <HorizontalStackLayout Spacing="4">
+                                                <BoxView
+                                                    CornerRadius="4"
+                                                    HeightRequest="8"
+                                                    WidthRequest="8"
+                                                    Color="#4ADE80"/>
+                                                <Label
+                                                    FontSize="11"
+                                                    Text="Normal"
+                                                    TextColor="{StaticResource TextMuted}"
+                                                    VerticalOptions="Center"/>
+                                            </HorizontalStackLayout>
+                                            <HorizontalStackLayout Spacing="4">
+                                                <BoxView
+                                                    CornerRadius="4"
+                                                    HeightRequest="8"
+                                                    WidthRequest="8"
+                                                    Color="#F87171"/>
+                                                <Label
+                                                    FontSize="11"
+                                                    Text="High"
+                                                    TextColor="{StaticResource TextMuted}"
+                                                    VerticalOptions="Center"/>
+                                            </HorizontalStackLayout>
+                                            <HorizontalStackLayout Spacing="4">
+                                                <BoxView
+                                                    CornerRadius="4"
+                                                    HeightRequest="8"
+                                                    WidthRequest="8"
+                                                    Color="#60A5FA"/>
+                                                <Label
+                                                    FontSize="11"
+                                                    Text="Low"
+                                                    TextColor="{StaticResource TextMuted}"
+                                                    VerticalOptions="Center"/>
+                                            </HorizontalStackLayout>
+                                        </HorizontalStackLayout>
+                                    </Grid>
+
+                                    <!-- Table header -->
+                                    <Grid
+                                        Padding="12,8"
+                                        ColumnDefinitions="2*,*,*,Auto,Auto,Auto"
+                                        ColumnSpacing="8">
+                                        <Label
+                                            FontAttributes="Bold"
+                                            FontSize="11"
+                                            Text="METRIC"
+                                            TextColor="{StaticResource Muted}"/>
+                                        <Label
+                                            Grid.Column="1"
+                                            FontAttributes="Bold"
+                                            FontSize="11"
+                                            Text="VALUE"
+                                            TextColor="{StaticResource Muted}"/>
+                                        <Label
+                                            Grid.Column="2"
+                                            FontAttributes="Bold"
+                                            FontSize="11"
+                                            Text="RANGE"
+                                            TextColor="{StaticResource Muted}"/>
+                                        <Label
+                                            Grid.Column="3"
+                                            FontAttributes="Bold"
+                                            FontSize="11"
+                                            Text="STATUS"
+                                            TextColor="{StaticResource Muted}"/>
+                                        <Label
+                                            Grid.Column="4"
+                                            FontAttributes="Bold"
+                                            FontSize="11"
+                                            Text="TREND"
+                                            TextColor="{StaticResource Muted}"/>
+                                        <Label
+                                            Grid.Column="5"
+                                            FontAttributes="Bold"
+                                            FontSize="11"
+                                            Text=""
+                                            TextColor="{StaticResource Muted}"/>
+                                    </Grid>
+
+                                    <VerticalStackLayout Spacing="8">
+                                        <Border Style="{StaticResource LabTableRowStyle}">
+                                            <Grid ColumnDefinitions="2*,*,*,Auto,Auto,Auto" ColumnSpacing="8">
+                                                <Label
+                                                    FontAttributes="Bold"
+                                                    FontSize="13"
+                                                    Text="Glucose, Serum"
+                                                    TextColor="{StaticResource TextPrimary}"
+                                                    VerticalOptions="Center"/>
+                                                <Label
+                                                    Grid.Column="1"
+                                                    FontAttributes="Bold"
+                                                    FontSize="13"
+                                                    Text="126 mg/dL"
+                                                    TextColor="#F87171"
+                                                    VerticalOptions="Center"/>
+                                                <Label
+                                                    Grid.Column="2"
+                                                    FontSize="12"
+                                                    Text="65–99 mg/dL"
+                                                    TextColor="{StaticResource TextMuted}"
+                                                    VerticalOptions="Center"/>
+                                                <Border
+                                                    Grid.Column="3"
+                                                    Style="{StaticResource StatusPillHigh}"
+                                                    VerticalOptions="Center">
+                                                    <Label
+                                                        FontAttributes="Bold"
+                                                        FontSize="10"
+                                                        Text="HIGH"
+                                                        TextColor="#F87171"/>
+                                                </Border>
+                                                <Label
+                                                    Grid.Column="4"
+                                                    FontFamily="MaterialIcons"
+                                                    FontSize="18"
+                                                    Text="trending_up"
+                                                    TextColor="#F87171"
+                                                    VerticalOptions="Center"/>
+                                                <Label
+                                                    Grid.Column="5"
+                                                    FontFamily="MaterialIcons"
+                                                    FontSize="18"
+                                                    Text="open_in_new"
+                                                    TextColor="{StaticResource Muted}"
+                                                    VerticalOptions="Center"/>
+                                            </Grid>
+                                        </Border>
+                                        <Border Style="{StaticResource LabTableRowStyle}">
+                                            <Grid ColumnDefinitions="2*,*,*,Auto,Auto,Auto" ColumnSpacing="8">
+                                                <Label
+                                                    FontAttributes="Bold"
+                                                    FontSize="13"
+                                                    Text="Hemoglobin A1c"
+                                                    TextColor="{StaticResource TextPrimary}"
+                                                    VerticalOptions="Center"/>
+                                                <Label
+                                                    Grid.Column="1"
+                                                    FontAttributes="Bold"
+                                                    FontSize="13"
+                                                    Text="5.4%"
+                                                    TextColor="#4ADE80"
+                                                    VerticalOptions="Center"/>
+                                                <Label
+                                                    Grid.Column="2"
+                                                    FontSize="12"
+                                                    Text="4.8–5.6%"
+                                                    TextColor="{StaticResource TextMuted}"
+                                                    VerticalOptions="Center"/>
+                                                <Border
+                                                    Grid.Column="3"
+                                                    Style="{StaticResource StatusPillNormal}"
+                                                    VerticalOptions="Center">
+                                                    <Label
+                                                        FontAttributes="Bold"
+                                                        FontSize="10"
+                                                        Text="NORMAL"
+                                                        TextColor="#4ADE80"/>
+                                                </Border>
+                                                <Label
+                                                    Grid.Column="4"
+                                                    FontFamily="MaterialIcons"
+                                                    FontSize="18"
+                                                    Text="trending_flat"
+                                                    TextColor="{StaticResource TextSecondary}"
+                                                    VerticalOptions="Center"/>
+                                                <Label
+                                                    Grid.Column="5"
+                                                    FontFamily="MaterialIcons"
+                                                    FontSize="18"
+                                                    Text="open_in_new"
+                                                    TextColor="{StaticResource Muted}"
+                                                    VerticalOptions="Center"/>
+                                            </Grid>
+                                        </Border>
+                                        <Border Style="{StaticResource LabTableRowStyle}">
+                                            <Grid ColumnDefinitions="2*,*,*,Auto,Auto,Auto" ColumnSpacing="8">
+                                                <Label
+                                                    FontAttributes="Bold"
+                                                    FontSize="13"
+                                                    Text="Vitamin D"
+                                                    TextColor="{StaticResource TextPrimary}"
+                                                    VerticalOptions="Center"/>
+                                                <Label
+                                                    Grid.Column="1"
+                                                    FontAttributes="Bold"
+                                                    FontSize="13"
+                                                    Text="22 ng/mL"
+                                                    TextColor="#60A5FA"
+                                                    VerticalOptions="Center"/>
+                                                <Label
+                                                    Grid.Column="2"
+                                                    FontSize="12"
+                                                    Text="30–100 ng/mL"
+                                                    TextColor="{StaticResource TextMuted}"
+                                                    VerticalOptions="Center"/>
+                                                <Border
+                                                    Grid.Column="3"
+                                                    Style="{StaticResource StatusPillLow}"
+                                                    VerticalOptions="Center">
+                                                    <Label
+                                                        FontAttributes="Bold"
+                                                        FontSize="10"
+                                                        Text="LOW"
+                                                        TextColor="#60A5FA"/>
+                                                </Border>
+                                                <Label
+                                                    Grid.Column="4"
+                                                    FontFamily="MaterialIcons"
+                                                    FontSize="18"
+                                                    Text="trending_down"
+                                                    TextColor="#60A5FA"
+                                                    VerticalOptions="Center"/>
+                                                <Label
+                                                    Grid.Column="5"
+                                                    FontFamily="MaterialIcons"
+                                                    FontSize="18"
+                                                    Text="open_in_new"
+                                                    TextColor="{StaticResource Muted}"
+                                                    VerticalOptions="Center"/>
+                                            </Grid>
+                                        </Border>
+                                        <Border Style="{StaticResource LabTableRowStyle}">
+                                            <Grid ColumnDefinitions="2*,*,*,Auto,Auto,Auto" ColumnSpacing="8">
+                                                <Label
+                                                    FontAttributes="Bold"
+                                                    FontSize="13"
+                                                    Text="Creatinine"
+                                                    TextColor="{StaticResource TextPrimary}"
+                                                    VerticalOptions="Center"/>
+                                                <Label
+                                                    Grid.Column="1"
+                                                    FontAttributes="Bold"
+                                                    FontSize="13"
+                                                    Text="0.92 mg/dL"
+                                                    TextColor="#4ADE80"
+                                                    VerticalOptions="Center"/>
+                                                <Label
+                                                    Grid.Column="2"
+                                                    FontSize="12"
+                                                    Text="0.76–1.27 mg/dL"
+                                                    TextColor="{StaticResource TextMuted}"
+                                                    VerticalOptions="Center"/>
+                                                <Border
+                                                    Grid.Column="3"
+                                                    Style="{StaticResource StatusPillNormal}"
+                                                    VerticalOptions="Center">
+                                                    <Label
+                                                        FontAttributes="Bold"
+                                                        FontSize="10"
+                                                        Text="NORMAL"
+                                                        TextColor="#4ADE80"/>
+                                                </Border>
+                                                <Label
+                                                    Grid.Column="4"
+                                                    FontFamily="MaterialIcons"
+                                                    FontSize="18"
+                                                    Text="trending_down"
+                                                    TextColor="#4ADE80"
+                                                    VerticalOptions="Center"/>
+                                                <Label
+                                                    Grid.Column="5"
+                                                    FontFamily="MaterialIcons"
+                                                    FontSize="18"
+                                                    Text="open_in_new"
+                                                    TextColor="{StaticResource Muted}"
+                                                    VerticalOptions="Center"/>
+                                            </Grid>
+                                        </Border>
+                                    </VerticalStackLayout>
+                                </VerticalStackLayout>
+                            </Border>
+
+                            <!-- Prescriptions -->
+                            <Border
+                                x:Name="PrescriptionsBorder"
+                                Grid.Row="0"
+                                Grid.Column="1"
+                                Grid.RowSpan="2"
+                                Padding="20"
+                                Style="{StaticResource HoverCardStyle}">
+                                <VerticalStackLayout Spacing="16">
+                                    <Grid ColumnDefinitions="*,Auto">
+                                        <HorizontalStackLayout Spacing="10">
+                                            <Label
+                                                FontFamily="MaterialIcons"
+                                                FontSize="22"
+                                                Text="medication"
+                                                TextColor="{StaticResource Accent}"
+                                                VerticalOptions="Center"/>
+                                            <Label
+                                                FontAttributes="Bold"
+                                                FontSize="18"
+                                                Text="Prescriptions"
+                                                TextColor="{StaticResource TextPrimary}"
+                                                VerticalOptions="Center"/>
+                                        </HorizontalStackLayout>
+                                        <Border
+                                            Grid.Column="1"
+                                            Padding="8,4"
+                                            BackgroundColor="#142A30"
+                                            StrokeThickness="0"
+                                            VerticalOptions="Start">
+                                            <Border.StrokeShape>
+                                                <RoundRectangle CornerRadius="8"/>
+                                            </Border.StrokeShape>
+                                            <Label
+                                                FontAttributes="Bold"
+                                                FontSize="10"
+                                                Text="3 ACTIVE"
+                                                TextColor="{StaticResource Accent}"/>
+                                        </Border>
+                                    </Grid>
+
+                                    <VerticalStackLayout Spacing="12">
+                                        <Border Style="{StaticResource PrescriptionItemStyle}">
+                                            <VerticalStackLayout Spacing="10">
+                                                <Label
+                                                    FontAttributes="Bold"
+                                                    FontSize="15"
+                                                    Text="Metformin HCL"
+                                                    TextColor="{StaticResource TextPrimary}"/>
+                                                <Label
+                                                    FontSize="12"
+                                                    Text="500 mg • Twice daily • Oral"
+                                                    TextColor="{StaticResource TextMuted}"/>
+                                                <Border
+                                                    HorizontalOptions="Start"
+                                                    Padding="8,4"
+                                                    Stroke="{StaticResource Accent}"
+                                                    StrokeThickness="1">
+                                                    <Border.StrokeShape>
+                                                        <RoundRectangle CornerRadius="8"/>
+                                                    </Border.StrokeShape>
+                                                    <Border.Background>
+                                                        <SolidColorBrush Color="#0D2B31"/>
+                                                    </Border.Background>
+                                                    <Label
+                                                        FontAttributes="Bold"
+                                                        FontSize="10"
+                                                        Text="RENEWAL READY"
+                                                        TextColor="{StaticResource Accent}"/>
+                                                </Border>
+                                                <Button
+                                                    Clicked="OnRequestRenewalClicked"
+                                                    HorizontalOptions="Start"
+                                                    Style="{StaticResource GhostButton}"
+                                                    Text="Request Renewal"/>
+                                            </VerticalStackLayout>
+                                        </Border>
+
+                                        <Border Style="{StaticResource PrescriptionItemStyle}">
+                                            <VerticalStackLayout Spacing="10">
+                                                <Label
+                                                    FontAttributes="Bold"
+                                                    FontSize="15"
+                                                    Text="Lisinopril"
+                                                    TextColor="{StaticResource TextPrimary}"/>
+                                                <Label
+                                                    FontSize="12"
+                                                    Text="10 mg • Once daily • Oral"
+                                                    TextColor="{StaticResource TextMuted}"/>
+                                                <Border
+                                                    HorizontalOptions="Start"
+                                                    Padding="8,4"
+                                                    BackgroundColor="#0F2A1A"
+                                                    Stroke="#4ADE80"
+                                                    StrokeThickness="1">
+                                                    <Border.StrokeShape>
+                                                        <RoundRectangle CornerRadius="8"/>
+                                                    </Border.StrokeShape>
+                                                    <Label
+                                                        FontAttributes="Bold"
+                                                        FontSize="10"
+                                                        Text="ACTIVE"
+                                                        TextColor="#4ADE80"/>
+                                                </Border>
+                                                <Button
+                                                    Clicked="OnRequestRenewalClicked"
+                                                    HorizontalOptions="Start"
+                                                    Style="{StaticResource GhostButton}"
+                                                    Text="Request Renewal"/>
+                                            </VerticalStackLayout>
+                                        </Border>
+
+                                        <Border Style="{StaticResource PrescriptionItemStyle}">
+                                            <VerticalStackLayout Spacing="10">
+                                                <Label
+                                                    FontAttributes="Bold"
+                                                    FontSize="15"
+                                                    Text="Atorvastatin"
+                                                    TextColor="{StaticResource TextPrimary}"/>
+                                                <Label
+                                                    FontSize="12"
+                                                    Text="20 mg • Once daily • Oral"
+                                                    TextColor="{StaticResource TextMuted}"/>
+                                                <Border
+                                                    HorizontalOptions="Start"
+                                                    Padding="8,4"
+                                                    BackgroundColor="#1A2530"
+                                                    Stroke="#6E8C96"
+                                                    StrokeThickness="1">
+                                                    <Border.StrokeShape>
+                                                        <RoundRectangle CornerRadius="8"/>
+                                                    </Border.StrokeShape>
+                                                    <Label
+                                                        FontAttributes="Bold"
+                                                        FontSize="10"
+                                                        Text="AUTO-RENEW PENDING"
+                                                        TextColor="{StaticResource TextSecondary}"/>
+                                                </Border>
+                                                <Button
+                                                    Clicked="OnRequestRenewalClicked"
+                                                    HorizontalOptions="Start"
+                                                    Style="{StaticResource GhostButton}"
+                                                    Text="Request Renewal"/>
+                                            </VerticalStackLayout>
+                                        </Border>
+                                    </VerticalStackLayout>
+                                </VerticalStackLayout>
+                            </Border>
+                        </Grid>
+
+                        <!-- Diagnostics 3-up -->
+                        <Grid
+                            x:Name="DiagnosticsGrid"
+                            ColumnDefinitions="*,*,*"
+                            ColumnSpacing="24"
+                            RowDefinitions="Auto">
+
+                            <Border
+                                x:Name="DiagEcgCard"
+                                Grid.Column="0"
+                                Padding="22"
+                                Style="{StaticResource HoverCardStyle}">
+                                <VerticalStackLayout Spacing="12">
+                                    <Label
+                                        FontFamily="MaterialIcons"
+                                        FontSize="26"
+                                        Text="favorite"
+                                        TextColor="#F87171"/>
+                                    <Label
+                                        FontAttributes="Bold"
+                                        FontSize="16"
+                                        Text="ECG Narrative"
+                                        TextColor="{StaticResource TextPrimary}"/>
+                                    <Label
+                                        FontSize="13"
+                                        LineBreakMode="WordWrap"
+                                        Text="Sinus rhythm within normal limits. No ST elevation on last acquisition."
+                                        TextColor="{StaticResource TextMuted}"/>
+                                    <Label
+                                        FontAttributes="Bold"
+                                        FontSize="10"
+                                        Text="LAST SCAN: 2H AGO"
+                                        TextColor="{StaticResource Muted}"/>
+                                    <Label
+                                        FontAttributes="Bold"
+                                        FontSize="13"
+                                        Text="View scan →"
+                                        TextColor="{StaticResource Accent}">
+                                        <Label.GestureRecognizers>
+                                            <TapGestureRecognizer Tapped="OnViewScanTapped"/>
+                                        </Label.GestureRecognizers>
+                                    </Label>
+                                </VerticalStackLayout>
+                            </Border>
+
+                            <Border
+                                x:Name="DiagXrayCard"
+                                Grid.Column="1"
+                                Padding="22"
+                                Style="{StaticResource HoverCardStyle}">
+                                <VerticalStackLayout Spacing="12">
+                                    <Label
+                                        FontFamily="MaterialIcons"
+                                        FontSize="26"
+                                        Text="monitor_heart"
+                                        TextColor="{StaticResource Accent}"/>
+                                    <Label
+                                        FontAttributes="Bold"
+                                        FontSize="16"
+                                        Text="Chest X-Ray (AI)"
+                                        TextColor="{StaticResource TextPrimary}"/>
+                                    <Label
+                                        FontSize="13"
+                                        LineBreakMode="WordWrap"
+                                        Text="Clear lung fields. No focal consolidation. AI confidence high for negative screen."
+                                        TextColor="{StaticResource TextMuted}"/>
+                                    <Label
+                                        FontAttributes="Bold"
+                                        FontSize="10"
+                                        Text="LAST SCAN: 08/24"
+                                        TextColor="{StaticResource Muted}"/>
+                                    <Label
+                                        FontAttributes="Bold"
+                                        FontSize="13"
+                                        Text="View scan →"
+                                        TextColor="{StaticResource Accent}">
+                                        <Label.GestureRecognizers>
+                                            <TapGestureRecognizer Tapped="OnViewScanTapped"/>
+                                        </Label.GestureRecognizers>
+                                    </Label>
+                                </VerticalStackLayout>
+                            </Border>
+
+                            <Border
+                                x:Name="DiagNeuroCard"
+                                Grid.Column="2"
+                                Padding="22"
+                                Style="{StaticResource HoverCardStyle}">
+                                <VerticalStackLayout Spacing="12">
+                                    <Label
+                                        FontFamily="MaterialIcons"
+                                        FontSize="26"
+                                        Text="psychology"
+                                        TextColor="#A78BFA"/>
+                                    <Label
+                                        FontAttributes="Bold"
+                                        FontSize="16"
+                                        Text="Neurological Screen"
+                                        TextColor="{StaticResource TextPrimary}"/>
+                                    <Label
+                                        FontSize="13"
+                                        LineBreakMode="WordWrap"
+                                        Text="Cognitive baseline stable vs prior visit. Recommend follow-up in 6 months."
+                                        TextColor="{StaticResource TextMuted}"/>
+                                    <Label
+                                        FontAttributes="Bold"
+                                        FontSize="10"
+                                        Text="LAST SCAN: 12H AGO"
+                                        TextColor="{StaticResource Muted}"/>
+                                    <Label
+                                        FontAttributes="Bold"
+                                        FontSize="13"
+                                        Text="View scan →"
+                                        TextColor="{StaticResource Accent}">
+                                        <Label.GestureRecognizers>
+                                            <TapGestureRecognizer Tapped="OnViewScanTapped"/>
+                                        </Label.GestureRecognizers>
+                                    </Label>
+                                </VerticalStackLayout>
+                            </Border>
+                        </Grid>
+                    </VerticalStackLayout>
+                </controls:MainContentWrapper>
+            </ScrollView>
+        </Grid>
+        </shared:MainLayout.PageContent>
+    </shared:MainLayout>
+</ContentPage>

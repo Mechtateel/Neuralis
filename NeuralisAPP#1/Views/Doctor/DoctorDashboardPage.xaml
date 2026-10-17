@@ -1,0 +1,377 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="NeuralisAPP_1.Views.Doctor.DoctorDashboardPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:doctorcontrols="clr-namespace:NeuralisAPP_1.Views.Doctor.Controls"
+    BackgroundColor="#0b1220">
+
+    <Grid ColumnDefinitions="260,*">
+
+        <!-- ================= SIDEBAR ================= -->
+        <Grid Grid.Column="0"
+      BackgroundColor="#0f172a"
+      Padding="20,28"
+      RowDefinitions="Auto,*,Auto">
+
+            <!-- LOGO -->
+            <HorizontalStackLayout Spacing="12">
+                <Ellipse WidthRequest="28" HeightRequest="28" Fill="#2dd4bf"/>
+                <VerticalStackLayout>
+                    <Label Text="NEURALIS"
+                   FontSize="16"
+                   FontAttributes="Bold"
+                   TextColor="#e5e7eb"/>
+                    <Label Text="AI MEDICAL SYSTEM"
+                   FontSize="9"
+                   TextColor="#94a3b8"/>
+                </VerticalStackLayout>
+            </HorizontalStackLayout>
+
+            <!-- NAV -->
+            <VerticalStackLayout Grid.Row="1"
+                         Margin="0,36,0,0"
+                         Spacing="10">
+
+                <!-- DASHBOARD (ACTIVE) -->
+                <Border x:Name="NavDashboard"
+                Padding="10"
+                StrokeShape="RoundRectangle 12"
+                BackgroundColor="#111827">
+
+                    <HorizontalStackLayout Spacing="12">
+                        <Label Text="dashboard"
+                       FontFamily="MaterialIcons"
+                       FontSize="20"
+                       TextColor="#2dd4bf"/>
+                        <Label Text="Dashboard"
+                       TextColor="#e5e7eb"/>
+                    </HorizontalStackLayout>
+
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="OnDashboardTapped"/>
+                        <PointerGestureRecognizer
+                    PointerEntered="OnNavPointerEntered"
+                    PointerExited="OnNavPointerExited"/>
+                    </Border.GestureRecognizers>
+                </Border>
+
+                <!-- PATIENTS -->
+                <Border x:Name="NavPatients"
+                Padding="10"
+                StrokeShape="RoundRectangle 12"
+                BackgroundColor="Transparent">
+
+                    <HorizontalStackLayout Spacing="12">
+                        <Label Text="people"
+                       FontFamily="MaterialIcons"
+                       FontSize="20"
+                       TextColor="#9ca3af"/>
+                        <Label Text="Patients"
+                       TextColor="#9ca3af"/>
+                    </HorizontalStackLayout>
+
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="OnPatientsTapped"/>
+                        <PointerGestureRecognizer
+                    PointerEntered="OnNavPointerEntered"
+                    PointerExited="OnNavPointerExited"/>
+                    </Border.GestureRecognizers>
+                </Border>
+
+                <!-- LAB RESULTS -->
+                <Border x:Name="NavLab"
+        Padding="10"
+        StrokeShape="RoundRectangle 12">
+
+                    <HorizontalStackLayout Spacing="12">
+                        <Label Text="science"
+               FontFamily="MaterialIcons"
+               FontSize="20"
+               TextColor="#9ca3af"/>
+                        <Label Text="Lab Results"
+               TextColor="#9ca3af"/>
+                    </HorizontalStackLayout>
+
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="OnLabTapped"/>
+                        <PointerGestureRecognizer
+            PointerEntered="OnNavPointerEntered"
+            PointerExited="OnNavPointerExited"/>
+                    </Border.GestureRecognizers>
+                </Border>
+
+
+                <!-- AI INSIGHTS -->
+                <Border x:Name="NavAI"
+        Padding="10"
+        StrokeShape="RoundRectangle 12"
+        BackgroundColor="Transparent">
+
+                    <HorizontalStackLayout Spacing="12">
+                        <Label Text="psychology"
+               FontFamily="MaterialIcons"
+               FontSize="20"
+               TextColor="#9ca3af"/>
+                        <Label Text="AI Insights"
+               TextColor="#9ca3af"/>
+                    </HorizontalStackLayout>
+
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="OnAITapped"/>
+                        <PointerGestureRecognizer
+            PointerEntered="OnNavPointerEntered"
+            PointerExited="OnNavPointerExited"/>
+                    </Border.GestureRecognizers>
+                </Border>
+
+
+                <!-- APPOINTMENTS -->
+                <Border x:Name="NavAppointments"
+                Padding="10"
+                StrokeShape="RoundRectangle 12"
+                BackgroundColor="Transparent">
+
+                    <HorizontalStackLayout Spacing="12">
+                        <Label Text="event"
+                       FontFamily="MaterialIcons"
+                       FontSize="20"
+                       TextColor="#9ca3af"/>
+                        <Label Text="Appointments"
+                       TextColor="#9ca3af"/>
+                    </HorizontalStackLayout>
+
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="OnAppointmentsTapped"/>
+                        <PointerGestureRecognizer
+                    PointerEntered="OnNavPointerEntered"
+                    PointerExited="OnNavPointerExited"/>
+                    </Border.GestureRecognizers>
+                </Border>
+            </VerticalStackLayout>
+
+            <doctorcontrols:SidebarProfileView x:Name="SidebarProfile" Grid.Row="2"/>
+
+        </Grid>
+
+
+        <!-- ================= MAIN ================= -->
+        <ScrollView Grid.Column="1">
+            <Grid Padding="32"
+                  ColumnDefinitions="*,360"
+                  ColumnSpacing="28">
+
+                <!-- ===== LEFT ===== -->
+                <VerticalStackLayout Spacing="32">
+
+                    <HorizontalStackLayout HorizontalOptions="End" Spacing="6">
+                        <Button Text="EN" Clicked="OnLangEnClicked" FontSize="10" HeightRequest="30" CornerRadius="8" Padding="8,0" BackgroundColor="#1f2937" TextColor="#e5e7eb"/>
+                        <Button Text="RU" Clicked="OnLangRuClicked" FontSize="10" HeightRequest="30" CornerRadius="8" Padding="8,0" BackgroundColor="#1f2937" TextColor="#e5e7eb"/>
+                        <Button Text="KZ" Clicked="OnLangKzClicked" FontSize="10" HeightRequest="30" CornerRadius="8" Padding="8,0" BackgroundColor="#1f2937" TextColor="#e5e7eb"/>
+                    </HorizontalStackLayout>
+
+                    <!-- HEADER -->
+                    <VerticalStackLayout Spacing="6">
+                        <Label x:Name="WelcomeLabel" Text="Welcome back"
+                               FontSize="28"
+                               FontAttributes="Bold"
+                               TextColor="#e5e7eb"/>
+
+                        <HorizontalStackLayout x:Name="VerificationBadge"
+                                               IsVisible="False"
+                                               Spacing="6">
+                            <Label Text="check_circle"
+                                   FontFamily="MaterialIcons"
+                                   FontSize="16"
+                                   TextColor="#2dd4bf"/>
+                            <Label Text="Verified doctor"
+                                   FontSize="12"
+                                   TextColor="#2dd4bf"/>
+                        </HorizontalStackLayout>
+
+                        <Label x:Name="AiOnlineLabel" Text="AI Diagnostics System Online"
+                               FontSize="12"
+                               TextColor="#9ca3af"/>
+                    </VerticalStackLayout>
+
+                    <!-- KPI (ONLY 4, BIG) -->
+                    <Grid ColumnDefinitions="*,*,*,*"
+      ColumnSpacing="20">
+
+                        <!-- KPI 1 -->
+                        <Border BackgroundColor="#111827"
+            Padding="20"
+            Stroke="#1f2937"
+            StrokeShape="RoundRectangle 18">
+                            <VerticalStackLayout Spacing="6">
+                                <Label x:Name="PatientsTodayLabel" Text="Patients Today" FontSize="12" TextColor="#9ca3af"/>
+                                <Label Text="24" FontSize="34" FontAttributes="Bold" TextColor="#e5e7eb"/>
+                                <Label Text="+5% from yesterday" FontSize="11" TextColor="#2dd4bf"/>
+                            </VerticalStackLayout>
+                        </Border>
+
+                        <!-- KPI 2 -->
+                        <Border Grid.Column="1"
+            BackgroundColor="#111827"
+            Padding="20"
+            Stroke="#f43f5e"
+            StrokeShape="RoundRectangle 18">
+                            <VerticalStackLayout Spacing="6">
+                                <Label x:Name="CriticalAlertsTitleLabel" Text="Critical Alerts" FontSize="12" TextColor="#9ca3af"/>
+                                <Label Text="3" FontSize="34" FontAttributes="Bold" TextColor="#f43f5e"/>
+                                <Label Text="Action required" FontSize="11" TextColor="#f43f5e"/>
+                            </VerticalStackLayout>
+                        </Border>
+
+                        <!-- KPI 3 -->
+                        <Border Grid.Column="2"
+            BackgroundColor="#111827"
+            Padding="20"
+            Stroke="#1f2937"
+            StrokeShape="RoundRectangle 18">
+                            <VerticalStackLayout Spacing="6">
+                                <Label x:Name="PendingReviewsTitleLabel" Text="Pending Reviews" FontSize="12" TextColor="#9ca3af"/>
+                                <Label Text="12" FontSize="34" FontAttributes="Bold" TextColor="#e5e7eb"/>
+                                <Label Text="~1.5 hrs" FontSize="11" TextColor="#9ca3af"/>
+                            </VerticalStackLayout>
+                        </Border>
+
+                        <!-- KPI 4 -->
+                        <Border Grid.Column="3"
+            BackgroundColor="#111827"
+            Padding="20"
+            Stroke="#2dd4bf"
+            StrokeShape="RoundRectangle 18">
+                            <VerticalStackLayout Spacing="6">
+                                <Label x:Name="AiAccuracyLabel" Text="AI Accuracy" FontSize="12" TextColor="#9ca3af"/>
+                                <Label Text="98.4%" FontSize="34" FontAttributes="Bold" TextColor="#2dd4bf"/>
+                                <Label Text="High confidence" FontSize="11" TextColor="#2dd4bf"/>
+                            </VerticalStackLayout>
+                        </Border>
+
+                    </Grid>
+
+
+                    <!-- URGENT ALERT -->
+                    <Border BackgroundColor="#111827"
+                            Padding="24"
+                            Stroke="#f43f5e"
+                            StrokeShape="RoundRectangle 18">
+                        <VerticalStackLayout Spacing="12">
+                            <Label Text="Urgent Alert"
+                                   FontAttributes="Bold"
+                                   TextColor="#f43f5e"/>
+                            <Label Text="Elena Rodriguez — abnormal heart rhythm detected"
+                                   TextColor="#e5e7eb"/>
+                            <HorizontalStackLayout Spacing="12">
+                                <Button Text="Initiate Protocol"
+                                        BackgroundColor="#f43f5e"
+                                        CornerRadius="12"
+                                        TextColor="White"
+                                        Clicked="OnDashboardPlaceholderAction"/>
+                                <Button Text="Telemetry Scan"
+                                        BackgroundColor="#1f2937"
+                                        CornerRadius="12"
+                                        TextColor="#e5e7eb"
+                                        Clicked="OnDashboardPlaceholderAction"/>
+                            </HorizontalStackLayout>
+                        </VerticalStackLayout>
+                    </Border>
+
+                    <Border BackgroundColor="#111827"
+        Padding="24"
+        Stroke="#2dd4bf"
+        StrokeShape="RoundRectangle 18">
+
+                        <VerticalStackLayout Spacing="10">
+
+                            <Label Text="New Analysis Result"
+               FontAttributes="Bold"
+               TextColor="#2dd4bf"/>
+
+                            <Label Text="MRI Scan #8841 processed — potential Stage 1 anomaly detected in left parietal lobe."
+               FontSize="13"
+               TextColor="#e5e7eb"/>
+
+                            <HorizontalStackLayout Spacing="12">
+                                <Button Text="Open Analysis"
+                    BackgroundColor="#2dd4bf"
+                    CornerRadius="12"
+                    TextColor="#0b1220"
+                    Clicked="OnDashboardPlaceholderAction"/>
+
+                                <Button Text="View Details"
+                    BackgroundColor="#1f2937"
+                    CornerRadius="12"
+                    TextColor="#e5e7eb"
+                    Clicked="OnDashboardPlaceholderAction"/>
+                            </HorizontalStackLayout>
+
+                        </VerticalStackLayout>
+                    </Border>
+
+
+                </VerticalStackLayout>
+
+                <!-- ===== RIGHT ===== -->
+                <VerticalStackLayout Grid.Column="1"
+                                     Spacing="24">
+
+                    <Border BackgroundColor="#131c2e"
+                            Padding="22"
+                            Stroke="#1f2937"
+                            StrokeShape="RoundRectangle 18">
+                        <VerticalStackLayout Spacing="10">
+                            <Label Text="Neuralis Intelligence"
+                                   FontAttributes="Bold"
+                                   TextColor="#2dd4bf"/>
+                            <Label Text="Predictive analysis shows potential respiratory case increase in next 48h."
+                                   FontSize="12"
+                                   TextColor="#9ca3af"/>
+                        </VerticalStackLayout>
+                    </Border>
+
+                    <Border BackgroundColor="#131c2e"
+                            Padding="22"
+                            Stroke="#1f2937"
+                            StrokeShape="RoundRectangle 18">
+                        <VerticalStackLayout Spacing="10">
+                            <Label Text="System Status"
+                                   FontAttributes="Bold"
+                                   TextColor="#e5e7eb"/>
+                            <Label Text="• AI models synchronized"
+                                   FontSize="12"
+                                   TextColor="#9ca3af"/>
+                            <Label Text="• Monitoring active"
+                                   FontSize="12"
+                                   TextColor="#9ca3af"/>
+                        </VerticalStackLayout>
+                    </Border>
+
+                    <Border BackgroundColor="#131c2e"
+                            Padding="22"
+                            Stroke="#1f2937"
+                            StrokeShape="RoundRectangle 18">
+                        <VerticalStackLayout Spacing="10">
+                            <Label Text="Recent Activity"
+                                   FontAttributes="Bold"
+                                   TextColor="#e5e7eb"/>
+                            <Label Text="• AI diagnosis confirmed"
+                                   FontSize="12"
+                                   TextColor="#9ca3af"/>
+                            <Label Text="• MRI uploaded"
+                                   FontSize="12"
+                                   TextColor="#9ca3af"/>
+                            <Label Text="• Lab panel complete"
+                                   FontSize="12"
+                                   TextColor="#9ca3af"/>
+                        </VerticalStackLayout>
+                    </Border>
+
+                </VerticalStackLayout>
+
+            </Grid>
+        </ScrollView>
+
+    </Grid>
+</ContentPage>

@@ -1,0 +1,40 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
+
+    <!-- ===== Base Backgrounds ===== -->
+    <Color x:Key="BgSidebar">#071E26</Color>
+    <Color x:Key="BgPrimary">#050F14</Color>
+
+    <!-- ===== Text ===== -->
+    <Color x:Key="TextPrimary">#E6F7FA</Color>
+    <Color x:Key="TextSecondary">#9DBBC3</Color>
+    <Color x:Key="Muted">#6E8C96</Color>
+
+    <!-- ===== Accent ===== -->
+    <Color x:Key="Accent">#2FE3C9</Color>
+    <Color x:Key="CardAccent">#2FE3C9</Color>
+
+    <!-- ===== Cards ===== -->
+    <Color x:Key="CardBg">#0B2430</Color>
+    <Color x:Key="CardBorder">#1B6270</Color>
+
+    <!-- ===== Hover / Selected ===== -->
+    <Color x:Key="NavHover">#0B3940</Color>
+    <Color x:Key="NavSelected">#08343A</Color>
+
+    <!-- ===== Gradient ===== -->
+    <LinearGradientBrush x:Key="HeroGradient" StartPoint="0,0" EndPoint="0,1">
+        <GradientStop Color="#071E26" Offset="0.0" />
+        <GradientStop Color="#050F14" Offset="1.0" />
+    </LinearGradientBrush>
+
+    <!-- ===== Card Gradient ===== -->
+    <LinearGradientBrush x:Key="CardGradient" StartPoint="0,0" EndPoint="1,1">
+        <GradientStop Color="#0C2F3A" Offset="0.0" />
+        <GradientStop Color="#081E26" Offset="1.0" />
+    </LinearGradientBrush>
+
+
+</ResourceDictionary>

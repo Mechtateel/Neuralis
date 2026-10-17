@@ -1,0 +1,557 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="NeuralisAPP_1.Views.Admin.AdminDashboardPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:shared="clr-namespace:NeuralisAPP_1.Views.Shared"
+    xmlns:admincontrols="clr-namespace:NeuralisAPP_1.Views.Admin.Controls"
+    BackgroundColor="#04141C"
+    NavigationPage.HasNavigationBar="False"
+    Shell.NavBarIsVisible="False">
+
+    <ContentPage.Resources>
+        <!-- ====================== ADMIN DESIGN SYSTEM ====================== -->
+
+        <!-- Surface card -->
+        <Style x:Key="AdminCardStyle" TargetType="Border">
+            <Setter Property="BackgroundColor" Value="#0A1F27"/>
+            <Setter Property="Stroke" Value="#163B43"/>
+            <Setter Property="StrokeThickness" Value="1"/>
+            <Setter Property="StrokeShape" Value="RoundRectangle 16"/>
+            <Setter Property="Padding" Value="20"/>
+        </Style>
+
+        <!-- Inset / nested panel -->
+        <Style x:Key="AdminInsetStyle" TargetType="Border">
+            <Setter Property="BackgroundColor" Value="#081A21"/>
+            <Setter Property="Stroke" Value="#143641"/>
+            <Setter Property="StrokeThickness" Value="1"/>
+            <Setter Property="StrokeShape" Value="RoundRectangle 12"/>
+            <Setter Property="Padding" Value="12"/>
+        </Style>
+
+        <Style x:Key="AdminSectionTitle" TargetType="Label">
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="FontAttributes" Value="Bold"/>
+            <Setter Property="TextColor" Value="#E6F7FA"/>
+            <Setter Property="CharacterSpacing" Value="0.3"/>
+        </Style>
+
+        <Style x:Key="AdminSectionSub" TargetType="Label">
+            <Setter Property="FontSize" Value="11"/>
+            <Setter Property="TextColor" Value="#6E8C96"/>
+        </Style>
+
+        <Style x:Key="AdminKpiLabel" TargetType="Label">
+            <Setter Property="FontSize" Value="10"/>
+            <Setter Property="FontAttributes" Value="Bold"/>
+            <Setter Property="CharacterSpacing" Value="1.5"/>
+            <Setter Property="TextColor" Value="#6E8C96"/>
+        </Style>
+
+        <Style x:Key="AdminKpiValue" TargetType="Label">
+            <Setter Property="FontSize" Value="28"/>
+            <Setter Property="FontAttributes" Value="Bold"/>
+            <Setter Property="TextColor" Value="#E6F7FA"/>
+        </Style>
+
+        <Style x:Key="AdminKpiSub" TargetType="Label">
+            <Setter Property="FontSize" Value="11"/>
+            <Setter Property="TextColor" Value="#6E8C96"/>
+            <Setter Property="LineBreakMode" Value="WordWrap"/>
+        </Style>
+
+        <Style x:Key="AdminChipBorder" TargetType="Border">
+            <Setter Property="BackgroundColor" Value="#0D2B31"/>
+            <Setter Property="Stroke" Value="#1F5260"/>
+            <Setter Property="StrokeThickness" Value="1"/>
+            <Setter Property="StrokeShape" Value="RoundRectangle 8"/>
+            <Setter Property="Padding" Value="8,3"/>
+        </Style>
+
+        <Style x:Key="AdminPrimaryButton" TargetType="Button">
+            <Setter Property="BackgroundColor" Value="#2FE3C9"/>
+            <Setter Property="TextColor" Value="#04141C"/>
+            <Setter Property="FontAttributes" Value="Bold"/>
+            <Setter Property="FontSize" Value="13"/>
+            <Setter Property="CornerRadius" Value="10"/>
+            <Setter Property="Padding" Value="16,10"/>
+            <Setter Property="MinimumHeightRequest" Value="40"/>
+        </Style>
+
+        <Style x:Key="AdminGhostButton" TargetType="Button">
+            <Setter Property="BackgroundColor" Value="#0E2E36"/>
+            <Setter Property="TextColor" Value="#E6F7FA"/>
+            <Setter Property="BorderColor" Value="#1F5260"/>
+            <Setter Property="BorderWidth" Value="1"/>
+            <Setter Property="FontSize" Value="13"/>
+            <Setter Property="CornerRadius" Value="10"/>
+            <Setter Property="Padding" Value="14,10"/>
+            <Setter Property="MinimumHeightRequest" Value="40"/>
+        </Style>
+
+        <Style x:Key="AdminIconButton" TargetType="Border">
+            <Setter Property="BackgroundColor" Value="#0E2E36"/>
+            <Setter Property="Stroke" Value="#1F5260"/>
+            <Setter Property="StrokeThickness" Value="1"/>
+            <Setter Property="StrokeShape" Value="RoundRectangle 10"/>
+            <Setter Property="WidthRequest" Value="40"/>
+            <Setter Property="HeightRequest" Value="40"/>
+        </Style>
+    </ContentPage.Resources>
+
+    <shared:MainLayout>
+        <shared:MainLayout.SidebarContent>
+            <admincontrols:AdminSidebarView x:Name="AdminSidebar"/>
+        </shared:MainLayout.SidebarContent>
+
+        <shared:MainLayout.PageContent>
+            <ScrollView>
+                <Grid
+                    x:Name="DashboardRoot"
+                    Padding="28,18,28,28"
+                    RowSpacing="20"
+                    RowDefinitions="Auto,Auto,Auto,Auto,Auto">
+
+                    <!-- ============================== -->
+                    <!-- 1. HEADER STRIP                -->
+                    <!-- ============================== -->
+                    <Grid
+                        Grid.Row="0"
+                        ColumnDefinitions="*,Auto,Auto,Auto,Auto"
+                        ColumnSpacing="12">
+
+                        <VerticalStackLayout Grid.Column="0" Spacing="6" VerticalOptions="Center">
+                            <HorizontalStackLayout Spacing="8">
+                                <Label
+                                    Text="Operations · Admin Control"
+                                    FontSize="11"
+                                    FontAttributes="Bold"
+                                    CharacterSpacing="1.4"
+                                    TextColor="#2FE3C9"/>
+                                <Border Style="{StaticResource AdminChipBorder}" VerticalOptions="Center">
+                                    <HorizontalStackLayout Spacing="6">
+                                        <Ellipse Fill="#4ADE80" WidthRequest="8" HeightRequest="8" VerticalOptions="Center"/>
+                                        <Label
+                                            x:Name="LiveStatusChipLabel"
+                                            Text="LIVE"
+                                            FontSize="9"
+                                            FontAttributes="Bold"
+                                            CharacterSpacing="1.2"
+                                            TextColor="#4ADE80"
+                                            VerticalOptions="Center"/>
+                                    </HorizontalStackLayout>
+                                </Border>
+                            </HorizontalStackLayout>
+                            <Label
+                                x:Name="WelcomeLabel"
+                                Text="Welcome back, Admin"
+                                FontSize="26"
+                                FontAttributes="Bold"
+                                TextColor="#E6F7FA"
+                                LineBreakMode="TailTruncation"
+                                MaxLines="1"/>
+                            <Label
+                                x:Name="HeaderSubtitleLabel"
+                                Text="System overview and live metrics for the Neuralis platform."
+                                FontSize="13"
+                                TextColor="#6E8C96"
+                                LineBreakMode="TailTruncation"
+                                MaxLines="1"/>
+                        </VerticalStackLayout>
+
+                        <!-- Search -->
+                        <Border
+                            Grid.Column="1"
+                            BackgroundColor="#0E2E36"
+                            Stroke="#1F5260"
+                            StrokeThickness="1"
+                            StrokeShape="RoundRectangle 10"
+                            Padding="12,0"
+                            WidthRequest="260"
+                            HeightRequest="40"
+                            VerticalOptions="Center">
+                            <Grid ColumnDefinitions="Auto,*" ColumnSpacing="8">
+                                <Label
+                                    Text="search"
+                                    FontFamily="MaterialIcons"
+                                    FontSize="18"
+                                    TextColor="#6E8C96"
+                                    VerticalOptions="Center"/>
+                                <Entry
+                                    Grid.Column="1"
+                                    Placeholder="Search users, applications…"
+                                    PlaceholderColor="#5E7C86"
+                                    TextColor="#E6F7FA"
+                                    BackgroundColor="Transparent"
+                                    FontSize="12"
+                                    HeightRequest="40"
+                                    VerticalOptions="Center"/>
+                            </Grid>
+                        </Border>
+
+                        <!-- Notifications -->
+                        <Border Grid.Column="2" Style="{StaticResource AdminIconButton}" VerticalOptions="Center">
+                            <Grid>
+                                <Label
+                                    Text="notifications"
+                                    FontFamily="MaterialIcons"
+                                    FontSize="18"
+                                    TextColor="#9DBEC7"
+                                    HorizontalOptions="Center"
+                                    VerticalOptions="Center"/>
+                                <Ellipse
+                                    x:Name="NotificationDot"
+                                    Fill="#F87171"
+                                    WidthRequest="8"
+                                    HeightRequest="8"
+                                    HorizontalOptions="End"
+                                    VerticalOptions="Start"
+                                    Margin="0,8,8,0"
+                                    IsVisible="False"/>
+                            </Grid>
+                        </Border>
+
+                        <!-- Refresh -->
+                        <Border
+                            x:Name="RefreshButton"
+                            Grid.Column="3"
+                            Style="{StaticResource AdminIconButton}"
+                            VerticalOptions="Center">
+                            <Border.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="OnRefreshTapped"/>
+                            </Border.GestureRecognizers>
+                            <Label
+                                Text="refresh"
+                                FontFamily="MaterialIcons"
+                                FontSize="18"
+                                TextColor="#9DBEC7"
+                                HorizontalOptions="Center"
+                                VerticalOptions="Center"/>
+                        </Border>
+
+                        <!-- Primary CTA -->
+                        <Button
+                            Grid.Column="4"
+                            Text="+ New Report"
+                            Style="{StaticResource AdminPrimaryButton}"
+                            Clicked="OnNewReportClicked"
+                            VerticalOptions="Center"/>
+                    </Grid>
+
+                    <!-- ============================== -->
+                    <!-- 2. SYSTEM STATUS STRIP        -->
+                    <!-- ============================== -->
+                    <Border Grid.Row="1" Style="{StaticResource AdminCardStyle}" Padding="18,14">
+                        <Grid
+                            ColumnDefinitions="Auto,Auto,Auto,Auto,*,Auto"
+                            ColumnSpacing="22"
+                            RowSpacing="0">
+                            <VerticalStackLayout Grid.Column="0" Spacing="2">
+                                <Label Text="API SERVICE" Style="{StaticResource AdminKpiLabel}"/>
+                                <HorizontalStackLayout Spacing="8">
+                                    <Ellipse Fill="#4ADE80" WidthRequest="9" HeightRequest="9" VerticalOptions="Center"/>
+                                    <Label x:Name="ApiStatusLabel" Text="Operational" FontSize="12" FontAttributes="Bold" TextColor="#E6F7FA"/>
+                                </HorizontalStackLayout>
+                            </VerticalStackLayout>
+                            <VerticalStackLayout Grid.Column="1" Spacing="2">
+                                <Label Text="AI ENGINE" Style="{StaticResource AdminKpiLabel}"/>
+                                <HorizontalStackLayout Spacing="8">
+                                    <Ellipse Fill="#4ADE80" WidthRequest="9" HeightRequest="9" VerticalOptions="Center"/>
+                                    <Label x:Name="AiStatusLabel" Text="Online" FontSize="12" FontAttributes="Bold" TextColor="#E6F7FA"/>
+                                </HorizontalStackLayout>
+                            </VerticalStackLayout>
+                            <VerticalStackLayout Grid.Column="2" Spacing="2">
+                                <Label Text="DATABASE" Style="{StaticResource AdminKpiLabel}"/>
+                                <HorizontalStackLayout Spacing="8">
+                                    <Ellipse Fill="#4ADE80" WidthRequest="9" HeightRequest="9" VerticalOptions="Center"/>
+                                    <Label x:Name="DbStatusLabel" Text="Connected" FontSize="12" FontAttributes="Bold" TextColor="#E6F7FA"/>
+                                </HorizontalStackLayout>
+                            </VerticalStackLayout>
+                            <VerticalStackLayout Grid.Column="3" Spacing="2">
+                                <Label Text="OCR / NLP" Style="{StaticResource AdminKpiLabel}"/>
+                                <HorizontalStackLayout Spacing="8">
+                                    <Ellipse Fill="#FACC15" WidthRequest="9" HeightRequest="9" VerticalOptions="Center"/>
+                                    <Label x:Name="OcrStatusLabel" Text="Standby" FontSize="12" FontAttributes="Bold" TextColor="#E6F7FA"/>
+                                </HorizontalStackLayout>
+                            </VerticalStackLayout>
+                            <VerticalStackLayout Grid.Column="4" Spacing="2" HorizontalOptions="End">
+                                <Label Text="LAST SYNC" Style="{StaticResource AdminKpiLabel}" HorizontalOptions="End"/>
+                                <Label x:Name="LastSyncLabel" Text="—" FontSize="12" TextColor="#9DBEC7" HorizontalOptions="End"/>
+                            </VerticalStackLayout>
+                            <ActivityIndicator
+                                x:Name="HeaderLoading"
+                                Grid.Column="5"
+                                Color="#2FE3C9"
+                                WidthRequest="20"
+                                HeightRequest="20"
+                                IsRunning="False"
+                                IsVisible="False"
+                                VerticalOptions="Center"/>
+                        </Grid>
+                    </Border>
+
+                    <!-- ============================== -->
+                    <!-- 3. KPI GRID                    -->
+                    <!-- ============================== -->
+                    <Grid
+                        x:Name="KpiGrid"
+                        Grid.Row="2"
+                        ColumnDefinitions="*,*,*,*"
+                        ColumnSpacing="16"
+                        RowSpacing="16">
+
+                        <!-- KPI 1: Total Users -->
+                        <Border Grid.Column="0" Style="{StaticResource AdminCardStyle}">
+                            <VerticalStackLayout Spacing="14">
+                                <Grid ColumnDefinitions="*,Auto">
+                                    <HorizontalStackLayout Spacing="8">
+                                        <Border
+                                            BackgroundColor="#0C3A40"
+                                            StrokeShape="RoundRectangle 8"
+                                            Padding="6"
+                                            WidthRequest="30"
+                                            HeightRequest="30">
+                                            <Label Text="group" FontFamily="MaterialIcons" FontSize="16" TextColor="#2FE3C9" HorizontalOptions="Center" VerticalOptions="Center"/>
+                                        </Border>
+                                        <Label Text="TOTAL USERS" Style="{StaticResource AdminKpiLabel}" VerticalOptions="Center"/>
+                                    </HorizontalStackLayout>
+                                    <Border Grid.Column="1" Style="{StaticResource AdminChipBorder}">
+                                        <HorizontalStackLayout Spacing="4">
+                                            <Label
+                                                x:Name="KpiUsersTrendIcon"
+                                                Text="trending_up"
+                                                FontFamily="MaterialIcons"
+                                                FontSize="11"
+                                                TextColor="#4ADE80"
+                                                VerticalOptions="Center"/>
+                                            <Label
+                                                x:Name="KpiUsersTrendLabel"
+                                                Text="—"
+                                                FontSize="10"
+                                                FontAttributes="Bold"
+                                                TextColor="#4ADE80"
+                                                VerticalOptions="Center"/>
+                                        </HorizontalStackLayout>
+                                    </Border>
+                                </Grid>
+                                <Label x:Name="KpiUsersValue" Text="—" Style="{StaticResource AdminKpiValue}"/>
+                                <GraphicsView x:Name="KpiUsersSparkline" HeightRequest="38"/>
+                                <Label x:Name="KpiUsersSubLabel" Text="Registered accounts" Style="{StaticResource AdminKpiSub}"/>
+                            </VerticalStackLayout>
+                        </Border>
+
+                        <!-- KPI 2: Active Doctors -->
+                        <Border Grid.Column="1" Style="{StaticResource AdminCardStyle}">
+                            <VerticalStackLayout Spacing="14">
+                                <Grid ColumnDefinitions="*,Auto">
+                                    <HorizontalStackLayout Spacing="8">
+                                        <Border BackgroundColor="#0C3A40" StrokeShape="RoundRectangle 8" Padding="6" WidthRequest="30" HeightRequest="30">
+                                            <Label Text="medical_services" FontFamily="MaterialIcons" FontSize="16" TextColor="#7FD0FF" HorizontalOptions="Center" VerticalOptions="Center"/>
+                                        </Border>
+                                        <Label Text="ACTIVE DOCTORS" Style="{StaticResource AdminKpiLabel}" VerticalOptions="Center"/>
+                                    </HorizontalStackLayout>
+                                    <Border Grid.Column="1" Style="{StaticResource AdminChipBorder}">
+                                        <HorizontalStackLayout Spacing="4">
+                                            <Label
+                                                x:Name="KpiDoctorsTrendIcon"
+                                                Text="trending_up"
+                                                FontFamily="MaterialIcons"
+                                                FontSize="11"
+                                                TextColor="#7FD0FF"
+                                                VerticalOptions="Center"/>
+                                            <Label
+                                                x:Name="KpiDoctorsTrendLabel"
+                                                Text="—"
+                                                FontSize="10"
+                                                FontAttributes="Bold"
+                                                TextColor="#7FD0FF"
+                                                VerticalOptions="Center"/>
+                                        </HorizontalStackLayout>
+                                    </Border>
+                                </Grid>
+                                <Label x:Name="KpiDoctorsValue" Text="—" Style="{StaticResource AdminKpiValue}"/>
+                                <GraphicsView x:Name="KpiDoctorsSparkline" HeightRequest="38"/>
+                                <Label x:Name="KpiDoctorsSubLabel" Text="Verified clinicians" Style="{StaticResource AdminKpiSub}"/>
+                            </VerticalStackLayout>
+                        </Border>
+
+                        <!-- KPI 3: Pending applications -->
+                        <Border Grid.Column="2" Style="{StaticResource AdminCardStyle}">
+                            <VerticalStackLayout Spacing="14">
+                                <Grid ColumnDefinitions="*,Auto">
+                                    <HorizontalStackLayout Spacing="8">
+                                        <Border BackgroundColor="#3A2A0C" StrokeShape="RoundRectangle 8" Padding="6" WidthRequest="30" HeightRequest="30">
+                                            <Label Text="pending_actions" FontFamily="MaterialIcons" FontSize="16" TextColor="#FACC15" HorizontalOptions="Center" VerticalOptions="Center"/>
+                                        </Border>
+                                        <Label Text="PENDING APPS" Style="{StaticResource AdminKpiLabel}" VerticalOptions="Center"/>
+                                    </HorizontalStackLayout>
+                                    <Border Grid.Column="1" Style="{StaticResource AdminChipBorder}" BackgroundColor="#3A2A0C" Stroke="#7A5A0A">
+                                        <Label
+                                            x:Name="KpiPendingChipLabel"
+                                            Text="REVIEW"
+                                            FontSize="9"
+                                            FontAttributes="Bold"
+                                            CharacterSpacing="1.2"
+                                            TextColor="#FACC15"/>
+                                    </Border>
+                                </Grid>
+                                <Label x:Name="KpiPendingValue" Text="—" Style="{StaticResource AdminKpiValue}"/>
+                                <GraphicsView x:Name="KpiPendingSparkline" HeightRequest="38"/>
+                                <Label x:Name="KpiPendingSubLabel" Text="Awaiting moderation" Style="{StaticResource AdminKpiSub}"/>
+                            </VerticalStackLayout>
+                        </Border>
+
+                        <!-- KPI 4: Risk alerts -->
+                        <Border Grid.Column="3" Style="{StaticResource AdminCardStyle}">
+                            <VerticalStackLayout Spacing="14">
+                                <Grid ColumnDefinitions="*,Auto">
+                                    <HorizontalStackLayout Spacing="8">
+                                        <Border BackgroundColor="#3A0C13" StrokeShape="RoundRectangle 8" Padding="6" WidthRequest="30" HeightRequest="30">
+                                            <Label Text="health_and_safety" FontFamily="MaterialIcons" FontSize="16" TextColor="#F87171" HorizontalOptions="Center" VerticalOptions="Center"/>
+                                        </Border>
+                                        <Label Text="RISK ALERTS" Style="{StaticResource AdminKpiLabel}" VerticalOptions="Center"/>
+                                    </HorizontalStackLayout>
+                                    <Border Grid.Column="1" Style="{StaticResource AdminChipBorder}" BackgroundColor="#3A0C13" Stroke="#7A1A1A">
+                                        <Label x:Name="KpiRisksChipLabel" Text="MONITOR" FontSize="9" FontAttributes="Bold" CharacterSpacing="1.2" TextColor="#F87171"/>
+                                    </Border>
+                                </Grid>
+                                <Label x:Name="KpiRisksValue" Text="—" Style="{StaticResource AdminKpiValue}"/>
+                                <GraphicsView x:Name="KpiRisksSparkline" HeightRequest="38"/>
+                                <Label x:Name="KpiRisksSubLabel" Text="Last 30 days" Style="{StaticResource AdminKpiSub}"/>
+                            </VerticalStackLayout>
+                        </Border>
+                    </Grid>
+
+                    <!-- ============================== -->
+                    <!-- 4. CHARTS ROW                  -->
+                    <!-- ============================== -->
+                    <Grid
+                        x:Name="ChartsRow"
+                        Grid.Row="3"
+                        ColumnDefinitions="2*,*"
+                        ColumnSpacing="16"
+                        RowSpacing="16">
+
+                        <Border Grid.Column="0" Style="{StaticResource AdminCardStyle}">
+                            <VerticalStackLayout Spacing="14">
+                                <Grid ColumnDefinitions="*,Auto" ColumnSpacing="12">
+                                    <VerticalStackLayout Spacing="3">
+                                        <Label Text="User growth" Style="{StaticResource AdminSectionTitle}"/>
+                                        <Label Text="Last 6 months · derived from account creation timeline." Style="{StaticResource AdminSectionSub}"/>
+                                    </VerticalStackLayout>
+                                    <HorizontalStackLayout Grid.Column="1" Spacing="8" VerticalOptions="Center">
+                                        <Border Style="{StaticResource AdminChipBorder}">
+                                            <HorizontalStackLayout Spacing="6">
+                                                <Ellipse Fill="#2FE3C9" WidthRequest="8" HeightRequest="8" VerticalOptions="Center"/>
+                                                <Label Text="Cumulative users" FontSize="10" TextColor="#9DBEC7" VerticalOptions="Center"/>
+                                            </HorizontalStackLayout>
+                                        </Border>
+                                    </HorizontalStackLayout>
+                                </Grid>
+                                <Border Style="{StaticResource AdminInsetStyle}" Padding="10,12">
+                                    <GraphicsView x:Name="UserGrowthChart" HeightRequest="240"/>
+                                </Border>
+                            </VerticalStackLayout>
+                        </Border>
+
+                        <Border Grid.Column="1" Style="{StaticResource AdminCardStyle}">
+                            <VerticalStackLayout Spacing="14">
+                                <Grid ColumnDefinitions="*,Auto">
+                                    <VerticalStackLayout Spacing="3">
+                                        <Label Text="Weekly registrations" Style="{StaticResource AdminSectionTitle}"/>
+                                        <Label Text="Last 7 days · new sign-ups." Style="{StaticResource AdminSectionSub}"/>
+                                    </VerticalStackLayout>
+                                    <Border Grid.Column="1" Style="{StaticResource AdminChipBorder}" VerticalOptions="Center">
+                                        <Label x:Name="WeeklyPeakLabel" Text="Peak —" FontSize="10" TextColor="#9DBEC7"/>
+                                    </Border>
+                                </Grid>
+                                <Border Style="{StaticResource AdminInsetStyle}" Padding="10,12">
+                                    <GraphicsView x:Name="WeeklyActivityChart" HeightRequest="240"/>
+                                </Border>
+                            </VerticalStackLayout>
+                        </Border>
+                    </Grid>
+
+                    <!-- ============================== -->
+                    <!-- 5. APPLICATIONS + ACTIVITY     -->
+                    <!-- ============================== -->
+                    <Grid
+                        x:Name="BottomRow"
+                        Grid.Row="4"
+                        ColumnDefinitions="2*,*"
+                        ColumnSpacing="16">
+
+                        <!-- Pending applications queue -->
+                        <Border Grid.Column="0" Style="{StaticResource AdminCardStyle}">
+                            <VerticalStackLayout Spacing="14">
+                                <Grid ColumnDefinitions="*,Auto" ColumnSpacing="12">
+                                    <VerticalStackLayout Spacing="3">
+                                        <Label Text="Doctor applications queue" Style="{StaticResource AdminSectionTitle}"/>
+                                        <Label Text="Pending applications awaiting verification." Style="{StaticResource AdminSectionSub}"/>
+                                    </VerticalStackLayout>
+                                    <Button
+                                        Grid.Column="1"
+                                        Text="Open queue"
+                                        Style="{StaticResource AdminGhostButton}"
+                                        Clicked="OnOpenApplicationsClicked"
+                                        VerticalOptions="Center"/>
+                                </Grid>
+
+                                <ActivityIndicator
+                                    x:Name="ApplicationsLoading"
+                                    Color="#2FE3C9"
+                                    IsRunning="False"
+                                    IsVisible="False"
+                                    HorizontalOptions="Start"/>
+
+                                <Label
+                                    x:Name="ApplicationsEmptyLabel"
+                                    Text="No pending applications."
+                                    Style="{StaticResource AdminKpiSub}"
+                                    IsVisible="False"/>
+
+                                <VerticalStackLayout x:Name="ApplicationsList" Spacing="10"/>
+                            </VerticalStackLayout>
+                        </Border>
+
+                        <!-- Right column: system health + recent activity -->
+                        <VerticalStackLayout Grid.Column="1" Spacing="16">
+
+                            <Border Style="{StaticResource AdminCardStyle}">
+                                <VerticalStackLayout Spacing="14">
+                                    <Label Text="System health" Style="{StaticResource AdminSectionTitle}"/>
+                                    <VerticalStackLayout x:Name="HealthList" Spacing="10"/>
+                                </VerticalStackLayout>
+                            </Border>
+
+                            <Border Style="{StaticResource AdminCardStyle}">
+                                <VerticalStackLayout Spacing="14">
+                                    <Grid ColumnDefinitions="*,Auto">
+                                        <VerticalStackLayout Spacing="3">
+                                            <Label Text="Recent activity" Style="{StaticResource AdminSectionTitle}"/>
+                                            <Label Text="Latest events on the platform." Style="{StaticResource AdminSectionSub}"/>
+                                        </VerticalStackLayout>
+                                        <Label
+                                            Grid.Column="1"
+                                            Text="View all"
+                                            FontSize="11"
+                                            FontAttributes="Bold"
+                                            TextColor="#2FE3C9"
+                                            VerticalOptions="Center">
+                                            <Label.GestureRecognizers>
+                                                <TapGestureRecognizer Tapped="OnOpenUsersClicked"/>
+                                            </Label.GestureRecognizers>
+                                        </Label>
+                                    </Grid>
+                                    <VerticalStackLayout x:Name="ActivityList" Spacing="10"/>
+                                </VerticalStackLayout>
+                            </Border>
+                        </VerticalStackLayout>
+                    </Grid>
+
+                </Grid>
+            </ScrollView>
+        </shared:MainLayout.PageContent>
+    </shared:MainLayout>
+</ContentPage>

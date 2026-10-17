@@ -1,0 +1,753 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="NeuralisAPP_1.Views.Main.AIAnalysisPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:controls="clr-namespace:NeuralisAPP_1.Views.Main.Controls"
+    xmlns:shared="clr-namespace:NeuralisAPP_1.Views.Shared"
+    BackgroundColor="#071A1F"
+    NavigationPage.HasNavigationBar="False"
+    Shell.NavBarIsVisible="False">
+
+    <ContentPage.Resources>
+        <Style x:Key="ConditionChipStyle" TargetType="Border">
+            <Setter Property="BackgroundColor" Value="#0D2B31"/>
+            <Setter Property="Stroke" Value="{StaticResource Accent}"/>
+            <Setter Property="StrokeThickness" Value="1"/>
+            <Setter Property="Padding" Value="12,8"/>
+            <Setter Property="Margin" Value="0,0,10,10"/>
+            <Setter Property="StrokeShape">
+                <Setter.Value>
+                    <RoundRectangle CornerRadius="12"/>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="VisualStateManager.VisualStateGroups">
+                <VisualStateGroupList>
+                    <VisualStateGroup Name="CommonStates">
+                        <VisualState Name="Normal">
+                            <VisualState.Setters>
+                                <Setter Property="BackgroundColor" Value="#0D2B31"/>
+                                <Setter Property="Stroke" Value="{StaticResource Accent}"/>
+                            </VisualState.Setters>
+                        </VisualState>
+                        <VisualState Name="PointerOver">
+                            <VisualState.Setters>
+                                <Setter Property="BackgroundColor" Value="#143E48"/>
+                                <Setter Property="Stroke" Value="#4FD4C0"/>
+                            </VisualState.Setters>
+                        </VisualState>
+                    </VisualStateGroup>
+                </VisualStateGroupList>
+            </Setter>
+        </Style>
+    </ContentPage.Resources>
+
+    <shared:MainLayout x:Name="GlobalLayout">
+        <shared:MainLayout.SidebarContent>
+            <controls:UserAppSidebarView x:Name="AppSidebar"/>
+        </shared:MainLayout.SidebarContent>
+
+        <shared:MainLayout.PageContent>
+        <Grid x:Name="AnalysisMainColumn">
+
+            <Image
+                Aspect="AspectFill"
+                InputTransparent="True"
+                Opacity="0.25"
+                Source="back_img.png"/>
+
+            <ScrollView>
+                <controls:MainContentWrapper>
+                    <VerticalStackLayout
+                        HorizontalOptions="Fill"
+                        Spacing="24">
+
+                        <!-- Page header -->
+                        <Grid x:Name="AnalysisHeaderGrid" ColumnDefinitions="*,Auto" ColumnSpacing="20" RowDefinitions="Auto">
+                            <VerticalStackLayout Grid.Column="0" Spacing="6">
+                                <HorizontalStackLayout Spacing="6">
+                                    <Label
+                                        FontSize="12"
+                                        Text="Dashboard"
+                                        TextColor="{StaticResource TextMuted}"
+                                        VerticalOptions="Center">
+                                        <Label.GestureRecognizers>
+                                            <TapGestureRecognizer Tapped="OnBreadcrumbDashboardTapped"/>
+                                        </Label.GestureRecognizers>
+                                    </Label>
+                                    <Label
+                                        FontSize="12"
+                                        Text="/"
+                                        TextColor="{StaticResource Muted}"
+                                        VerticalOptions="Center"/>
+                                    <Label
+                                        FontAttributes="Bold"
+                                        FontSize="12"
+                                        Text="AI Analysis"
+                                        TextColor="{StaticResource Accent}"
+                                        VerticalOptions="Center"/>
+                                </HorizontalStackLayout>
+                                <Label
+                                    Style="{StaticResource TitleLabel}"
+                                    Text="AI Analysis"/>
+                                <Label
+                                    x:Name="AnalysisDescriptionFullLabel"
+                                    FontSize="14"
+                                    LineBreakMode="TailTruncation"
+                                    MaxLines="2"
+                                    Text="Deep cognitive diagnostic engine processing real-time clinical markers and patient history to determine probability vectors."
+                                    TextColor="{StaticResource TextMuted}"/>
+                                <Label
+                                    x:Name="AnalysisDescriptionShortLabel"
+                                    IsVisible="False"
+                                    FontSize="14"
+                                    LineBreakMode="TailTruncation"
+                                    MaxLines="2"
+                                    Text="AI engine analyzing clinical markers and patient history."
+                                    TextColor="{StaticResource TextMuted}"/>
+                                <Label
+                                    x:Name="AnalysisDisclaimerFullLabel"
+                                    FontSize="11"
+                                    LineBreakMode="WordWrap"
+                                    MaxLines="3"
+                                    Text="This system provides informational AI-assisted analysis only and must not be used for medical diagnosis or emergency decision-making. Do not upload real patient files; consult a qualified clinician for health decisions."
+                                    TextColor="{StaticResource Muted}"/>
+                                <Label
+                                    x:Name="AnalysisDisclaimerShortLabel"
+                                    IsVisible="False"
+                                    FontSize="11"
+                                    LineBreakMode="WordWrap"
+                                    MaxLines="3"
+                                    Text="Informational only — not for diagnosis or emergencies. Do not upload patient files. Consult a clinician."
+                                    TextColor="{StaticResource Muted}"/>
+                            </VerticalStackLayout>
+
+                            <Border
+                                x:Name="ExpertConsensusBadge"
+                                Grid.Column="1"
+                                Padding="14,12"
+                                Style="{StaticResource AccentCard}"
+                                VerticalOptions="Start">
+                                <HorizontalStackLayout Spacing="12" VerticalOptions="Center">
+                                    <HorizontalStackLayout Spacing="-8">
+                                        <Border
+                                            HeightRequest="28"
+                                            StrokeThickness="0"
+                                            WidthRequest="28">
+                                            <Border.StrokeShape>
+                                                <RoundRectangle CornerRadius="14"/>
+                                            </Border.StrokeShape>
+                                            <Border.Background>
+                                                <SolidColorBrush Color="#1B6270"/>
+                                            </Border.Background>
+                                            <Label
+                                                FontSize="11"
+                                                HorizontalTextAlignment="Center"
+                                                Text="E1"
+                                                TextColor="{StaticResource TextPrimary}"
+                                                VerticalTextAlignment="Center"/>
+                                        </Border>
+                                        <Border
+                                            HeightRequest="28"
+                                            StrokeThickness="0"
+                                            TranslationX="-6"
+                                            WidthRequest="28">
+                                            <Border.StrokeShape>
+                                                <RoundRectangle CornerRadius="14"/>
+                                            </Border.StrokeShape>
+                                            <Border.Background>
+                                                <SolidColorBrush Color="#0F4A52"/>
+                                            </Border.Background>
+                                            <Label
+                                                FontSize="11"
+                                                HorizontalTextAlignment="Center"
+                                                Text="E2"
+                                                TextColor="{StaticResource TextPrimary}"
+                                                VerticalTextAlignment="Center"/>
+                                        </Border>
+                                        <Border
+                                            HeightRequest="28"
+                                            StrokeThickness="0"
+                                            TranslationX="-12"
+                                            WidthRequest="28">
+                                            <Border.StrokeShape>
+                                                <RoundRectangle CornerRadius="14"/>
+                                            </Border.StrokeShape>
+                                            <Border.Background>
+                                                <SolidColorBrush Color="#163B41"/>
+                                            </Border.Background>
+                                            <Label
+                                                FontSize="11"
+                                                HorizontalTextAlignment="Center"
+                                                Text="E3"
+                                                TextColor="{StaticResource TextPrimary}"
+                                                VerticalTextAlignment="Center"/>
+                                        </Border>
+                                    </HorizontalStackLayout>
+                                    <VerticalStackLayout Spacing="2" VerticalOptions="Center">
+                                        <Label
+                                            FontAttributes="Bold"
+                                            FontSize="10"
+                                            Text="EXPERT CONSENSUS"
+                                            TextColor="{StaticResource Accent}"/>
+                                        <Label
+                                            FontAttributes="Bold"
+                                            FontSize="11"
+                                            Text="ACTIVE"
+                                            TextColor="{StaticResource TextPrimary}"/>
+                                    </VerticalStackLayout>
+                                </HorizontalStackLayout>
+                            </Border>
+                        </Grid>
+
+                        <!-- 70 / 30 workspace -->
+                        <Grid
+                            x:Name="AiWorkspaceGrid"
+                            ColumnSpacing="24"
+                            RowSpacing="24">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="7*"/>
+                                <ColumnDefinition Width="3*"/>
+                            </Grid.ColumnDefinitions>
+
+                            <VerticalStackLayout
+                                x:Name="LeftWorkspaceStack"
+                                Grid.Column="0"
+                                Spacing="24">
+
+                                <!-- Main input -->
+                                <Border Padding="24" Style="{StaticResource HoverCardStyle}">
+                                    <VerticalStackLayout Spacing="14">
+                                        <Label
+                                            FontAttributes="Bold"
+                                            FontSize="16"
+                                            Text="Clinical input"
+                                            TextColor="{StaticResource TextPrimary}"/>
+                                        <Label
+                                            FontSize="12"
+                                            LineBreakMode="WordWrap"
+                                            Text="Enter hypothetical symptoms or clinical observations for educational AI analysis. File uploads are intentionally disabled."
+                                            TextColor="{StaticResource TextMuted}"/>
+                                        <Editor
+                                            x:Name="ClinicalInputEditor"
+                                            AutoSize="TextChanges"
+                                            HorizontalOptions="Fill"
+                                            MaxLength="4000"
+                                            MinimumHeightRequest="200"
+                                            Placeholder="Describe hypothetical symptoms or clinical observations in plain text — do not paste real patient identifiers."
+                                            PlaceholderColor="{StaticResource TextMuted}"
+                                            TextColor="{StaticResource TextPrimary}"/>
+                                        <Grid x:Name="AnalysisActionButtonsGrid" ColumnDefinitions="*,Auto" ColumnSpacing="12">
+                                            <ActivityIndicator
+                                                x:Name="AiAnalyzingIndicator"
+                                                Grid.Column="0"
+                                                HorizontalOptions="Start"
+                                                IsRunning="False"
+                                                IsVisible="False"
+                                                VerticalOptions="Center"
+                                                Color="{StaticResource Accent}"/>
+                                            <Button
+                                                x:Name="RunAnalysisButton"
+                                                Grid.Column="1"
+                                                Clicked="OnRunAnalysisClicked"
+                                                HorizontalOptions="End"
+                                                MinimumWidthRequest="160"
+                                                Style="{StaticResource PrimaryButton}"
+                                                Text="Run Analysis">
+                                                <Button.ImageSource>
+                                                    <FontImageSource
+                                                        FontFamily="MaterialIcons"
+                                                        Glyph="bolt"
+                                                        Color="{StaticResource BgPrimary}"
+                                                        Size="18"/>
+                                                </Button.ImageSource>
+                                            </Button>
+                                        </Grid>
+                                    </VerticalStackLayout>
+                                </Border>
+
+                                <Label
+                                    x:Name="AiErrorLabel"
+                                    FontSize="13"
+                                    IsVisible="False"
+                                    LineBreakMode="WordWrap"
+                                    TextColor="#FF6B6B"/>
+
+                                <!-- Result row -->
+                                <Grid
+                                    x:Name="ResultsRowGrid"
+                                    ColumnDefinitions="*,*"
+                                    ColumnSpacing="24">
+
+                                    <Border
+                                        x:Name="ConditionCard"
+                                        Padding="22"
+                                        Style="{StaticResource HoverCardStyle}">
+                                        <VerticalStackLayout Spacing="14">
+                                            <Label
+                                                FontAttributes="Bold"
+                                                FontSize="16"
+                                                Text="Condition Probabilities"
+                                                TextColor="{StaticResource TextPrimary}"/>
+                                            <VerticalStackLayout
+                                                x:Name="ConditionEmptyState"
+                                                Spacing="12"
+                                                HorizontalOptions="Center">
+                                                <Label
+                                                    FontFamily="MaterialIcons"
+                                                    FontSize="48"
+                                                    HorizontalTextAlignment="Center"
+                                                    Text="analytics"
+                                                    TextColor="{StaticResource Muted}"/>
+                                                <Label
+                                                    FontAttributes="Bold"
+                                                    FontSize="15"
+                                                    HorizontalTextAlignment="Center"
+                                                    Text="Analysis Pending"
+                                                    TextColor="{StaticResource TextSecondary}"/>
+                                                <Label
+                                                    FontSize="12"
+                                                    HorizontalTextAlignment="Center"
+                                                    LineBreakMode="WordWrap"
+                                                    Text="Inputs required to map diagnostic clusters."
+                                                    TextColor="{StaticResource TextMuted}"/>
+                                            </VerticalStackLayout>
+                                            <VerticalStackLayout
+                                                x:Name="ConditionResultContent"
+                                                IsVisible="False"
+                                                Opacity="0"
+                                                Spacing="12">
+                                                <Label
+                                                    FontAttributes="Bold"
+                                                    FontSize="12"
+                                                    Text="SYMPTOMS NOTED"
+                                                    TextColor="{StaticResource Accent}"/>
+                                                <VerticalStackLayout x:Name="AiSymptomsStack" Spacing="4"/>
+                                                <Label
+                                                    FontAttributes="Bold"
+                                                    FontSize="12"
+                                                    Text="POSSIBLE CONDITIONS"
+                                                    TextColor="{StaticResource Accent}"/>
+                                                <Label
+                                                    FontSize="11"
+                                                    LineBreakMode="WordWrap"
+                                                    Text="Suggestions only — not a diagnosis."
+                                                    TextColor="{StaticResource Muted}"/>
+                                                <VerticalStackLayout x:Name="AiConditionsStack" Spacing="4"/>
+                                            </VerticalStackLayout>
+                                        </VerticalStackLayout>
+                                    </Border>
+
+                                    <Border
+                                        x:Name="ConfidenceCard"
+                                        Padding="22"
+                                        Style="{StaticResource HoverCardStyle}">
+                                        <VerticalStackLayout Spacing="14">
+                                            <Label
+                                                FontAttributes="Bold"
+                                                FontSize="16"
+                                                Text="Confidence Level"
+                                                TextColor="{StaticResource TextPrimary}"/>
+                                            <VerticalStackLayout x:Name="ConfidenceEmptyState" Spacing="10">
+                                                <Label
+                                                    FontSize="13"
+                                                    LineBreakMode="WordWrap"
+                                                    Text="Run analysis to see risk level, possible conditions, model confidence, and guidance."
+                                                    TextColor="{StaticResource TextMuted}"/>
+                                                <Label
+                                                    FontAttributes="Bold"
+                                                    FontSize="11"
+                                                    Text="Next steps"
+                                                    TextColor="{StaticResource Muted}"/>
+                                                <Label
+                                                    FontSize="12"
+                                                    Text="• Enter clinical notes above"
+                                                    TextColor="{StaticResource TextMuted}"/>
+                                                <Label
+                                                    FontSize="12"
+                                                    Text="• Tap Run Analysis"
+                                                    TextColor="{StaticResource TextMuted}"/>
+                                                <Label
+                                                    FontSize="12"
+                                                    Text="• Review history on the right when needed"
+                                                    TextColor="{StaticResource TextMuted}"/>
+                                            </VerticalStackLayout>
+                                            <VerticalStackLayout
+                                                x:Name="ConfidenceResultContent"
+                                                IsVisible="False"
+                                                Opacity="0"
+                                                Spacing="18">
+                                                <!-- A. Risk + confidence score + progress -->
+                                                <VerticalStackLayout Spacing="10">
+                                                    <Label
+                                                        FontAttributes="Bold"
+                                                        FontSize="12"
+                                                        Text="RISK LEVEL"
+                                                        TextColor="{StaticResource Accent}"/>
+                                                    <Label
+                                                        x:Name="AiRiskLabel"
+                                                        FontAttributes="Bold"
+                                                        FontSize="22"
+                                                        TextColor="{StaticResource Accent}"/>
+                                                    <Label
+                                                        FontAttributes="Bold"
+                                                        FontSize="11"
+                                                        Text="MODEL CONFIDENCE"
+                                                        TextColor="{StaticResource Muted}"/>
+                                                    <ProgressBar
+                                                        x:Name="AiConfidenceProgressBar"
+                                                        HeightRequest="8"
+                                                        Progress="0"
+                                                        ProgressColor="{StaticResource Accent}"
+                                                        BackgroundColor="#0A1E26"/>
+                                                    <Label
+                                                        x:Name="AiConfidencePercentLabel"
+                                                        FontAttributes="Bold"
+                                                        FontSize="28"
+                                                        TextColor="{StaticResource TextPrimary}"/>
+                                                    <Label
+                                                        FontSize="12"
+                                                        LineBreakMode="WordWrap"
+                                                        Text="This percentage reflects how strongly your text matches the analyzer’s rule set for the selected risk band. It is not clinical certainty or a probability of disease."
+                                                        TextColor="{StaticResource TextMuted}"/>
+                                                    <Label
+                                                        FontSize="11"
+                                                        LineBreakMode="WordWrap"
+                                                        Text="Use it only as orientation — always follow in-person or emergency care when appropriate."
+                                                        TextColor="{StaticResource Muted}"/>
+                                                </VerticalStackLayout>
+                                                <!-- B. Possible conditions (chips) -->
+                                                <VerticalStackLayout Spacing="12">
+                                                    <Label
+                                                        FontAttributes="Bold"
+                                                        FontSize="12"
+                                                        Text="POSSIBLE CONDITIONS"
+                                                        TextColor="{StaticResource Accent}"/>
+                                                    <Label
+                                                        FontSize="11"
+                                                        LineBreakMode="WordWrap"
+                                                        Text="Educational suggestions only — not a diagnosis."
+                                                        TextColor="{StaticResource Muted}"/>
+                                                    <FlexLayout
+                                                        x:Name="ConfidenceConditionChips"
+                                                        Padding="0,4,0,0"
+                                                        AlignContent="Start"
+                                                        AlignItems="Start"
+                                                        JustifyContent="Start"
+                                                        Wrap="Wrap"/>
+                                                    <Label
+                                                        x:Name="AiNoConditionsLabel"
+                                                        FontSize="13"
+                                                        IsVisible="False"
+                                                        LineBreakMode="WordWrap"
+                                                        Text="No conditions detected"
+                                                        TextColor="{StaticResource TextMuted}"/>
+                                                </VerticalStackLayout>
+                                                <!-- C. Recommendation -->
+                                                <VerticalStackLayout Spacing="8">
+                                                    <Label
+                                                        FontAttributes="Bold"
+                                                        FontSize="12"
+                                                        Text="RECOMMENDATION"
+                                                        TextColor="{StaticResource Accent}"/>
+                                                    <Label
+                                                        x:Name="AiRecommendationLabel"
+                                                        FontSize="13"
+                                                        LineBreakMode="WordWrap"
+                                                        TextColor="{StaticResource TextSecondary}"/>
+                                                </VerticalStackLayout>
+                                                <VerticalStackLayout Spacing="8">
+                                                    <Label
+                                                        FontAttributes="Bold"
+                                                        FontSize="11"
+                                                        Text="NEXT STEPS"
+                                                        TextColor="{StaticResource Muted}"/>
+                                                    <VerticalStackLayout x:Name="AiNextStepsStack" Spacing="4"/>
+                                                </VerticalStackLayout>
+                                                <VerticalStackLayout Spacing="8">
+                                                    <Label
+                                                        FontAttributes="Bold"
+                                                        FontSize="12"
+                                                        Text="AI CLINICAL INTERPRETATION"
+                                                        TextColor="{StaticResource Accent}"/>
+                                                    <Label
+                                                        FontSize="11"
+                                                        LineBreakMode="WordWrap"
+                                                        Text="Educational interpretation only — not a diagnosis."
+                                                        TextColor="{StaticResource Muted}"/>
+                                                    <Label
+                                                        x:Name="AiClinicalInterpretationFallbackHint"
+                                                        FontSize="11"
+                                                        IsVisible="False"
+                                                        LineBreakMode="WordWrap"
+                                                        Text="GPT interpretation is temporarily unavailable. Symptom analysis, risk level, and recommendations above remain available."
+                                                        TextColor="{StaticResource Muted}"/>
+                                                    <Label
+                                                        x:Name="AiClinicalInterpretationLabel"
+                                                        FontSize="13"
+                                                        LineBreakMode="WordWrap"
+                                                        TextColor="{StaticResource TextSecondary}"/>
+                                                </VerticalStackLayout>
+                                            </VerticalStackLayout>
+                                        </VerticalStackLayout>
+                                    </Border>
+                                </Grid>
+
+                                <!-- Risk-based recommended action (shown after analysis completes) -->
+                                <Border
+                                    x:Name="RecommendedActionCard"
+                                    IsVisible="False"
+                                    Opacity="0"
+                                    Padding="22"
+                                    Style="{StaticResource HoverCardStyle}">
+                                    <VerticalStackLayout Spacing="14">
+                                        <Label
+                                            FontAttributes="Bold"
+                                            FontSize="16"
+                                            Text="Recommended Action"
+                                            TextColor="{StaticResource TextPrimary}"/>
+                                        <Label
+                                            FontSize="11"
+                                            LineBreakMode="WordWrap"
+                                            Text="Guidance based on detected risk level — not a diagnosis."
+                                            TextColor="{StaticResource Muted}"/>
+                                        <Border
+                                            x:Name="RecommendedActionInnerCard"
+                                            Padding="18"
+                                            BackgroundColor="#0F2A1A"
+                                            Stroke="#4ADE80"
+                                            StrokeThickness="1">
+                                            <Border.StrokeShape>
+                                                <RoundRectangle CornerRadius="14"/>
+                                            </Border.StrokeShape>
+                                            <VerticalStackLayout Spacing="14">
+                                                <HorizontalStackLayout
+                                                    x:Name="RecommendedActionHeader"
+                                                    Spacing="10"
+                                                    VerticalOptions="Center">
+                                                    <Label
+                                                        x:Name="RecommendedActionWarningIcon"
+                                                        FontFamily="MaterialIcons"
+                                                        FontSize="22"
+                                                        IsVisible="False"
+                                                        Text="warning"
+                                                        TextColor="#F87171"
+                                                        VerticalOptions="Center"/>
+                                                    <Label
+                                                        x:Name="RecommendedActionStatusLabel"
+                                                        FontAttributes="Bold"
+                                                        FontSize="11"
+                                                        Text="LOW RISK"
+                                                        TextColor="#4ADE80"
+                                                        VerticalOptions="Center"/>
+                                                </HorizontalStackLayout>
+                                                <Label
+                                                    x:Name="RecommendedActionMessage"
+                                                    FontSize="14"
+                                                    LineBreakMode="WordWrap"
+                                                    TextColor="{StaticResource TextPrimary}"/>
+                                                <Label
+                                                    x:Name="RecommendedActionSecondaryMessage"
+                                                    FontSize="12"
+                                                    IsVisible="False"
+                                                    LineBreakMode="WordWrap"
+                                                    TextColor="{StaticResource TextMuted}"/>
+                                                <FlexLayout
+                                                    x:Name="RecommendedActionButtons"
+                                                    AlignContent="Start"
+                                                    AlignItems="Start"
+                                                    Direction="Row"
+                                                    JustifyContent="Start"
+                                                    Wrap="Wrap"/>
+                                            </VerticalStackLayout>
+                                        </Border>
+                                    </VerticalStackLayout>
+                                </Border>
+                            </VerticalStackLayout>
+
+                            <VerticalStackLayout
+                                x:Name="RightWorkspaceStack"
+                                Grid.Column="1"
+                                Spacing="24">
+
+                                <Border Padding="20" Style="{StaticResource HoverCardStyle}">
+                                    <VerticalStackLayout Spacing="16">
+                                        <Grid ColumnDefinitions="*,Auto">
+                                            <Label
+                                                FontAttributes="Bold"
+                                                FontSize="11"
+                                                Text="ANALYSIS HISTORY"
+                                                TextColor="{StaticResource Accent}"
+                                                VerticalOptions="Center"/>
+                                            <Label
+                                                Grid.Column="1"
+                                                FontFamily="MaterialIcons"
+                                                FontSize="20"
+                                                Text="filter_list"
+                                                TextColor="{StaticResource TextMuted}"
+                                                VerticalOptions="Center"/>
+                                        </Grid>
+
+                                        <VerticalStackLayout Spacing="12">
+                                            <Border
+                                                Padding="14"
+                                                BackgroundColor="#081820"
+                                                Stroke="#163B41"
+                                                StrokeThickness="1">
+                                                <Border.StrokeShape>
+                                                    <RoundRectangle CornerRadius="12"/>
+                                                </Border.StrokeShape>
+                                                <VerticalStackLayout Spacing="6">
+                                                    <Label
+                                                        FontAttributes="Bold"
+                                                        FontSize="14"
+                                                        Text="Case #8842 — Acute Nephritis"
+                                                        TextColor="{StaticResource TextPrimary}"/>
+                                                    <HorizontalStackLayout Spacing="8">
+                                                        <Border
+                                                            Padding="6,2"
+                                                            BackgroundColor="#0F2A1A"
+                                                            Stroke="#4ADE80"
+                                                            StrokeThickness="1">
+                                                            <Border.StrokeShape>
+                                                                <RoundRectangle CornerRadius="6"/>
+                                                            </Border.StrokeShape>
+                                                            <Label
+                                                                FontAttributes="Bold"
+                                                                FontSize="9"
+                                                                Text="COMPLETED"
+                                                                TextColor="#4ADE80"/>
+                                                        </Border>
+                                                        <Label
+                                                            FontAttributes="Bold"
+                                                            FontSize="12"
+                                                            Text="94% match"
+                                                            TextColor="{StaticResource Accent}"
+                                                            VerticalOptions="Center"/>
+                                                        <Label
+                                                            FontSize="11"
+                                                            Text="2h ago"
+                                                            TextColor="{StaticResource TextMuted}"
+                                                            VerticalOptions="Center"/>
+                                                    </HorizontalStackLayout>
+                                                </VerticalStackLayout>
+                                            </Border>
+
+                                            <Border
+                                                Padding="14"
+                                                BackgroundColor="#081820"
+                                                Stroke="#163B41"
+                                                StrokeThickness="1">
+                                                <Border.StrokeShape>
+                                                    <RoundRectangle CornerRadius="12"/>
+                                                </Border.StrokeShape>
+                                                <VerticalStackLayout Spacing="6">
+                                                    <Label
+                                                        FontAttributes="Bold"
+                                                        FontSize="14"
+                                                        Text="Case #8839 — Cardiac Arrhythmia"
+                                                        TextColor="{StaticResource TextPrimary}"/>
+                                                    <HorizontalStackLayout Spacing="8">
+                                                        <Border
+                                                            Padding="6,2"
+                                                            BackgroundColor="#1A2530"
+                                                            Stroke="#6E8C96"
+                                                            StrokeThickness="1">
+                                                            <Border.StrokeShape>
+                                                                <RoundRectangle CornerRadius="6"/>
+                                                            </Border.StrokeShape>
+                                                            <Label
+                                                                FontAttributes="Bold"
+                                                                FontSize="9"
+                                                                Text="DRAFT"
+                                                                TextColor="{StaticResource TextSecondary}"/>
+                                                        </Border>
+                                                        <Label
+                                                            FontSize="11"
+                                                            Text="5h ago"
+                                                            TextColor="{StaticResource TextMuted}"
+                                                            VerticalOptions="Center"/>
+                                                    </HorizontalStackLayout>
+                                                </VerticalStackLayout>
+                                            </Border>
+
+                                            <Border
+                                                Padding="14"
+                                                BackgroundColor="#081820"
+                                                Stroke="#163B41"
+                                                StrokeThickness="1">
+                                                <Border.StrokeShape>
+                                                    <RoundRectangle CornerRadius="12"/>
+                                                </Border.StrokeShape>
+                                                <VerticalStackLayout Spacing="6">
+                                                    <Label
+                                                        FontAttributes="Bold"
+                                                        FontSize="14"
+                                                        Text="Case #8831 — Viral Encephalitis"
+                                                        TextColor="{StaticResource TextPrimary}"/>
+                                                    <HorizontalStackLayout Spacing="8">
+                                                        <Border
+                                                            Padding="6,2"
+                                                            BackgroundColor="#0F2A1A"
+                                                            Stroke="#4ADE80"
+                                                            StrokeThickness="1">
+                                                            <Border.StrokeShape>
+                                                                <RoundRectangle CornerRadius="6"/>
+                                                            </Border.StrokeShape>
+                                                            <Label
+                                                                FontAttributes="Bold"
+                                                                FontSize="9"
+                                                                Text="COMPLETED"
+                                                                TextColor="#4ADE80"/>
+                                                        </Border>
+                                                        <Label
+                                                            FontAttributes="Bold"
+                                                            FontSize="12"
+                                                            Text="88% match"
+                                                            TextColor="{StaticResource Accent}"
+                                                            VerticalOptions="Center"/>
+                                                        <Label
+                                                            FontSize="11"
+                                                            Text="Yesterday"
+                                                            TextColor="{StaticResource TextMuted}"
+                                                            VerticalOptions="Center"/>
+                                                    </HorizontalStackLayout>
+                                                </VerticalStackLayout>
+                                            </Border>
+                                        </VerticalStackLayout>
+
+                                        <Button
+                                            Clicked="OnViewFullArchiveClicked"
+                                            HorizontalOptions="Fill"
+                                            Style="{StaticResource GhostButton}"
+                                            Text="View Full Archive"/>
+                                    </VerticalStackLayout>
+                                </Border>
+
+                                <Border Padding="18" Style="{StaticResource HoverCardStyle}">
+                                    <VerticalStackLayout Spacing="10">
+                                        <Label
+                                            FontAttributes="Bold"
+                                            FontSize="12"
+                                            Text="Diagnostic integrity"
+                                            TextColor="{StaticResource TextPrimary}"/>
+                                        <Label
+                                            FontSize="13"
+                                            Text="Compute load: 14.2%"
+                                            TextColor="{StaticResource TextMuted}"/>
+                                        <Label
+                                            FontSize="13"
+                                            LineBreakMode="WordWrap"
+                                            Text="Dataset version: MED-CORE v4.9.2"
+                                            TextColor="{StaticResource TextMuted}"/>
+                                    </VerticalStackLayout>
+                                </Border>
+                            </VerticalStackLayout>
+                        </Grid>
+                    </VerticalStackLayout>
+                </controls:MainContentWrapper>
+            </ScrollView>
+        </Grid>
+        </shared:MainLayout.PageContent>
+    </shared:MainLayout>
+</ContentPage>

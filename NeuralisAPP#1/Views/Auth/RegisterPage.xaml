@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    x:Class="NeuralisAPP_1.Views.Auth.RegisterPage"
+    BackgroundColor="{StaticResource BgDark}"
+    NavigationPage.HasNavigationBar="False">
+
+	<Grid>
+		<Image
+            Source="neiron.png"
+            Aspect="AspectFill"
+            Opacity="0.35"
+            InputTransparent="True"/>
+
+
+		<Grid Padding="64"
+              ColumnDefinitions="*,420">
+
+
+			<Grid Grid.Column="0"
+                  VerticalOptions="End"
+                  Padding="0,0,40,0">
+
+				<VerticalStackLayout Spacing="14">
+
+					<Label
+                        Text="Neuralis"
+                        FontSize="32"
+                        FontAttributes="Bold"
+                        TextColor="White"/>
+
+					<Label
+                        Text="AI-powered Medical Assistant"
+                        FontSize="14"
+                        TextColor="{StaticResource TextMuted}"/>
+
+				</VerticalStackLayout>
+			</Grid>
+
+
+			<Grid Grid.Column="1"
+                  VerticalOptions="End">
+
+				<Border
+                    Padding="28"
+                    BackgroundColor="#0E2A2F"
+                    Stroke="#1E4A50"
+                    StrokeThickness="1"
+                    Opacity="0.96">
+
+					<Border.Shadow>
+						<Shadow Offset="0,8"
+                                Radius="20"
+                                Opacity="0.35"/>
+					</Border.Shadow>
+
+					<Border.StrokeShape>
+						<RoundRectangle CornerRadius="18"/>
+					</Border.StrokeShape>
+
+					<VerticalStackLayout Spacing="16">
+
+						<Label
+                            x:Name="CreateAccountLabel"
+                            Text="Create account"
+                            FontSize="22"
+                            FontAttributes="Bold"
+                            TextColor="White"/>
+
+
+						<Border
+                            BackgroundColor="#102F34"
+                            Stroke="#1F4F55"
+                            StrokeThickness="1"
+                            Padding="14">
+
+							<Border.StrokeShape>
+								<RoundRectangle CornerRadius="12"/>
+							</Border.StrokeShape>
+
+							<Entry x:Name="FullNameEntry" 
+							    Placeholder="Full name"
+                                PlaceholderColor="#6FA8AD"
+                                TextColor="White"
+                                BackgroundColor="Transparent"/>
+						</Border>
+
+
+						<Border
+                            BackgroundColor="#102F34"
+                            Stroke="#1F4F55"
+                            StrokeThickness="1"
+                            Padding="14">
+
+							<Border.StrokeShape>
+								<RoundRectangle CornerRadius="12"/>
+							</Border.StrokeShape>
+
+							<Entry x:Name="EmailEntry"
+								Placeholder="Email"
+                                PlaceholderColor="#6FA8AD"
+                                TextColor="White"
+                                BackgroundColor="Transparent"/>
+						</Border>
+
+
+						<Border
+                            BackgroundColor="#102F34"
+                            Stroke="#1F4F55"
+                            StrokeThickness="1"
+                            Padding="14">
+
+							<Border.StrokeShape>
+								<RoundRectangle CornerRadius="12"/>
+							</Border.StrokeShape>
+
+							<Entry x:Name="PasswordEntry" 
+                                Placeholder="Password"
+                                IsPassword="True"
+                                PlaceholderColor="#6FA8AD"
+                                TextColor="White"
+                                BackgroundColor="Transparent"/>
+						</Border>
+
+
+						<Border
+                            BackgroundColor="#102F34"
+                            Stroke="#1F4F55"
+                            StrokeThickness="1"
+                            Padding="14">
+
+							<Border.StrokeShape>
+								<RoundRectangle CornerRadius="12"/>
+							</Border.StrokeShape>
+
+							<Entry x:Name="ConfirmPasswordEntry"
+                                Placeholder="Confirm password"
+                                IsPassword="True"
+                                PlaceholderColor="#6FA8AD"
+                                TextColor="White"
+                                BackgroundColor="Transparent"/>
+						</Border>
+
+
+						<Button
+                            x:Name="RegisterButton"
+                            Text="Register"
+                            Clicked="OnRegisterClicked"
+                            HeightRequest="52"
+                            FontAttributes="Bold"
+                            BackgroundColor="{StaticResource Accent}"
+                            TextColor="#062A2F"
+                            CornerRadius="14"/>
+
+
+
+						<HorizontalStackLayout HorizontalOptions="Center">
+							<Label
+                                x:Name="AlreadyHaveAccountLabel"
+                                Text="Already have an account? "
+                                TextColor="{StaticResource TextMuted}"/>
+							<Label
+                                x:Name="LoginLabel"
+                                Text="Login"
+                                TextColor="{StaticResource Accent}"
+                                FontAttributes="Bold">
+								<Label.GestureRecognizers>
+									<TapGestureRecognizer Tapped="OnLoginTapped"/>
+								</Label.GestureRecognizers>
+							</Label>
+						</HorizontalStackLayout>
+
+					</VerticalStackLayout>
+
+				</Border>
+			</Grid>
+
+		</Grid>
+	</Grid>
+</ContentPage>

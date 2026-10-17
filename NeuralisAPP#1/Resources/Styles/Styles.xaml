@@ -1,0 +1,246 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
+
+    <!-- ================= COLORS ================= -->
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="Colors.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+
+    <!-- ================= SPACING TOKENS ================= -->
+    <x:Double x:Key="SpacingXS">8</x:Double>
+    <x:Double x:Key="SpacingSM">12</x:Double>
+    <x:Double x:Key="SpacingMD">20</x:Double>
+    <x:Double x:Key="SpacingLG">28</x:Double>
+
+    <!-- ================= TEXT STYLES ================= -->
+
+    <Style x:Key="TitleLabel" TargetType="Label">
+        <Setter Property="FontSize" Value="28" />
+        <Setter Property="FontAttributes" Value="Bold" />
+        <Setter Property="TextColor" Value="{StaticResource TextPrimary}" />
+    </Style>
+
+    <Style x:Key="SubtitleLabel" TargetType="Label">
+        <Setter Property="FontSize" Value="13" />
+        <Setter Property="TextColor" Value="{StaticResource Muted}" />
+    </Style>
+
+    <Style x:Key="SectionLabel" TargetType="Label">
+        <Setter Property="FontSize" Value="16" />
+        <Setter Property="FontAttributes" Value="Bold" />
+        <Setter Property="TextColor" Value="{StaticResource TextPrimary}" />
+    </Style>
+
+    <!-- ================= SIDEBAR ================= -->
+
+    <Style x:Key="NavItemText" TargetType="Label">
+        <Setter Property="FontSize" Value="15" />
+        <Setter Property="TextColor" Value="{StaticResource TextSecondary}" />
+        <Setter Property="Padding" Value="8,6" />
+        <Setter Property="VerticalOptions" Value="Center" />
+    </Style>
+
+    <!-- Sidebar hover item -->
+    <Style x:Key="SidebarItemStyle" TargetType="Border">
+        <Setter Property="StrokeShape" Value="RoundRectangle 10"/>
+        <Setter Property="BackgroundColor" Value="Transparent"/>
+        <Setter Property="Padding" Value="10,6"/>
+
+        <Setter Property="VisualStateManager.VisualStateGroups">
+            <VisualStateGroupList>
+                <VisualStateGroup Name="CommonStates">
+
+                    <!-- NORMAL -->
+                    <VisualState Name="Normal">
+                        <VisualState.Setters>
+                            <Setter Property="BackgroundColor" Value="Transparent"/>
+                        </VisualState.Setters>
+                    </VisualState>
+
+                    <!-- HOVER -->
+                    <VisualState Name="PointerOver">
+                        <VisualState.Setters>
+                            <Setter Property="BackgroundColor" Value="#102E34"/>
+                        </VisualState.Setters>
+                    </VisualState>
+
+                </VisualStateGroup>
+            </VisualStateGroupList>
+        </Setter>
+    </Style>
+
+
+
+    <!-- ================= BUTTONS ================= -->
+
+    <Style x:Key="PrimaryButton" TargetType="Button">
+        <Setter Property="BackgroundColor" Value="{StaticResource CardAccent}" />
+        <Setter Property="TextColor" Value="{StaticResource BgPrimary}" />
+        <Setter Property="CornerRadius" Value="14" />
+        <Setter Property="Padding" Value="18,10" />
+        <Setter Property="FontSize" Value="15" />
+        <Setter Property="FontAttributes" Value="Bold" />
+    </Style>
+
+    <Style x:Key="GhostButton" TargetType="Button">
+        <Setter Property="BackgroundColor" Value="Transparent" />
+        <Setter Property="TextColor" Value="{StaticResource TextPrimary}" />
+        <Setter Property="BorderColor" Value="#163B41" />
+        <Setter Property="BorderWidth" Value="1" />
+        <Setter Property="CornerRadius" Value="14" />
+        <Setter Property="Padding" Value="14,8" />
+        <Setter Property="FontSize" Value="14" />
+    </Style>
+
+    <!-- ================= CARDS ================= -->
+
+    <Style x:Key="Card" TargetType="Border">
+        <Setter Property="BackgroundColor" Value="{StaticResource CardBg}" />
+        <Setter Property="StrokeShape" Value="RoundRectangle 16" />
+        <Setter Property="StrokeThickness" Value="0" />
+        <Setter Property="Padding" Value="20" />
+    </Style>
+
+    <Style x:Key="AccentCard" TargetType="Border" BasedOn="{StaticResource Card}">
+        <Setter Property="BackgroundColor" Value="#0D2B31" />
+        <Setter Property="StrokeThickness" Value="1" />
+        <Setter Property="Stroke" Value="{StaticResource CardAccent}" />
+    </Style>
+
+    <!-- ================= HOVER CARD (SAFE) ================= -->
+
+    <Style x:Key="HoverCardStyle"
+           TargetType="Border"
+           BasedOn="{StaticResource Card}">
+
+        <!-- DEFAULT SHADOW -->
+        <Setter Property="Shadow">
+            <Setter.Value>
+                <Shadow
+                    Radius="10"
+                    Opacity="0.18"
+                    Offset="0,4" />
+            </Setter.Value>
+        </Setter>
+
+        <Setter Property="VisualStateManager.VisualStateGroups">
+            <VisualStateGroupList>
+
+                <VisualStateGroup Name="CommonStates">
+
+                    <!-- NORMAL -->
+                    <VisualState Name="Normal">
+                        <VisualState.Setters>
+                            <Setter Property="BackgroundColor"
+                                    Value="{StaticResource CardBg}" />
+                            <Setter Property="Shadow">
+                                <Setter.Value>
+                                    <Shadow
+                                        Radius="10"
+                                        Opacity="0.18"
+                                        Offset="0,4" />
+                                </Setter.Value>
+                            </Setter>
+                        </VisualState.Setters>
+                    </VisualState>
+
+                    <!-- HOVER -->
+                    <VisualState Name="PointerOver">
+                        <VisualState.Setters>
+                            <!-- 🔥 НИКАКОГО Scale / Translation -->
+                            <Setter Property="BackgroundColor"
+                                    Value="#0F3138" />
+                            <Setter Property="Shadow">
+                                <Setter.Value>
+                                    <Shadow
+                                        Radius="20"
+                                        Opacity="0.35"
+                                        Offset="0,8" />
+                                </Setter.Value>
+                            </Setter>
+                        </VisualState.Setters>
+                    </VisualState>
+
+                </VisualStateGroup>
+
+            </VisualStateGroupList>
+        </Setter>
+
+    </Style>
+
+    <!-- ===== FILTER CHIP BUTTON ===== -->
+    <Style x:Key="FilterChipStyle" TargetType="Button">
+        <Setter Property="CornerRadius" Value="18"/>
+        <Setter Property="HeightRequest" Value="36"/>
+        <Setter Property="Padding" Value="16,8"/>
+        <Setter Property="FontSize" Value="13"/>
+        <Setter Property="BackgroundColor" Value="#0b2533"/>
+        <Setter Property="BorderColor" Value="#1e3a4c"/>
+        <Setter Property="BorderWidth" Value="1"/>
+        <Setter Property="TextColor" Value="#94a3b8"/>
+    </Style>
+
+    <Style x:Key="FilterChipActiveStyle" TargetType="Button" BasedOn="{StaticResource FilterChipStyle}">
+        <Setter Property="BackgroundColor" Value="{StaticResource Accent}"/>
+        <Setter Property="BorderColor" Value="{StaticResource Accent}"/>
+        <Setter Property="TextColor" Value="{StaticResource BgPrimary}"/>
+        <Setter Property="FontAttributes" Value="Bold"/>
+    </Style>
+
+    <!-- ===== FILTER TABS ===== -->
+    <Style x:Key="DoctorFilterButtonStyle" TargetType="Button">
+        <Setter Property="BackgroundColor" Value="#0f2f3f"/>
+        <Setter Property="TextColor" Value="#94a3b8"/>
+        <Setter Property="CornerRadius" Value="18"/>
+        <Setter Property="Padding" Value="16,6"/>
+        <Setter Property="FontSize" Value="13"/>
+    </Style>
+
+    <!-- ===== CARD ===== -->
+    <Style x:Key="DoctorCardStyle" TargetType="Border">
+        <Setter Property="BackgroundColor" Value="#0f1c2d"/>
+        <Setter Property="Stroke" Value="#1e293b"/>
+        <Setter Property="StrokeThickness" Value="1"/>
+        <Setter Property="Padding" Value="16"/>
+        <Setter Property="Margin" Value="0,0,0,12"/>
+        <Setter Property="StrokeShape">
+            <Setter.Value>
+                <RoundRectangle CornerRadius="16"/>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!-- ===== APPROVE BUTTON ===== -->
+    <Style x:Key="ApproveButtonStyle" TargetType="Button">
+        <Setter Property="BackgroundColor" Value="#0b2533"/>
+        <Setter Property="TextColor" Value="#22d3ee"/>
+        <Setter Property="CornerRadius" Value="10"/>
+    </Style>
+
+    <!-- ===== REJECT BUTTON ===== -->
+    <Style x:Key="RejectButtonStyle" TargetType="Button">
+        <Setter Property="BackgroundColor" Value="Transparent"/>
+        <Setter Property="TextColor" Value="#f87171"/>
+        <Setter Property="CornerRadius" Value="10"/>
+    </Style>
+
+    <Style x:Key="PageNumberButtonStyle" TargetType="Button">
+        <Setter Property="WidthRequest" Value="32"/>
+        <Setter Property="HeightRequest" Value="32"/>
+        <Setter Property="CornerRadius" Value="16"/>
+        <Setter Property="FontSize" Value="13"/>
+        <Setter Property="Padding" Value="0"/>
+        <Setter Property="BackgroundColor" Value="#0b2533"/>
+        <Setter Property="TextColor" Value="#94a3b8"/>
+    </Style>
+
+    <Style x:Key="PageNumberActiveStyle" TargetType="Button">
+        <Setter Property="BackgroundColor" Value="#38bdf8"/>
+        <Setter Property="TextColor" Value="White"/>
+    </Style>
+
+
+
+</ResourceDictionary>

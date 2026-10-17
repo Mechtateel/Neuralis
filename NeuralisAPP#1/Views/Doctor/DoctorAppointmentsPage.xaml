@@ -1,0 +1,749 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Matches DoctorPatientsPage / DoctorDashboard: 260 sidebar, profile block, main header row, card list -->
+<ContentPage
+    x:Class="NeuralisAPP_1.Views.Doctor.DoctorAppointmentsPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:appt="clr-namespace:NeuralisAPP_1.Models.Appointments"
+    BackgroundColor="#0b1220">
+
+    <Grid ColumnDefinitions="260,*">
+
+        <Grid
+            Grid.Column="0"
+            Padding="20,28"
+            BackgroundColor="#0f172a"
+            RowDefinitions="Auto,*,Auto">
+
+            <HorizontalStackLayout Spacing="12">
+                <Ellipse WidthRequest="28" HeightRequest="28" Fill="#2dd4bf"/>
+                <VerticalStackLayout>
+                    <Label
+                        FontAttributes="Bold"
+                        FontSize="16"
+                        Text="NEURALIS"
+                        TextColor="#e5e7eb"/>
+                    <Label
+                        FontSize="9"
+                        Text="AI MEDICAL SYSTEM"
+                        TextColor="#94a3b8"/>
+                </VerticalStackLayout>
+            </HorizontalStackLayout>
+
+            <VerticalStackLayout
+                Grid.Row="1"
+                Margin="0,36,0,0"
+                Spacing="10">
+
+                <Border
+                    x:Name="NavDashboard"
+                    Padding="10"
+                    StrokeShape="RoundRectangle 12">
+                    <HorizontalStackLayout Spacing="12">
+                        <Label
+                            FontFamily="MaterialIcons"
+                            FontSize="20"
+                            Text="dashboard"
+                            TextColor="#9ca3af"/>
+                        <Label Text="Dashboard" TextColor="#9ca3af"/>
+                    </HorizontalStackLayout>
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="OnDashboardTapped"/>
+                        <PointerGestureRecognizer
+                            PointerEntered="OnNavPointerEntered"
+                            PointerExited="OnNavPointerExited"/>
+                    </Border.GestureRecognizers>
+                </Border>
+
+                <Border
+                    x:Name="NavPatients"
+                    Padding="10"
+                    BackgroundColor="Transparent"
+                    StrokeShape="RoundRectangle 12">
+                    <HorizontalStackLayout Spacing="12">
+                        <Label
+                            FontFamily="MaterialIcons"
+                            FontSize="20"
+                            Text="people"
+                            TextColor="#9ca3af"/>
+                        <Label Text="Patients" TextColor="#9ca3af"/>
+                    </HorizontalStackLayout>
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="OnPatientsTapped"/>
+                        <PointerGestureRecognizer
+                            PointerEntered="OnNavPointerEntered"
+                            PointerExited="OnNavPointerExited"/>
+                    </Border.GestureRecognizers>
+                </Border>
+
+                <Border
+                    x:Name="NavLab"
+                    Padding="10"
+                    BackgroundColor="Transparent"
+                    StrokeShape="RoundRectangle 12">
+                    <HorizontalStackLayout Spacing="12">
+                        <Label
+                            FontFamily="MaterialIcons"
+                            FontSize="20"
+                            Text="science"
+                            TextColor="#9ca3af"/>
+                        <Label Text="Lab Results" TextColor="#9ca3af"/>
+                    </HorizontalStackLayout>
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="OnLabTapped"/>
+                        <PointerGestureRecognizer
+                            PointerEntered="OnNavPointerEntered"
+                            PointerExited="OnNavPointerExited"/>
+                    </Border.GestureRecognizers>
+                </Border>
+
+                <Border
+                    x:Name="NavAI"
+                    Padding="10"
+                    BackgroundColor="Transparent"
+                    StrokeShape="RoundRectangle 12">
+                    <HorizontalStackLayout Spacing="12">
+                        <Label
+                            FontFamily="MaterialIcons"
+                            FontSize="20"
+                            Text="psychology"
+                            TextColor="#9ca3af"/>
+                        <Label Text="AI Insights" TextColor="#9ca3af"/>
+                    </HorizontalStackLayout>
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="OnAITapped"/>
+                        <PointerGestureRecognizer
+                            PointerEntered="OnNavPointerEntered"
+                            PointerExited="OnNavPointerExited"/>
+                    </Border.GestureRecognizers>
+                </Border>
+
+                <Border
+                    x:Name="NavAppointments"
+                    Padding="10"
+                    BackgroundColor="#111827"
+                    StrokeShape="RoundRectangle 12">
+                    <HorizontalStackLayout Spacing="12">
+                        <Label
+                            FontFamily="MaterialIcons"
+                            FontSize="20"
+                            Text="event"
+                            TextColor="#2dd4bf"/>
+                        <Label Text="Appointments" TextColor="#e5e7eb"/>
+                    </HorizontalStackLayout>
+                    <Border.GestureRecognizers>
+                        <PointerGestureRecognizer
+                            PointerEntered="OnNavPointerEntered"
+                            PointerExited="OnNavPointerExited"/>
+                    </Border.GestureRecognizers>
+                </Border>
+            </VerticalStackLayout>
+
+            <Border
+                Grid.Row="2"
+                x:Name="ProfileButton"
+                Padding="14"
+                BackgroundColor="#111827"
+                Stroke="#1f2937"
+                StrokeShape="RoundRectangle 14">
+                <Border.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="OnProfileTapped"/>
+                </Border.GestureRecognizers>
+                <VerticalStackLayout>
+                    <Label
+                        x:Name="DoctorNameLabel"
+                        FontAttributes="Bold"
+                        Text="doctor@test.com"
+                        TextColor="#e5e7eb"/>
+                    <Label
+                        x:Name="DoctorSpecializationLabel"
+                        FontSize="11"
+                        Text="Neurologist"
+                        TextColor="#9ca3af"/>
+                </VerticalStackLayout>
+            </Border>
+
+            <Border
+                Grid.Row="2"
+                x:Name="ProfileMenu"
+                Margin="3,64,3,0"
+                Padding="12"
+                BackgroundColor="#0f172a"
+                IsVisible="False"
+                Opacity="0"
+                Scale="0.96"
+                Stroke="#1f2937"
+                StrokeShape="RoundRectangle 16"
+                ZIndex="10">
+                <VerticalStackLayout Spacing="10">
+                    <Border Padding="8" StrokeShape="RoundRectangle 10">
+                        <HorizontalStackLayout Spacing="12">
+                            <Label
+                                FontFamily="MaterialIcons"
+                                FontSize="18"
+                                Text="settings"
+                                TextColor="#94a3b8"/>
+                            <Label
+                                FontSize="13"
+                                Text="Settings"
+                                TextColor="#e5e7eb"/>
+                        </HorizontalStackLayout>
+                    </Border>
+                    <Border Padding="8" StrokeShape="RoundRectangle 10">
+                        <HorizontalStackLayout Spacing="12">
+                            <Label
+                                FontFamily="MaterialIcons"
+                                FontSize="18"
+                                Text="palette"
+                                TextColor="#94a3b8"/>
+                            <Label
+                                FontSize="13"
+                                Text="Personalization"
+                                TextColor="#e5e7eb"/>
+                        </HorizontalStackLayout>
+                    </Border>
+                    <Border Padding="8" StrokeShape="RoundRectangle 10">
+                        <HorizontalStackLayout Spacing="12">
+                            <Label
+                                FontFamily="MaterialIcons"
+                                FontSize="18"
+                                Text="help_outline"
+                                TextColor="#94a3b8"/>
+                            <Label
+                                FontSize="13"
+                                Text="Help"
+                                TextColor="#e5e7eb"/>
+                        </HorizontalStackLayout>
+                    </Border>
+                    <BoxView
+                        Margin="4,6"
+                        HeightRequest="1"
+                        BackgroundColor="#1e293b"/>
+                    <Border Padding="8" StrokeShape="RoundRectangle 10">
+                        <Border.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="OnLogoutClicked"/>
+                        </Border.GestureRecognizers>
+                        <HorizontalStackLayout Spacing="12">
+                            <Label
+                                FontFamily="MaterialIcons"
+                                FontSize="18"
+                                Text="logout"
+                                TextColor="#f87171"/>
+                            <Label
+                                FontSize="13"
+                                Text="Logout"
+                                TextColor="#f87171"/>
+                        </HorizontalStackLayout>
+                    </Border>
+                </VerticalStackLayout>
+            </Border>
+        </Grid>
+
+        <Grid Grid.Column="1">
+            <ScrollView>
+                <Grid
+                    Padding="28"
+                    ColumnDefinitions="*,330"
+                    ColumnSpacing="24"
+                    RowDefinitions="Auto,Auto,*"
+                    RowSpacing="18">
+
+                    <Grid
+                        Grid.Row="0"
+                        Grid.ColumnSpan="2"
+                        ColumnDefinitions="*,Auto,Auto,Auto,Auto"
+                        ColumnSpacing="10">
+                        <Border
+                            Grid.Column="0"
+                            Padding="14,0"
+                            BackgroundColor="#151d2b"
+                            HeightRequest="48"
+                            Stroke="#263043"
+                            StrokeShape="RoundRectangle 14">
+                            <Grid ColumnDefinitions="Auto,*" ColumnSpacing="10">
+                                <Label
+                                    Grid.Column="0"
+                                    FontFamily="MaterialIcons"
+                                    FontSize="18"
+                                    Text="search"
+                                    TextColor="#6b7280"
+                                    VerticalOptions="Center"/>
+                                <Entry
+                                    x:Name="SearchEntry"
+                                    Grid.Column="1"
+                                    BackgroundColor="Transparent"
+                                    FontSize="13"
+                                    Placeholder="Search patients, appointments, or IDs..."
+                                    PlaceholderColor="#64748b"
+                                    TextChanged="OnSearchTextChanged"
+                                    TextColor="#d1d5db"
+                                    VerticalOptions="Center"/>
+                            </Grid>
+                        </Border>
+
+                        <Border
+                            x:Name="ExportButton"
+                            Grid.Column="1"
+                            Padding="14,0"
+                            HeightRequest="48"
+                            BackgroundColor="#151d2b"
+                            Stroke="#263043"
+                            StrokeShape="RoundRectangle 14">
+                            <Border.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="OnExportTapped"/>
+                            </Border.GestureRecognizers>
+                            <HorizontalStackLayout Spacing="6" VerticalOptions="Center">
+                                <Label
+                                    FontFamily="MaterialIcons"
+                                    FontSize="16"
+                                    Text="download"
+                                    TextColor="#67e8f9"/>
+                                <Label x:Name="ExportLabel" Text="Export" TextColor="#dbeafe" FontSize="12"/>
+                            </HorizontalStackLayout>
+                        </Border>
+
+                        <Border
+                            x:Name="FilterButton"
+                            Grid.Column="2"
+                            Padding="14,0"
+                            HeightRequest="48"
+                            BackgroundColor="#151d2b"
+                            Stroke="#263043"
+                            StrokeShape="RoundRectangle 14">
+                            <Border.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="OnFilterTapped"/>
+                            </Border.GestureRecognizers>
+                            <HorizontalStackLayout Spacing="6" VerticalOptions="Center">
+                                <Label
+                                    FontFamily="MaterialIcons"
+                                    FontSize="16"
+                                    Text="tune"
+                                    TextColor="#67e8f9"/>
+                                <Label x:Name="FilterLabel" Text="Filter" TextColor="#dbeafe" FontSize="12"/>
+                            </HorizontalStackLayout>
+                        </Border>
+
+                        <Border
+                            Grid.Column="3"
+                            HeightRequest="48"
+                            WidthRequest="120"
+                            BackgroundColor="#151d2b"
+                            Stroke="#263043"
+                            StrokeShape="RoundRectangle 14">
+                            <HorizontalStackLayout Spacing="4" VerticalOptions="Center" HorizontalOptions="Center">
+                                <Button Text="EN" Clicked="OnLangEnClicked" FontSize="10" HeightRequest="30" CornerRadius="8" Padding="6,0" BackgroundColor="#263043" TextColor="#d1d5db"/>
+                                <Button Text="RU" Clicked="OnLangRuClicked" FontSize="10" HeightRequest="30" CornerRadius="8" Padding="6,0" BackgroundColor="#263043" TextColor="#d1d5db"/>
+                                <Button Text="KZ" Clicked="OnLangKzClicked" FontSize="10" HeightRequest="30" CornerRadius="8" Padding="6,0" BackgroundColor="#263043" TextColor="#d1d5db"/>
+                            </HorizontalStackLayout>
+                        </Border>
+
+                        <Border
+                            Grid.Column="4"
+                            HeightRequest="48"
+                            WidthRequest="48"
+                            BackgroundColor="#151d2b"
+                            Stroke="#263043"
+                            StrokeShape="RoundRectangle 14">
+                            <Ellipse
+                                HeightRequest="32"
+                                WidthRequest="32"
+                                Fill="#2dd4bf"
+                                HorizontalOptions="Center"
+                                VerticalOptions="Center"/>
+                        </Border>
+                    </Grid>
+
+                    <Grid
+                        Grid.Row="1"
+                        Grid.ColumnSpan="2"
+                        ColumnDefinitions="*,Auto"
+                        ColumnSpacing="14">
+                        <VerticalStackLayout Grid.Column="0" Spacing="4">
+                            <Label
+                                x:Name="AppointmentsTitleLabel"
+                                FontAttributes="Bold"
+                                FontSize="44"
+                                Text="Appointments"
+                                TextColor="#eef2ff"/>
+                            <HorizontalStackLayout Spacing="8">
+                                <Ellipse HeightRequest="8" WidthRequest="8" Fill="#22d3ee"/>
+                                <Label
+                                    x:Name="SummaryLabel"
+                                    FontSize="14"
+                                    Text="0 appointments scheduled"
+                                    TextColor="#8ca3c0"/>
+                            </HorizontalStackLayout>
+                        </VerticalStackLayout>
+
+                        <Border
+                            Grid.Column="1"
+                            Padding="6"
+                            BackgroundColor="#151d2b"
+                            Stroke="#263043"
+                            StrokeShape="RoundRectangle 16"
+                            VerticalOptions="End">
+                            <HorizontalStackLayout Spacing="6">
+                                <Border
+                                    x:Name="TodayTabBorder"
+                                    Padding="16,8"
+                                    BackgroundColor="#4dd8ee"
+                                    StrokeShape="RoundRectangle 10">
+                                    <Border.GestureRecognizers>
+                                        <TapGestureRecognizer Tapped="OnTodayTabTapped"/>
+                                    </Border.GestureRecognizers>
+                                    <Label
+                                        x:Name="TodayTabLabel"
+                                        Text="Today"
+                                        TextColor="#082f49"
+                                        FontAttributes="Bold"
+                                        FontSize="12"/>
+                                </Border>
+                                <Border
+                                    x:Name="WeekTabBorder"
+                                    Padding="16,8"
+                                    BackgroundColor="Transparent"
+                                    StrokeShape="RoundRectangle 10">
+                                    <Border.GestureRecognizers>
+                                        <TapGestureRecognizer Tapped="OnWeekTabTapped"/>
+                                    </Border.GestureRecognizers>
+                                    <Label
+                                        x:Name="WeekTabLabel"
+                                        Text="Week"
+                                        TextColor="#94a3b8"
+                                        FontSize="12"/>
+                                </Border>
+                                <Border
+                                    x:Name="MonthTabBorder"
+                                    Padding="16,8"
+                                    BackgroundColor="Transparent"
+                                    StrokeShape="RoundRectangle 10">
+                                    <Border.GestureRecognizers>
+                                        <TapGestureRecognizer Tapped="OnMonthTabTapped"/>
+                                    </Border.GestureRecognizers>
+                                    <Label
+                                        x:Name="MonthTabLabel"
+                                        Text="Month"
+                                        TextColor="#94a3b8"
+                                        FontSize="12"/>
+                                </Border>
+                            </HorizontalStackLayout>
+                        </Border>
+                    </Grid>
+
+                    <Grid Grid.Row="2" Grid.Column="0" RowDefinitions="Auto,*" RowSpacing="8">
+                        <Label
+                            x:Name="ErrorLabel"
+                            FontSize="12"
+                            IsVisible="False"
+                            TextColor="#fca5a5"/>
+                        <RefreshView
+                            x:Name="RefreshHost"
+                            Grid.Row="1"
+                            Refreshing="OnRefreshing">
+                            <CollectionView
+                                x:Name="AppointmentsList"
+                                ItemsLayout="VerticalList"
+                                SelectionMode="None">
+                                <CollectionView.EmptyView>
+                                    <Label
+                                        x:Name="EmptyStateLabel"
+                                        Margin="0,16,0,0"
+                                        FontSize="13"
+                                        Text="No appointments found"
+                                        TextColor="#9ca3af"/>
+                                </CollectionView.EmptyView>
+                                <CollectionView.ItemTemplate>
+                                    <DataTemplate>
+                                        <Grid>
+                                            <Grid
+                                                x:Name="DividerItem"
+                                                IsVisible="{Binding IsDivider}"
+                                                Margin="0,4,0,12"
+                                                ColumnDefinitions="*,Auto,*"
+                                                ColumnSpacing="10"
+                                                VerticalOptions="Center">
+                                                <BoxView Grid.Column="0" HeightRequest="1" BackgroundColor="#223047" VerticalOptions="Center"/>
+                                                <Label
+                                                    Grid.Column="1"
+                                                    FontSize="11"
+                                                    CharacterSpacing="1.1"
+                                                    Text="{Binding DividerText}"
+                                                    TextColor="#4dd8ee"
+                                                    VerticalOptions="Center"/>
+                                                <BoxView Grid.Column="2" HeightRequest="1" BackgroundColor="#223047" VerticalOptions="Center"/>
+                                            </Grid>
+
+                                            <Border
+                                                x:Name="AppointmentItem"
+                                                IsVisible="{Binding IsAppointment}"
+                                                Margin="0,0,0,12"
+                                                Padding="18,14"
+                                                BackgroundColor="#161f2d"
+                                                Stroke="#253244"
+                                                StrokeShape="RoundRectangle 16">
+                                                <Border.GestureRecognizers>
+                                                    <TapGestureRecognizer Tapped="OnAppointmentTapped"/>
+                                                </Border.GestureRecognizers>
+                                                <Grid ColumnDefinitions="84,*,Auto" ColumnSpacing="14">
+                                                    <VerticalStackLayout Grid.Column="0" Spacing="2" VerticalOptions="Center">
+                                                        <Label
+                                                            FontAttributes="Bold"
+                                                            FontSize="31"
+                                                            Text="{Binding TimeText}"
+                                                            TextColor="#67e8f9"/>
+                                                        <Label
+                                                            FontSize="11"
+                                                            Text="{Binding MeridiemText}"
+                                                            TextColor="#7e8ea8"/>
+                                                    </VerticalStackLayout>
+
+                                                    <VerticalStackLayout Grid.Column="1" Spacing="3" VerticalOptions="Center">
+                                                        <Label
+                                                            FontAttributes="Bold"
+                                                            FontSize="20"
+                                                            Text="{Binding PatientName}"
+                                                            TextColor="#f8fafc"/>
+                                                        <Label
+                                                            FontSize="12"
+                                                            Text="{Binding Email}"
+                                                            TextColor="#7f8ea3"/>
+                                                        <Label
+                                                            FontSize="13"
+                                                            Text="{Binding TypeDisplay}"
+                                                            TextColor="#c4d0e0"/>
+                                                    </VerticalStackLayout>
+
+                                                    <HorizontalStackLayout
+                                                        Grid.Column="2"
+                                                        Spacing="10"
+                                                        VerticalOptions="Center">
+                                                        <Border
+                                                            Padding="12,6"
+                                                            BackgroundColor="#0e749033"
+                                                            StrokeShape="RoundRectangle 999">
+                                                            <Border.Triggers>
+                                                                <DataTrigger
+                                                                    TargetType="Border"
+                                                                    Binding="{Binding Status}"
+                                                                    Value="PENDING">
+                                                                    <Setter Property="BackgroundColor" Value="#f59e0b33"/>
+                                                                </DataTrigger>
+                                                                <DataTrigger
+                                                                    TargetType="Border"
+                                                                    Binding="{Binding Status}"
+                                                                    Value="CANCELLED">
+                                                                    <Setter Property="BackgroundColor" Value="#ef444433"/>
+                                                                </DataTrigger>
+                                                            </Border.Triggers>
+                                                            <Label
+                                                                FontAttributes="Bold"
+                                                                FontSize="11"
+                                                                CharacterSpacing="0.8"
+                                                                Text="{Binding Status}"
+                                                                TextColor="#67e8f9">
+                                                                <Label.Triggers>
+                                                                    <DataTrigger
+                                                                        TargetType="Label"
+                                                                        Binding="{Binding Status}"
+                                                                        Value="PENDING">
+                                                                        <Setter Property="TextColor" Value="#f59e0b"/>
+                                                                    </DataTrigger>
+                                                                    <DataTrigger
+                                                                        TargetType="Label"
+                                                                        Binding="{Binding Status}"
+                                                                        Value="CANCELLED">
+                                                                        <Setter Property="TextColor" Value="#ef4444"/>
+                                                                    </DataTrigger>
+                                                                </Label.Triggers>
+                                                            </Label>
+                                                        </Border>
+
+                                                        <Label
+                                                            FontFamily="MaterialIcons"
+                                                            FontSize="17"
+                                                            Text="schedule"
+                                                            TextColor="#6b7b93"
+                                                            VerticalOptions="Center"/>
+                                                    </HorizontalStackLayout>
+                                                </Grid>
+                                            </Border>
+                                        </Grid>
+                                    </DataTemplate>
+                                </CollectionView.ItemTemplate>
+                            </CollectionView>
+                        </RefreshView>
+                    </Grid>
+
+                    <VerticalStackLayout
+                        Grid.Row="2"
+                        Grid.Column="1"
+                        Spacing="14">
+                        <Border
+                            Padding="16"
+                            BackgroundColor="#161f2d"
+                            Stroke="#253244"
+                            StrokeShape="RoundRectangle 16">
+                            <VerticalStackLayout Spacing="12">
+                                <Grid ColumnDefinitions="*,Auto,Auto">
+                                    <Label
+                                        x:Name="CalendarMonthLabel"
+                                        Grid.Column="0"
+                                        FontAttributes="Bold"
+                                        FontSize="17"
+                                        Text="September 2024"
+                                        TextColor="#e2e8f0"/>
+                                    <Label
+                                        Grid.Column="1"
+                                        Text="‹"
+                                        TextColor="#94a3b8"
+                                        FontSize="18">
+                                        <Label.GestureRecognizers>
+                                            <TapGestureRecognizer Tapped="OnCalendarPrevTapped"/>
+                                        </Label.GestureRecognizers>
+                                    </Label>
+                                    <Label
+                                        Grid.Column="2"
+                                        Text="›"
+                                        TextColor="#94a3b8"
+                                        FontSize="18">
+                                        <Label.GestureRecognizers>
+                                            <TapGestureRecognizer Tapped="OnCalendarNextTapped"/>
+                                        </Label.GestureRecognizers>
+                                    </Label>
+                                </Grid>
+                                <Grid ColumnDefinitions="*,*,*,*,*,*,*" RowSpacing="8" ColumnSpacing="8">
+                                    <Label Grid.Column="0" Text="M" TextColor="#64748b" FontSize="11" HorizontalTextAlignment="Center"/>
+                                    <Label Grid.Column="1" Text="T" TextColor="#64748b" FontSize="11" HorizontalTextAlignment="Center"/>
+                                    <Label Grid.Column="2" Text="W" TextColor="#64748b" FontSize="11" HorizontalTextAlignment="Center"/>
+                                    <Label Grid.Column="3" Text="T" TextColor="#64748b" FontSize="11" HorizontalTextAlignment="Center"/>
+                                    <Label Grid.Column="4" Text="F" TextColor="#64748b" FontSize="11" HorizontalTextAlignment="Center"/>
+                                    <Label Grid.Column="5" Text="S" TextColor="#64748b" FontSize="11" HorizontalTextAlignment="Center"/>
+                                    <Label Grid.Column="6" Text="S" TextColor="#64748b" FontSize="11" HorizontalTextAlignment="Center"/>
+                                </Grid>
+                                <Grid ColumnDefinitions="*,*,*,*,*,*,*" RowSpacing="8" ColumnSpacing="8">
+                                    <Label x:Name="CalendarTop0" Grid.Column="0" Text="28" TextColor="#6b7280" FontSize="12" HorizontalTextAlignment="Center"/>
+                                    <Label x:Name="CalendarTop1" Grid.Column="1" Text="29" TextColor="#6b7280" FontSize="12" HorizontalTextAlignment="Center"/>
+                                    <Label x:Name="CalendarTop2" Grid.Column="2" Text="30" TextColor="#6b7280" FontSize="12" HorizontalTextAlignment="Center"/>
+                                    <Label x:Name="CalendarTop3" Grid.Column="3" Text="1" TextColor="#d1d5db" FontSize="12" HorizontalTextAlignment="Center"/>
+                                    <Label x:Name="CalendarTop4" Grid.Column="4" Text="2" TextColor="#d1d5db" FontSize="12" HorizontalTextAlignment="Center"/>
+                                    <Label x:Name="CalendarTop5" Grid.Column="5" Text="3" TextColor="#d1d5db" FontSize="12" HorizontalTextAlignment="Center"/>
+                                    <Label x:Name="CalendarTop6" Grid.Column="6" Text="4" TextColor="#d1d5db" FontSize="12" HorizontalTextAlignment="Center"/>
+                                </Grid>
+                                <Grid ColumnDefinitions="*,*,*,*,*,*,*" ColumnSpacing="8">
+                                    <Border x:Name="CalendarDayBorder0" Grid.Column="0" Padding="6" BackgroundColor="#47d6ec" StrokeShape="RoundRectangle 8">
+                                        <Border.GestureRecognizers>
+                                            <TapGestureRecognizer Tapped="OnCalendarDayTapped" CommandParameter="0"/>
+                                        </Border.GestureRecognizers>
+                                        <Label x:Name="CalendarDayLabel0" Text="12" TextColor="#073b4c" FontAttributes="Bold" FontSize="12" HorizontalTextAlignment="Center"/>
+                                    </Border>
+                                    <Border x:Name="CalendarDayBorder1" Grid.Column="1" Padding="6" BackgroundColor="Transparent" StrokeShape="RoundRectangle 8">
+                                        <Border.GestureRecognizers>
+                                            <TapGestureRecognizer Tapped="OnCalendarDayTapped" CommandParameter="1"/>
+                                        </Border.GestureRecognizers>
+                                        <Label x:Name="CalendarDayLabel1" Text="13" TextColor="#d1d5db" FontSize="12" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"/>
+                                    </Border>
+                                    <Border x:Name="CalendarDayBorder2" Grid.Column="2" Padding="6" BackgroundColor="Transparent" StrokeShape="RoundRectangle 8">
+                                        <Border.GestureRecognizers>
+                                            <TapGestureRecognizer Tapped="OnCalendarDayTapped" CommandParameter="2"/>
+                                        </Border.GestureRecognizers>
+                                        <Label x:Name="CalendarDayLabel2" Text="14" TextColor="#d1d5db" FontSize="12" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"/>
+                                    </Border>
+                                    <Border x:Name="CalendarDayBorder3" Grid.Column="3" Padding="6" BackgroundColor="Transparent" StrokeShape="RoundRectangle 8">
+                                        <Border.GestureRecognizers>
+                                            <TapGestureRecognizer Tapped="OnCalendarDayTapped" CommandParameter="3"/>
+                                        </Border.GestureRecognizers>
+                                        <Label x:Name="CalendarDayLabel3" Text="15" TextColor="#d1d5db" FontSize="12" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"/>
+                                    </Border>
+                                    <Border x:Name="CalendarDayBorder4" Grid.Column="4" Padding="6" BackgroundColor="Transparent" StrokeShape="RoundRectangle 8">
+                                        <Border.GestureRecognizers>
+                                            <TapGestureRecognizer Tapped="OnCalendarDayTapped" CommandParameter="4"/>
+                                        </Border.GestureRecognizers>
+                                        <Label x:Name="CalendarDayLabel4" Text="16" TextColor="#d1d5db" FontSize="12" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"/>
+                                    </Border>
+                                    <Border x:Name="CalendarDayBorder5" Grid.Column="5" Padding="6" BackgroundColor="Transparent" StrokeShape="RoundRectangle 8">
+                                        <Border.GestureRecognizers>
+                                            <TapGestureRecognizer Tapped="OnCalendarDayTapped" CommandParameter="5"/>
+                                        </Border.GestureRecognizers>
+                                        <Label x:Name="CalendarDayLabel5" Text="17" TextColor="#d1d5db" FontSize="12" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"/>
+                                    </Border>
+                                    <Border x:Name="CalendarDayBorder6" Grid.Column="6" Padding="6" BackgroundColor="Transparent" StrokeShape="RoundRectangle 8">
+                                        <Border.GestureRecognizers>
+                                            <TapGestureRecognizer Tapped="OnCalendarDayTapped" CommandParameter="6"/>
+                                        </Border.GestureRecognizers>
+                                        <Label x:Name="CalendarDayLabel6" Text="18" TextColor="#d1d5db" FontSize="12" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"/>
+                                    </Border>
+                                </Grid>
+                            </VerticalStackLayout>
+                        </Border>
+
+                        <Grid ColumnDefinitions="*,*" ColumnSpacing="12">
+                            <Border
+                                Grid.Column="0"
+                                Padding="14"
+                                BackgroundColor="#161f2d"
+                                Stroke="#253244"
+                                StrokeShape="RoundRectangle 14">
+                                <VerticalStackLayout Spacing="5">
+                                    <Label Text="WEEKLY LOAD" FontSize="10" TextColor="#8aa2bf"/>
+                                    <Label x:Name="WeeklyLoadValueLabel" Text="0" FontAttributes="Bold" FontSize="34" TextColor="#eef2ff"/>
+                                    <Label x:Name="WeeklyLoadTrendLabel" Text="0 this week" FontSize="11" TextColor="#67e8f9"/>
+                                </VerticalStackLayout>
+                            </Border>
+                            <Border
+                                Grid.Column="1"
+                                Padding="14"
+                                BackgroundColor="#161f2d"
+                                Stroke="#253244"
+                                StrokeShape="RoundRectangle 14">
+                                <VerticalStackLayout Spacing="5">
+                                    <Label Text="CANCELLATIONS" FontSize="10" TextColor="#8aa2bf"/>
+                                    <Label x:Name="CancellationRateValueLabel" Text="0%" FontAttributes="Bold" FontSize="34" TextColor="#eef2ff"/>
+                                    <Label x:Name="CancellationRateTrendLabel" Text="0 cancelled" FontSize="11" TextColor="#ef4444"/>
+                                </VerticalStackLayout>
+                            </Border>
+                        </Grid>
+
+                        <Border
+                            Padding="16"
+                            BackgroundColor="#161f2d"
+                            Stroke="#253244"
+                            StrokeShape="RoundRectangle 16">
+                            <VerticalStackLayout Spacing="10">
+                                <HorizontalStackLayout Spacing="10">
+                                    <Ellipse HeightRequest="18" WidthRequest="18" Fill="#1f3f55"/>
+                                    <Label
+                                        FontAttributes="Bold"
+                                        FontSize="16"
+                                        Text="Neuralis Insight"
+                                        TextColor="#e2e8f0"/>
+                                </HorizontalStackLayout>
+                                <Label
+                                    x:Name="InsightTextLabel"
+                                    FontSize="12"
+                                    Text="No upcoming appointments yet."
+                                    TextColor="#9fb1c8"/>
+                                <Button
+                                    BackgroundColor="#243244"
+                                    Clicked="OnInsightUpdateClicked"
+                                    CornerRadius="10"
+                                    FontAttributes="Bold"
+                                    FontSize="12"
+                                    HeightRequest="40"
+                                    Text="UPDATE APPOINTMENT"
+                                    TextColor="#67e8f9"/>
+                            </VerticalStackLayout>
+                        </Border>
+                    </VerticalStackLayout>
+                </Grid>
+            </ScrollView>
+            <ActivityIndicator
+                x:Name="AppointmentsBusy"
+                HorizontalOptions="Center"
+                VerticalOptions="Center"
+                IsVisible="False"
+                IsRunning="False"
+                Scale="1.2"
+                Color="#2dd4bf"/>
+        </Grid>
+    </Grid>
+</ContentPage>

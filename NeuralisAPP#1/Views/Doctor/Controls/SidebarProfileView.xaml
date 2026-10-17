@@ -1,0 +1,227 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView
+    x:Class="NeuralisAPP_1.Views.Doctor.Controls.SidebarProfileView"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
+
+    <Border
+        x:Name="ProfileCard"
+        Padding="10,8,10,10"
+        BackgroundColor="#111827"
+        Stroke="#1f2937"
+        StrokeShape="RoundRectangle 14">
+        <VerticalStackLayout x:Name="RootStack" Spacing="6">
+
+            <!-- Clickable header: avatar + identity + chevron -->
+            <Border
+                x:Name="HeaderHitArea"
+                Padding="6,4"
+                BackgroundColor="Transparent"
+                StrokeShape="RoundRectangle 10">
+                <Border.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="OnProfileHeaderTapped"/>
+                    <PointerGestureRecognizer
+                        PointerEntered="OnHeaderPointerEntered"
+                        PointerExited="OnHeaderPointerExited"/>
+                </Border.GestureRecognizers>
+                <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="10" VerticalOptions="Center">
+                    <Grid
+                        Grid.Column="0"
+                        HeightRequest="40"
+                        WidthRequest="40"
+                        VerticalOptions="Center">
+                        <Ellipse
+                            Fill="#1e293b"
+                            HeightRequest="40"
+                            WidthRequest="40"
+                            HorizontalOptions="Center"
+                            VerticalOptions="Center"/>
+                        <Label
+                            FontFamily="MaterialIcons"
+                            FontSize="22"
+                            HorizontalOptions="Center"
+                            Text="person"
+                            TextColor="#2dd4bf"
+                            VerticalOptions="Center"/>
+                    </Grid>
+                    <VerticalStackLayout
+                        Grid.Column="1"
+                        Spacing="2"
+                        VerticalOptions="Center">
+                        <Label
+                            x:Name="PrimaryLineLabel"
+                            FontAttributes="Bold"
+                            FontSize="13"
+                            LineBreakMode="TailTruncation"
+                            MaxLines="2"
+                            Text="—"
+                            TextColor="#e5e7eb"/>
+                        <Label
+                            x:Name="SecondaryLineLabel"
+                            FontSize="11"
+                            LineBreakMode="TailTruncation"
+                            MaxLines="2"
+                            Text=""
+                            TextColor="#9ca3af"/>
+                    </VerticalStackLayout>
+                    <Label
+                        x:Name="ChevronLabel"
+                        Grid.Column="2"
+                        FontFamily="MaterialIcons"
+                        FontSize="22"
+                        Text="keyboard_arrow_down"
+                        TextColor="#94a3b8"
+                        VerticalOptions="Center"/>
+                </Grid>
+            </Border>
+
+            <!-- Expanded: divider + menu (single logout entry point) -->
+            <VerticalStackLayout
+                x:Name="MenuSection"
+                IsVisible="False"
+                Opacity="0"
+                Spacing="0">
+                <BoxView
+                    Margin="0,2,0,8"
+                    HeightRequest="1"
+                    BackgroundColor="#1e293b"/>
+                <VerticalStackLayout Spacing="6">
+                    <Border
+                        x:Name="RowProfile"
+                        Padding="8"
+                        BackgroundColor="Transparent"
+                        StrokeShape="RoundRectangle 10">
+                        <Border.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="OnProfileTapped"/>
+                            <PointerGestureRecognizer
+                                PointerEntered="OnMenuRowPointerEntered"
+                                PointerExited="OnMenuRowPointerExited"/>
+                        </Border.GestureRecognizers>
+                        <HorizontalStackLayout Spacing="12">
+                            <Label
+                                FontFamily="MaterialIcons"
+                                FontSize="18"
+                                Text="account_circle"
+                                TextColor="#2dd4bf"
+                                VerticalOptions="Center"/>
+                            <Label
+                                FontSize="13"
+                                Text="Profile"
+                                TextColor="#e5e7eb"
+                                VerticalOptions="Center"/>
+                        </HorizontalStackLayout>
+                    </Border>
+
+                    <Border
+                        x:Name="RowSettings"
+                        Padding="8"
+                        BackgroundColor="Transparent"
+                        StrokeShape="RoundRectangle 10">
+                        <Border.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="OnSettingsTapped"/>
+                            <PointerGestureRecognizer
+                                PointerEntered="OnMenuRowPointerEntered"
+                                PointerExited="OnMenuRowPointerExited"/>
+                        </Border.GestureRecognizers>
+                        <HorizontalStackLayout Spacing="12">
+                            <Label
+                                FontFamily="MaterialIcons"
+                                FontSize="18"
+                                Text="settings"
+                                TextColor="#94a3b8"
+                                VerticalOptions="Center"/>
+                            <Label
+                                FontSize="13"
+                                Text="Settings"
+                                TextColor="#e5e7eb"
+                                VerticalOptions="Center"/>
+                        </HorizontalStackLayout>
+                    </Border>
+
+                    <Border
+                        x:Name="RowPersonalization"
+                        Padding="8"
+                        BackgroundColor="Transparent"
+                        StrokeShape="RoundRectangle 10">
+                        <Border.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="OnPersonalizationTapped"/>
+                            <PointerGestureRecognizer
+                                PointerEntered="OnMenuRowPointerEntered"
+                                PointerExited="OnMenuRowPointerExited"/>
+                        </Border.GestureRecognizers>
+                        <HorizontalStackLayout Spacing="12">
+                            <Label
+                                FontFamily="MaterialIcons"
+                                FontSize="18"
+                                Text="palette"
+                                TextColor="#94a3b8"
+                                VerticalOptions="Center"/>
+                            <Label
+                                FontSize="13"
+                                Text="Personalization"
+                                TextColor="#e5e7eb"
+                                VerticalOptions="Center"/>
+                        </HorizontalStackLayout>
+                    </Border>
+
+                    <Border
+                        x:Name="RowHelp"
+                        Padding="8"
+                        BackgroundColor="Transparent"
+                        StrokeShape="RoundRectangle 10">
+                        <Border.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="OnHelpTapped"/>
+                            <PointerGestureRecognizer
+                                PointerEntered="OnMenuRowPointerEntered"
+                                PointerExited="OnMenuRowPointerExited"/>
+                        </Border.GestureRecognizers>
+                        <HorizontalStackLayout Spacing="12">
+                            <Label
+                                FontFamily="MaterialIcons"
+                                FontSize="18"
+                                Text="help_outline"
+                                TextColor="#94a3b8"
+                                VerticalOptions="Center"/>
+                            <Label
+                                FontSize="13"
+                                Text="Help"
+                                TextColor="#e5e7eb"
+                                VerticalOptions="Center"/>
+                        </HorizontalStackLayout>
+                    </Border>
+
+                    <BoxView
+                        Margin="4,4"
+                        HeightRequest="1"
+                        BackgroundColor="#1e293b"/>
+
+                    <Border
+                        x:Name="RowLogout"
+                        Padding="8"
+                        BackgroundColor="Transparent"
+                        StrokeShape="RoundRectangle 10">
+                        <Border.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="OnLogoutTapped"/>
+                            <PointerGestureRecognizer
+                                PointerEntered="OnLogoutRowPointerEntered"
+                                PointerExited="OnLogoutRowPointerExited"/>
+                        </Border.GestureRecognizers>
+                        <HorizontalStackLayout Spacing="12">
+                            <Label
+                                FontFamily="MaterialIcons"
+                                FontSize="18"
+                                Text="logout"
+                                TextColor="#f87171"
+                                VerticalOptions="Center"/>
+                            <Label
+                                FontSize="13"
+                                Text="Logout"
+                                TextColor="#f87171"
+                                VerticalOptions="Center"/>
+                        </HorizontalStackLayout>
+                    </Border>
+                </VerticalStackLayout>
+            </VerticalStackLayout>
+        </VerticalStackLayout>
+    </Border>
+</ContentView>

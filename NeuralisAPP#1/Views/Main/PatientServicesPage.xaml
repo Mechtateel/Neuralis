@@ -1,0 +1,638 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="NeuralisAPP_1.Views.Main.PatientServicesPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:controls="clr-namespace:NeuralisAPP_1.Views.Main.Controls"
+    xmlns:shared="clr-namespace:NeuralisAPP_1.Views.Shared"
+    BackgroundColor="#071A1F"
+    NavigationPage.HasNavigationBar="False"
+    Shell.NavBarIsVisible="False">
+
+    <shared:MainLayout x:Name="GlobalLayout">
+        <shared:MainLayout.SidebarContent>
+            <controls:UserAppSidebarView x:Name="AppSidebar"/>
+        </shared:MainLayout.SidebarContent>
+
+        <shared:MainLayout.PageContent>
+        <Grid x:Name="PatientMainColumn">
+
+            <Image
+                Aspect="AspectFill"
+                InputTransparent="True"
+                Opacity="0.25"
+                Source="back_img.png"/>
+
+            <ScrollView>
+                <controls:MainContentWrapper>
+                    <VerticalStackLayout
+                        HorizontalOptions="Fill"
+                        Spacing="0">
+
+                        <!-- Primary title aligns with Dashboard; breadcrumb below (same pattern as subtitle row) -->
+                        <VerticalStackLayout Margin="0,0,0,28" Spacing="6">
+                            <Label LineBreakMode="WordWrap">
+                                <Label.FormattedText>
+                                    <FormattedString>
+                                        <Span FontAttributes="Bold" FontSize="28" Text="Patient " TextColor="{StaticResource TextPrimary}"/>
+                                        <Span FontAttributes="Bold" FontSize="28" Text="Services" TextColor="{StaticResource Accent}"/>
+                                    </FormattedString>
+                                </Label.FormattedText>
+                            </Label>
+                            <HorizontalStackLayout Spacing="6" VerticalOptions="Start">
+                                <Label
+                                    FontSize="12"
+                                    Text="Dashboard"
+                                    TextColor="{StaticResource TextMuted}"
+                                    VerticalOptions="Center">
+                                    <Label.GestureRecognizers>
+                                        <TapGestureRecognizer Tapped="OnBreadcrumbDashboardTapped"/>
+                                    </Label.GestureRecognizers>
+                                </Label>
+                                <Label
+                                    FontSize="12"
+                                    Text="/"
+                                    TextColor="{StaticResource Muted}"
+                                    VerticalOptions="Center"/>
+                                <Label
+                                    FontAttributes="Bold"
+                                    FontSize="12"
+                                    Text="Patient Services"
+                                    TextColor="{StaticResource Accent}"
+                                    VerticalOptions="Center"/>
+                            </HorizontalStackLayout>
+                        </VerticalStackLayout>
+
+                        <!-- Single grid: same 2* / * columns for row 1 and row 2 -->
+                        <Grid
+                            x:Name="MainCardsGrid"
+                            ColumnSpacing="24"
+                            RowSpacing="24"
+                            HorizontalOptions="Fill"
+                            VerticalOptions="Start">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="2*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+
+                            <Border
+                                x:Name="BookAppointmentCard"
+                                Grid.Row="0"
+                                Grid.Column="0"
+                                HorizontalOptions="Fill"
+                                VerticalOptions="Fill"
+                                Padding="24"
+                                Style="{StaticResource HoverCardStyle}">
+                                <VerticalStackLayout Spacing="16">
+                                    <Grid ColumnDefinitions="*,Auto">
+                                        <VerticalStackLayout Grid.Column="0" Spacing="6">
+                                            <Label
+                                                FontAttributes="Bold"
+                                                FontSize="20"
+                                                Text="Book Appointment"
+                                                TextColor="{StaticResource TextPrimary}"/>
+                                            <Label
+                                                FontSize="13"
+                                                LineBreakMode="WordWrap"
+                                                Text="Schedule your next session with our specialists."
+                                                TextColor="{StaticResource TextMuted}"/>
+                                        </VerticalStackLayout>
+                                        <Label
+                                            Grid.Column="1"
+                                            FontFamily="MaterialIcons"
+                                            FontSize="22"
+                                            Text="event"
+                                            TextColor="{StaticResource Accent}"
+                                            VerticalOptions="Start"/>
+                                    </Grid>
+
+                                    <Label
+                                        FontAttributes="Bold"
+                                        FontSize="11"
+                                        Text="SELECT SPECIALTY"
+                                        TextColor="{StaticResource Muted}"/>
+
+                                    <Grid
+                                        ColumnDefinitions="*,*"
+                                        ColumnSpacing="12"
+                                        RowDefinitions="Auto,Auto"
+                                        RowSpacing="12"
+                                        HorizontalOptions="Fill">
+                                        <Border
+                                            x:Name="BorderSpecNeurology"
+                                            Padding="14,12"
+                                            Stroke="{StaticResource Accent}"
+                                            StrokeThickness="2">
+                                            <Border.StrokeShape>
+                                                <RoundRectangle CornerRadius="14"/>
+                                            </Border.StrokeShape>
+                                            <Border.GestureRecognizers>
+                                                <TapGestureRecognizer Tapped="OnSpecialtyNeurologyTapped"/>
+                                            </Border.GestureRecognizers>
+                                            <HorizontalStackLayout Spacing="10">
+                                                <Label
+                                                    FontFamily="MaterialIcons"
+                                                    FontSize="20"
+                                                    Text="psychology"
+                                                    TextColor="{StaticResource Accent}"
+                                                    VerticalOptions="Center"/>
+                                                <Label
+                                                    FontAttributes="Bold"
+                                                    FontSize="14"
+                                                    Text="Neurology"
+                                                    TextColor="{StaticResource TextPrimary}"
+                                                    VerticalOptions="Center"/>
+                                            </HorizontalStackLayout>
+                                        </Border>
+                                        <Border
+                                            x:Name="BorderSpecCardiology"
+                                            Grid.Column="1"
+                                            Padding="14,12"
+                                            BackgroundColor="{StaticResource CardBg}"
+                                            Stroke="#1B6270"
+                                            StrokeThickness="1">
+                                            <Border.StrokeShape>
+                                                <RoundRectangle CornerRadius="14"/>
+                                            </Border.StrokeShape>
+                                            <Border.GestureRecognizers>
+                                                <TapGestureRecognizer Tapped="OnSpecialtyCardiologyTapped"/>
+                                            </Border.GestureRecognizers>
+                                            <HorizontalStackLayout Spacing="10">
+                                                <Label
+                                                    FontFamily="MaterialIcons"
+                                                    FontSize="20"
+                                                    Text="favorite"
+                                                    TextColor="{StaticResource TextMuted}"
+                                                    VerticalOptions="Center"/>
+                                                <Label
+                                                    FontAttributes="Bold"
+                                                    FontSize="14"
+                                                    Text="Cardiology"
+                                                    TextColor="{StaticResource TextSecondary}"
+                                                    VerticalOptions="Center"/>
+                                            </HorizontalStackLayout>
+                                        </Border>
+                                        <Border
+                                            x:Name="BorderSpecPsychiatry"
+                                            Grid.Row="1"
+                                            Padding="14,12"
+                                            BackgroundColor="{StaticResource CardBg}"
+                                            Stroke="#1B6270"
+                                            StrokeThickness="1">
+                                            <Border.StrokeShape>
+                                                <RoundRectangle CornerRadius="14"/>
+                                            </Border.StrokeShape>
+                                            <Border.GestureRecognizers>
+                                                <TapGestureRecognizer Tapped="OnSpecialtyPsychiatryTapped"/>
+                                            </Border.GestureRecognizers>
+                                            <HorizontalStackLayout Spacing="10">
+                                                <Label
+                                                    FontFamily="MaterialIcons"
+                                                    FontSize="20"
+                                                    Text="spa"
+                                                    TextColor="{StaticResource TextMuted}"
+                                                    VerticalOptions="Center"/>
+                                                <Label
+                                                    FontAttributes="Bold"
+                                                    FontSize="14"
+                                                    Text="Psychiatry"
+                                                    TextColor="{StaticResource TextSecondary}"
+                                                    VerticalOptions="Center"/>
+                                            </HorizontalStackLayout>
+                                        </Border>
+                                        <Border
+                                            x:Name="BorderSpecGenetics"
+                                            Grid.Row="1"
+                                            Grid.Column="1"
+                                            Padding="14,12"
+                                            BackgroundColor="{StaticResource CardBg}"
+                                            Stroke="#1B6270"
+                                            StrokeThickness="1">
+                                            <Border.StrokeShape>
+                                                <RoundRectangle CornerRadius="14"/>
+                                            </Border.StrokeShape>
+                                            <Border.GestureRecognizers>
+                                                <TapGestureRecognizer Tapped="OnSpecialtyGeneticsTapped"/>
+                                            </Border.GestureRecognizers>
+                                            <HorizontalStackLayout Spacing="10">
+                                                <Label
+                                                    FontFamily="MaterialIcons"
+                                                    FontSize="20"
+                                                    Text="genetics"
+                                                    TextColor="{StaticResource TextMuted}"
+                                                    VerticalOptions="Center"/>
+                                                <Label
+                                                    FontAttributes="Bold"
+                                                    FontSize="14"
+                                                    Text="Genetics"
+                                                    TextColor="{StaticResource TextSecondary}"
+                                                    VerticalOptions="Center"/>
+                                            </HorizontalStackLayout>
+                                        </Border>
+                                    </Grid>
+
+                                    <Label
+                                        FontAttributes="Bold"
+                                        FontSize="11"
+                                        Text="DATE"
+                                        TextColor="{StaticResource Muted}"/>
+                                    <DatePicker
+                                        x:Name="AppointmentDatePicker"
+                                        HorizontalOptions="Fill"
+                                        TextColor="{StaticResource TextPrimary}"/>
+
+                                    <Label
+                                        FontAttributes="Bold"
+                                        FontSize="11"
+                                        Text="TIME"
+                                        TextColor="{StaticResource Muted}"/>
+                                    <HorizontalStackLayout Spacing="10" HorizontalOptions="Start">
+                                        <Button
+                                            x:Name="Slot0900"
+                                            Clicked="OnTimeSlotClicked"
+                                            Style="{StaticResource FilterChipStyle}"
+                                            Text="09:00 AM"/>
+                                        <Button
+                                            x:Name="Slot1030"
+                                            Clicked="OnTimeSlotClicked"
+                                            Style="{StaticResource FilterChipActiveStyle}"
+                                            Text="10:30 AM"/>
+                                        <Button
+                                            x:Name="Slot1400"
+                                            Clicked="OnTimeSlotClicked"
+                                            Style="{StaticResource FilterChipStyle}"
+                                            Text="02:00 PM"/>
+                                    </HorizontalStackLayout>
+
+                                    <Button
+                                        Clicked="OnConfirmAppointmentClicked"
+                                        HorizontalOptions="Fill"
+                                        Style="{StaticResource PrimaryButton}"
+                                        Text="Confirm Appointment"/>
+                                </VerticalStackLayout>
+                            </Border>
+
+                            <Border
+                                x:Name="SymptomCheckerCard"
+                                Grid.Row="0"
+                                Grid.Column="1"
+                                HorizontalOptions="Fill"
+                                VerticalOptions="Fill"
+                                Padding="24"
+                                Style="{StaticResource HoverCardStyle}">
+                                <Grid
+                                    ColumnDefinitions="*"
+                                    HorizontalOptions="Fill"
+                                    RowDefinitions="Auto,Auto,*,Auto,Auto"
+                                    RowSpacing="14"
+                                    VerticalOptions="Fill">
+                                    <HorizontalStackLayout
+                                        Grid.Row="0"
+                                        Spacing="10"
+                                        VerticalOptions="Start">
+                                        <Label
+                                            FontFamily="MaterialIcons"
+                                            FontSize="22"
+                                            Text="monitor_heart"
+                                            TextColor="{StaticResource Accent}"
+                                            VerticalOptions="Center"/>
+                                        <Label
+                                            FontAttributes="Bold"
+                                            FontSize="18"
+                                            Text="Symptom Checker"
+                                            TextColor="{StaticResource TextPrimary}"
+                                            VerticalOptions="Center"/>
+                                    </HorizontalStackLayout>
+                                    <Label
+                                        Grid.Row="1"
+                                        FontSize="13"
+                                        LineBreakMode="WordWrap"
+                                        Text="Describe how you feel. Results are informational only—not a diagnosis."
+                                        TextColor="{StaticResource TextMuted}"/>
+                                    <Editor
+                                        x:Name="SymptomDraftEditor"
+                                        Grid.Row="2"
+                                        Margin="0,4,0,0"
+                                        AutoSize="TextChanges"
+                                        HorizontalOptions="Fill"
+                                        MinimumHeightRequest="140"
+                                        VerticalOptions="Fill"
+                                        MaxLength="2000"
+                                        Placeholder="e.g. Occasional sharp pain in the temple area..."
+                                        PlaceholderColor="{StaticResource TextMuted}"
+                                        TextColor="{StaticResource TextPrimary}"/>
+                                    <Button
+                                        Grid.Row="3"
+                                        Clicked="OnStartCheckClicked"
+                                        HorizontalOptions="Fill"
+                                        Style="{StaticResource GhostButton}"
+                                        Text="Start Check →"/>
+                                    <HorizontalStackLayout
+                                        Grid.Row="4"
+                                        Spacing="8"
+                                        VerticalOptions="End">
+                                        <Label
+                                            FontFamily="MaterialIcons"
+                                            FontSize="14"
+                                            Text="lock"
+                                            TextColor="{StaticResource Accent}"
+                                            VerticalOptions="Center"/>
+                                        <Label
+                                            FontAttributes="Bold"
+                                            FontSize="11"
+                                            LineBreakMode="WordWrap"
+                                            Text="END-TO-END ENCRYPTED ANALYSIS"
+                                            TextColor="{StaticResource Accent}"
+                                            VerticalOptions="Center"/>
+                                    </HorizontalStackLayout>
+                                </Grid>
+                            </Border>
+
+                            <Border
+                                x:Name="AppointmentsSummaryCard"
+                                Grid.Row="1"
+                                Grid.Column="0"
+                                HorizontalOptions="Fill"
+                                VerticalOptions="Fill"
+                                Padding="24"
+                                Style="{StaticResource HoverCardStyle}">
+                                <Border.GestureRecognizers>
+                                    <TapGestureRecognizer Tapped="OnAppointmentsCardTapped"/>
+                                </Border.GestureRecognizers>
+                                <VerticalStackLayout Spacing="14">
+                                    <Grid ColumnDefinitions="*,Auto">
+                                        <Label
+                                            Grid.Column="0"
+                                            FontAttributes="Bold"
+                                            FontSize="18"
+                                            Text="My Appointments"
+                                            TextColor="{StaticResource TextPrimary}"
+                                            VerticalOptions="Center"/>
+                                        <Border
+                                            Grid.Column="1"
+                                            Padding="8,4"
+                                            BackgroundColor="#142A30"
+                                            StrokeThickness="0">
+                                            <Border.StrokeShape>
+                                                <RoundRectangle CornerRadius="8"/>
+                                            </Border.StrokeShape>
+                                            <Label
+                                                FontAttributes="Bold"
+                                                FontSize="10"
+                                                Text="3 SCHEDULED"
+                                                TextColor="{StaticResource Accent}"/>
+                                        </Border>
+                                    </Grid>
+
+                                    <VerticalStackLayout Spacing="12">
+                                        <Border
+                                            Padding="12"
+                                            BackgroundColor="#081820"
+                                            Stroke="#163B41"
+                                            StrokeThickness="1">
+                                            <Border.StrokeShape>
+                                                <RoundRectangle CornerRadius="12"/>
+                                            </Border.StrokeShape>
+                                            <VerticalStackLayout Spacing="6">
+                                                <Label
+                                                    FontAttributes="Bold"
+                                                    FontSize="14"
+                                                    Text="Brain Topography Mapping"
+                                                    TextColor="{StaticResource TextPrimary}"/>
+                                                <Label
+                                                    FontSize="12"
+                                                    Text="Dr. Elena Rostova • Neuralis Clinic"
+                                                    TextColor="{StaticResource TextMuted}"/>
+                                                <HorizontalStackLayout Spacing="10">
+                                                    <Label
+                                                        FontSize="12"
+                                                        Text="Tomorrow, 10:30 AM"
+                                                        TextColor="{StaticResource TextSecondary}"/>
+                                                    <Label
+                                                        FontAttributes="Bold"
+                                                        FontSize="10"
+                                                        Text="CONFIRMED"
+                                                        TextColor="{StaticResource Accent}"/>
+                                                </HorizontalStackLayout>
+                                                <Label
+                                                    FontSize="11"
+                                                    Text="Reschedule"
+                                                    TextColor="{StaticResource Accent}">
+                                                    <Label.GestureRecognizers>
+                                                        <TapGestureRecognizer Tapped="OnRescheduleHintTapped"/>
+                                                    </Label.GestureRecognizers>
+                                                </Label>
+                                            </VerticalStackLayout>
+                                        </Border>
+                                        <Border
+                                            Padding="12"
+                                            BackgroundColor="#081820"
+                                            Stroke="#163B41"
+                                            StrokeThickness="1">
+                                            <Border.StrokeShape>
+                                                <RoundRectangle CornerRadius="12"/>
+                                            </Border.StrokeShape>
+                                            <VerticalStackLayout Spacing="6">
+                                                <Label
+                                                    FontAttributes="Bold"
+                                                    FontSize="14"
+                                                    Text="Annual Cognitive Baseline"
+                                                    TextColor="{StaticResource TextPrimary}"/>
+                                                <Label
+                                                    FontSize="12"
+                                                    Text="Dr. James Okonkwo • Telehealth"
+                                                    TextColor="{StaticResource TextMuted}"/>
+                                                <HorizontalStackLayout Spacing="10">
+                                                    <Label
+                                                        FontSize="12"
+                                                        Text="Oct 28, 01:15 PM"
+                                                        TextColor="{StaticResource TextSecondary}"/>
+                                                    <Label
+                                                        FontAttributes="Bold"
+                                                        FontSize="10"
+                                                        Text="PENDING"
+                                                        TextColor="{StaticResource Muted}"/>
+                                                </HorizontalStackLayout>
+                                            </VerticalStackLayout>
+                                        </Border>
+                                        <Border
+                                            Padding="12"
+                                            BackgroundColor="#081820"
+                                            Stroke="#163B41"
+                                            StrokeThickness="1">
+                                            <Border.StrokeShape>
+                                                <RoundRectangle CornerRadius="12"/>
+                                            </Border.StrokeShape>
+                                            <VerticalStackLayout Spacing="6">
+                                                <Label
+                                                    FontAttributes="Bold"
+                                                    FontSize="14"
+                                                    Text="Cardio-Neural Sync Eval"
+                                                    TextColor="{StaticResource TextPrimary}"/>
+                                                <Label
+                                                    FontSize="12"
+                                                    Text="Dr. Maria Santos • Imaging Center"
+                                                    TextColor="{StaticResource TextMuted}"/>
+                                                <HorizontalStackLayout Spacing="10">
+                                                    <Label
+                                                        FontSize="12"
+                                                        Text="Nov 05, 09:00 AM"
+                                                        TextColor="{StaticResource TextSecondary}"/>
+                                                    <Label
+                                                        FontAttributes="Bold"
+                                                        FontSize="10"
+                                                        Text="WAITLISTED"
+                                                        TextColor="{StaticResource Muted}"/>
+                                                </HorizontalStackLayout>
+                                            </VerticalStackLayout>
+                                        </Border>
+                                    </VerticalStackLayout>
+                                </VerticalStackLayout>
+                            </Border>
+
+                            <Border
+                                x:Name="MedicalHistoryCard"
+                                Grid.Row="1"
+                                Grid.Column="1"
+                                HorizontalOptions="Fill"
+                                VerticalOptions="Fill"
+                                Padding="24"
+                                Style="{StaticResource HoverCardStyle}">
+                                <Grid HorizontalOptions="Fill" VerticalOptions="Fill">
+                                    <VerticalStackLayout
+                                        Padding="0,0,0,56"
+                                        Spacing="14"
+                                        HorizontalOptions="Fill"
+                                        VerticalOptions="Fill">
+                                        <Grid ColumnDefinitions="*,Auto">
+                                            <Label
+                                                Grid.Column="0"
+                                                FontAttributes="Bold"
+                                                FontSize="18"
+                                                Text="Medical History"
+                                                TextColor="{StaticResource TextPrimary}"
+                                                VerticalOptions="Center"/>
+                                            <Label
+                                                Grid.Column="1"
+                                                FontAttributes="Bold"
+                                                FontSize="12"
+                                                Text="VIEW ALL →"
+                                                TextColor="{StaticResource Accent}"
+                                                VerticalOptions="Center">
+                                                <Label.GestureRecognizers>
+                                                    <TapGestureRecognizer Tapped="OnViewVaultsTapped"/>
+                                                </Label.GestureRecognizers>
+                                            </Label>
+                                        </Grid>
+
+                                        <VerticalStackLayout Spacing="10">
+                                            <HorizontalStackLayout Spacing="12">
+                                                <Label
+                                                    FontFamily="MaterialIcons"
+                                                    FontSize="24"
+                                                    Text="picture_as_pdf"
+                                                    TextColor="#F87171"
+                                                    VerticalOptions="Start"/>
+                                                <VerticalStackLayout Spacing="2">
+                                                    <Label
+                                                        FontAttributes="Bold"
+                                                        FontSize="14"
+                                                        Text="MRI_SCAN_7729.pdf"
+                                                        TextColor="{StaticResource TextPrimary}"/>
+                                                    <Label
+                                                        FontSize="11"
+                                                        Text="Uploaded May 12, 2024 • 2.4 MB"
+                                                        TextColor="{StaticResource TextMuted}"/>
+                                                </VerticalStackLayout>
+                                            </HorizontalStackLayout>
+                                            <HorizontalStackLayout Spacing="12">
+                                                <Label
+                                                    FontFamily="MaterialIcons"
+                                                    FontSize="24"
+                                                    Text="description"
+                                                    TextColor="#60A5FA"
+                                                    VerticalOptions="Start"/>
+                                                <VerticalStackLayout Spacing="2">
+                                                    <Label
+                                                        FontAttributes="Bold"
+                                                        FontSize="14"
+                                                        Text="BLOOD_WORK_03.docx"
+                                                        TextColor="{StaticResource TextPrimary}"/>
+                                                    <Label
+                                                        FontSize="11"
+                                                        Text="Apr 02, 2024 • 890 KB"
+                                                        TextColor="{StaticResource TextMuted}"/>
+                                                </VerticalStackLayout>
+                                            </HorizontalStackLayout>
+                                            <HorizontalStackLayout Spacing="12">
+                                                <Label
+                                                    FontFamily="MaterialIcons"
+                                                    FontSize="24"
+                                                    Text="science"
+                                                    TextColor="#4ADE80"
+                                                    VerticalOptions="Start"/>
+                                                <VerticalStackLayout Spacing="2">
+                                                    <Label
+                                                        FontAttributes="Bold"
+                                                        FontSize="14"
+                                                        Text="GENETIC_MAP_V2"
+                                                        TextColor="{StaticResource TextPrimary}"/>
+                                                    <Label
+                                                        FontSize="11"
+                                                        Text="Jan 18, 2024 • Vault copy"
+                                                        TextColor="{StaticResource TextMuted}"/>
+                                                </VerticalStackLayout>
+                                            </HorizontalStackLayout>
+                                        </VerticalStackLayout>
+
+                                        <HorizontalStackLayout Spacing="8" VerticalOptions="End">
+                                            <Label
+                                                FontFamily="MaterialIcons"
+                                                FontSize="16"
+                                                Text="shield"
+                                                TextColor="{StaticResource Accent}"
+                                                VerticalOptions="Center"/>
+                                            <Label
+                                                FontSize="11"
+                                                LineBreakMode="WordWrap"
+                                                Text="Data sovereignty active — records stay under your control."
+                                                TextColor="{StaticResource TextMuted}"/>
+                                        </HorizontalStackLayout>
+                                    </VerticalStackLayout>
+
+                                    <Button
+                                        Margin="0,0,0,0"
+                                        Padding="0"
+                                        BackgroundColor="{StaticResource Accent}"
+                                        Clicked="OnAddRecordFabClicked"
+                                        CornerRadius="26"
+                                        FontAttributes="Bold"
+                                        FontSize="22"
+                                        HeightRequest="52"
+                                        HorizontalOptions="End"
+                                        Text="+"
+                                        TextColor="{StaticResource BgPrimary}"
+                                        VerticalOptions="End"
+                                        WidthRequest="52">
+                                        <Button.Shadow>
+                                            <Shadow
+                                                Brush="#552FE3C9"
+                                                Radius="12"
+                                                Opacity="0.5"
+                                                Offset="0,4"/>
+                                        </Button.Shadow>
+                                    </Button>
+                                </Grid>
+                            </Border>
+                        </Grid>
+                    </VerticalStackLayout>
+                </controls:MainContentWrapper>
+            </ScrollView>
+        </Grid>
+        </shared:MainLayout.PageContent>
+    </shared:MainLayout>
+</ContentPage>

@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    x:Class="NeuralisAPP_1.Views.Auth.LoginPage"
+    x:Name="LoginPageRoot"
+    BackgroundColor="{StaticResource BgDark}"
+    NavigationPage.HasNavigationBar="False">
+
+    <Grid RowDefinitions="*">
+        <Image
+            Source="neiron.png"
+            Aspect="AspectFill"
+            Opacity="0.35"
+            InputTransparent="True" />
+
+        <ScrollView>
+            <Grid
+                Padding="24"
+                MinimumHeightRequest="{Binding Source={x:Reference LoginPageRoot}, Path=Height}">
+                <VerticalStackLayout
+                    HorizontalOptions="Fill"
+                    VerticalOptions="Center"
+                    MaximumWidthRequest="1200">
+
+                    <FlexLayout
+                        Direction="Row"
+                        Wrap="Wrap"
+                        AlignItems="Center"
+                        AlignContent="Center"
+                        JustifyContent="SpaceBetween"
+                        HorizontalOptions="Fill"
+                        VerticalOptions="Center">
+
+                        <Grid
+                            HorizontalOptions="Fill"
+                            FlexLayout.Basis="60%"
+                            FlexLayout.Grow="1"
+                            FlexLayout.Shrink="1"
+                            Padding="0,0,16,0">
+
+                            <VerticalStackLayout Spacing="12">
+                                <Label
+                                    Text="CLINICAL  INTELLIGENCE"
+                                    FontSize="12"
+                                    FontAttributes="Bold"
+                                    TextColor="{StaticResource Accent}"
+                                    LineBreakMode="WordWrap" />
+
+                                <Label
+                                    Text="Accelerating diagnosis with neural precision."
+                                    FontSize="32"
+                                    FontAttributes="Bold"
+                                    TextColor="White"
+                                    LineBreakMode="WordWrap" />
+
+                                <Label
+                                    Text="Neuralis processes millions of data points to provide real-time clinical insights."
+                                    FontSize="14"
+                                    LineHeight="1.4"
+                                    TextColor="{StaticResource TextMuted}"
+                                    LineBreakMode="WordWrap" />
+                            </VerticalStackLayout>
+                        </Grid>
+
+                        <Frame
+                            Padding="28"
+                            WidthRequest="350"
+                            HorizontalOptions="End"
+                            BackgroundColor="#0E2A2F"
+                            BorderColor="#1E4A50"
+                            CornerRadius="18"
+                            HasShadow="True"
+                            FlexLayout.Basis="350"
+                            FlexLayout.Grow="0"
+                            FlexLayout.Shrink="1">
+
+                            <VerticalStackLayout Spacing="18">
+                                <Label
+                                    x:Name="WelcomeBackLabel"
+                                    Text="Welcome back"
+                                    FontSize="22"
+                                    FontAttributes="Bold"
+                                    TextColor="White"
+                                    LineBreakMode="WordWrap" />
+
+                                <Label
+                                    x:Name="SignInContinueLabel"
+                                    Text="Sign in to continue"
+                                    FontSize="13"
+                                    TextColor="{StaticResource TextMuted}"
+                                    LineBreakMode="WordWrap" />
+
+                                <Border
+                                    BackgroundColor="#102F34"
+                                    Stroke="#1F4F55"
+                                    StrokeThickness="1"
+                                    Padding="14">
+                                    <Border.StrokeShape>
+                                        <RoundRectangle CornerRadius="12" />
+                                    </Border.StrokeShape>
+
+                                    <Grid
+                                        ColumnDefinitions="Auto,*"
+                                        ColumnSpacing="12">
+                                        <Label
+                                            Text="mail"
+                                            FontFamily="MaterialIcons"
+                                            FontSize="20"
+                                            TextColor="{StaticResource Accent}"
+                                            VerticalOptions="Center" />
+
+                                        <Entry
+                                            Grid.Column="1"
+                                            x:Name="EmailEntry"
+                                            Placeholder="Email address"
+                                            PlaceholderColor="#6FA8AD"
+                                            TextColor="White"
+                                            BackgroundColor="Transparent" />
+                                    </Grid>
+                                </Border>
+
+                                <Border
+                                    BackgroundColor="#102F34"
+                                    Stroke="#1F4F55"
+                                    StrokeThickness="1"
+                                    Padding="14">
+                                    <Border.StrokeShape>
+                                        <RoundRectangle CornerRadius="12" />
+                                    </Border.StrokeShape>
+
+                                    <Grid
+                                        ColumnDefinitions="Auto,*,Auto"
+                                        ColumnSpacing="12">
+                                        <Label
+                                            Text="lock"
+                                            FontFamily="MaterialIcons"
+                                            FontSize="20"
+                                            TextColor="{StaticResource Accent}"
+                                            VerticalOptions="Center" />
+
+                                        <Entry
+                                            Grid.Column="1"
+                                            x:Name="PasswordEntry"
+                                            Placeholder="Password"
+                                            IsPassword="True"
+                                            PlaceholderColor="#6FA8AD"
+                                            TextColor="White"
+                                            BackgroundColor="Transparent" />
+
+                                        <Label
+                                            Grid.Column="2"
+                                            Text="visibility"
+                                            FontFamily="MaterialIcons"
+                                            FontSize="20"
+                                            TextColor="#6FA8AD"
+                                            VerticalOptions="Center" />
+                                    </Grid>
+                                </Border>
+
+                                <Button
+                                    x:Name="LoginButton"
+                                    Text="Log in →"
+                                    CornerRadius="14"
+                                    FontAttributes="Bold"
+                                    BackgroundColor="{StaticResource Accent}"
+                                    TextColor="#062A2F"
+                                    Clicked="OnLoginClicked" />
+
+                                <HorizontalStackLayout HorizontalOptions="Center">
+                                    <Label
+                                        x:Name="NoAccountLabel"
+                                        Text="Don’t have an account? "
+                                        TextColor="{StaticResource TextMuted}"
+                                        LineBreakMode="WordWrap" />
+                                    <Label
+                                        x:Name="RegisterLabel"
+                                        Text="Register"
+                                        TextColor="{StaticResource Accent}"
+                                        FontAttributes="Bold"
+                                        LineBreakMode="WordWrap">
+                                        <Label.GestureRecognizers>
+                                            <TapGestureRecognizer Tapped="OnRegisterTapped" />
+                                        </Label.GestureRecognizers>
+                                    </Label>
+                                </HorizontalStackLayout>
+                            </VerticalStackLayout>
+                        </Frame>
+                    </FlexLayout>
+                </VerticalStackLayout>
+            </Grid>
+        </ScrollView>
+    </Grid>
+</ContentPage>

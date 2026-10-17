@@ -1,0 +1,15 @@
+
+bin/
+obj/
+.vs/
+*.user
+*.suo
+appsettings.Development.json
+secrets.json
+.env
+.env.*
+!.env.example
+__pycache__/
+.venv/
+venv/
+*.pyc

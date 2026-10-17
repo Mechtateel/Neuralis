@@ -1,0 +1,564 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="NeuralisAPP_1.Views.Doctor.DoctorPatientsPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:labvm="clr-namespace:NeuralisAPP_1.ViewModels.Lab"
+    BackgroundColor="#0b1220">
+
+	<Grid ColumnDefinitions="260,*">
+
+		<!-- ================= SIDEBAR ================= -->
+		<Grid Grid.Column="0"
+			  BackgroundColor="#0f172a"
+			  Padding="20,28"
+			  RowDefinitions="Auto,*,Auto">
+
+			<!-- LOGO -->
+			<HorizontalStackLayout Spacing="12">
+				<Ellipse WidthRequest="28" HeightRequest="28" Fill="#2dd4bf"/>
+				<VerticalStackLayout>
+					<Label Text="NEURALIS"
+						   FontSize="16"
+						   FontAttributes="Bold"
+						   TextColor="#e5e7eb"/>
+					<Label Text="AI MEDICAL SYSTEM"
+						   FontSize="9"
+						   TextColor="#94a3b8"/>
+				</VerticalStackLayout>
+			</HorizontalStackLayout>
+
+			<!-- NAV -->
+			<VerticalStackLayout Grid.Row="1"
+								 Margin="0,36,0,0"
+								 Spacing="10">
+
+				<!-- DASHBOARD -->
+				<Border x:Name="NavDashboard"
+						Padding="10"
+						StrokeShape="RoundRectangle 12">
+
+					<HorizontalStackLayout Spacing="12">
+						<Label Text="dashboard"
+							   FontFamily="MaterialIcons"
+							   FontSize="20"
+							   TextColor="#9ca3af"/>
+						<Label Text="Dashboard"
+							   TextColor="#9ca3af"/>
+					</HorizontalStackLayout>
+
+					<Border.GestureRecognizers>
+						<TapGestureRecognizer Tapped="OnDashboardTapped"/>
+						<PointerGestureRecognizer
+							PointerEntered="OnNavPointerEntered"
+							PointerExited="OnNavPointerExited"/>
+					</Border.GestureRecognizers>
+				</Border>
+
+				<!-- PATIENTS (ACTIVE) -->
+				<Border x:Name="NavPatients"
+						Padding="10"
+						StrokeShape="RoundRectangle 12"
+						BackgroundColor="#111827">
+
+					<HorizontalStackLayout Spacing="12">
+						<Label Text="people"
+							   FontFamily="MaterialIcons"
+							   FontSize="20"
+							   TextColor="#2dd4bf"/>
+						<Label Text="Patients"
+							   TextColor="#e5e7eb"/>
+					</HorizontalStackLayout>
+
+					<Border.GestureRecognizers>
+						<PointerGestureRecognizer
+							PointerEntered="OnNavPointerEntered"
+							PointerExited="OnNavPointerExited"/>
+					</Border.GestureRecognizers>
+				</Border>
+
+				<!-- LAB RESULTS -->
+				<Border x:Name="NavLab"
+						Padding="10"
+						StrokeShape="RoundRectangle 12"
+						BackgroundColor="Transparent">
+
+					<HorizontalStackLayout Spacing="12">
+						<Label Text="science"
+							   FontFamily="MaterialIcons"
+							   FontSize="20"
+							   TextColor="#9ca3af"/>
+						<Label Text="Lab Results"
+							   TextColor="#9ca3af"/>
+					</HorizontalStackLayout>
+
+					<Border.GestureRecognizers>
+						<TapGestureRecognizer Tapped="OnLabTapped"/>
+						<PointerGestureRecognizer
+							PointerEntered="OnNavPointerEntered"
+							PointerExited="OnNavPointerExited"/>
+					</Border.GestureRecognizers>
+				</Border>
+
+                <!-- AI INSIGHTS -->
+                <Border x:Name="NavAI"
+        Padding="10"
+        StrokeShape="RoundRectangle 12"
+        BackgroundColor="Transparent">
+
+                    <HorizontalStackLayout Spacing="12">
+                        <Label Text="psychology"
+               FontFamily="MaterialIcons"
+               FontSize="20"
+               TextColor="#9ca3af"/>
+                        <Label Text="AI Insights"
+               TextColor="#9ca3af"/>
+                    </HorizontalStackLayout>
+
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="OnAITapped"/>
+                        <PointerGestureRecognizer
+            PointerEntered="OnNavPointerEntered"
+            PointerExited="OnNavPointerExited"/>
+                    </Border.GestureRecognizers>
+                </Border>
+
+
+                <!-- APPOINTMENTS -->
+				<Border x:Name="NavAppointments"
+						Padding="10"
+						StrokeShape="RoundRectangle 12">
+
+					<HorizontalStackLayout Spacing="12">
+						<Label Text="event"
+							   FontFamily="MaterialIcons"
+							   FontSize="20"
+							   TextColor="#9ca3af"/>
+						<Label Text="Appointments"
+							   TextColor="#9ca3af"/>
+					</HorizontalStackLayout>
+
+					<Border.GestureRecognizers>
+						<TapGestureRecognizer Tapped="OnAppointmentsTapped"/>
+						<PointerGestureRecognizer
+							PointerEntered="OnNavPointerEntered"
+							PointerExited="OnNavPointerExited"/>
+					</Border.GestureRecognizers>
+				</Border>
+			</VerticalStackLayout>
+
+            <!-- PROFILE BUTTON -->
+            <Border Grid.Row="2"
+                x:Name="ProfileButton"
+                BackgroundColor="#111827"
+                Padding="14"
+                Stroke="#1f2937"
+                StrokeShape="RoundRectangle 14">
+
+                <Border.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="OnProfileTapped"/>
+                </Border.GestureRecognizers>
+
+                <VerticalStackLayout>
+                    <Label x:Name="DoctorNameLabel"
+                        Text="doctor@test.com"
+                        FontAttributes="Bold"
+                        TextColor="#e5e7eb"/>
+                    <Label x:Name="DoctorSpecializationLabel"
+                            Text="Neurologist"
+                            FontSize="11"
+                            TextColor="#9ca3af"/>
+                </VerticalStackLayout>
+            </Border>
+
+            <!-- PROFILE MENU (INSIDE SIDEBAR) -->
+            <Border x:Name="ProfileMenu"
+        Grid.Row="2"
+        IsVisible="False"
+        BackgroundColor="#0f172a"
+        Stroke="#1f2937"
+        StrokeShape="RoundRectangle 16"
+        Padding="12"
+        Margin="3,64,3,0"
+        Opacity="0"
+        Scale="0.96"
+        ZIndex="10">
+
+                <VerticalStackLayout Spacing="10">
+
+                    <!-- SETTINGS -->
+                    <Border Padding="8" StrokeShape="RoundRectangle 10">
+                        <HorizontalStackLayout Spacing="12">
+                            <Label Text="settings"
+                       FontFamily="MaterialIcons"
+                       FontSize="18"
+                       TextColor="#94a3b8"/>
+                            <Label Text="Settings"
+                       FontSize="13"
+                       TextColor="#e5e7eb"/>
+                        </HorizontalStackLayout>
+                    </Border>
+
+                    <!-- PERSONALIZATION -->
+                    <Border Padding="8" StrokeShape="RoundRectangle 10">
+                        <HorizontalStackLayout Spacing="12">
+                            <Label Text="palette"
+                       FontFamily="MaterialIcons"
+                       FontSize="18"
+                       TextColor="#94a3b8"/>
+                            <Label Text="Personalization"
+                       FontSize="13"
+                       TextColor="#e5e7eb"/>
+                        </HorizontalStackLayout>
+                    </Border>
+
+                    <!-- HELP -->
+                    <Border Padding="8" StrokeShape="RoundRectangle 10">
+                        <HorizontalStackLayout Spacing="12">
+                            <Label Text="help_outline"
+                       FontFamily="MaterialIcons"
+                       FontSize="18"
+                       TextColor="#94a3b8"/>
+                            <Label Text="Help"
+                       FontSize="13"
+                       TextColor="#e5e7eb"/>
+                        </HorizontalStackLayout>
+                    </Border>
+
+                    <BoxView HeightRequest="1"
+                 Margin="4,6"
+                 BackgroundColor="#1e293b"/>
+
+                    <!-- LOGOUT -->
+                    <Border Padding="8"
+                StrokeShape="RoundRectangle 10">
+                        <Border.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="OnLogoutClicked"/>
+                        </Border.GestureRecognizers>
+
+                        <HorizontalStackLayout Spacing="12">
+                            <Label Text="logout"
+                       FontFamily="MaterialIcons"
+                       FontSize="18"
+                       TextColor="#f87171"/>
+                            <Label Text="Logout"
+                       FontSize="13"
+                       TextColor="#f87171"/>
+                        </HorizontalStackLayout>
+                    </Border>
+
+                </VerticalStackLayout>
+            </Border>
+
+
+
+        </Grid>
+
+
+
+		<!-- ================= MAIN ================= -->
+        <Grid Grid.Column="1">
+            <ScrollView>
+                <VerticalStackLayout Padding="24,14,24,24" Spacing="14">
+                    <Grid ColumnDefinitions="*,Auto,Auto,Auto" ColumnSpacing="10">
+                        <Border
+                            Grid.Column="0"
+                            Padding="14,0"
+                            BackgroundColor="#111827"
+                            HeightRequest="44"
+                            Stroke="#1e293b"
+                            StrokeShape="RoundRectangle 10">
+                            <Grid ColumnDefinitions="Auto,*" ColumnSpacing="10">
+                                <Label
+                                    Grid.Column="0"
+                                    FontFamily="MaterialIcons"
+                                    FontSize="16"
+                                    Text="search"
+                                    TextColor="#64748b"
+                                    VerticalOptions="Center"/>
+                                <Entry
+                                    x:Name="SearchEntry"
+                                    Grid.Column="1"
+                                    BackgroundColor="Transparent"
+                                    FontSize="12"
+                                    Placeholder="Search records..."
+                                    PlaceholderColor="#64748b"
+                                    TextChanged="OnSearchTextChanged"
+                                    TextColor="#d1d5db"
+                                    VerticalOptions="Center"/>
+                            </Grid>
+                        </Border>
+
+                        <Border
+                            x:Name="FilterButton"
+                            Grid.Column="1"
+                            BackgroundColor="#111827"
+                            HeightRequest="44"
+                            Padding="16,0"
+                            Stroke="#1e293b"
+                            StrokeShape="RoundRectangle 10"
+                            VerticalOptions="Center">
+                            <Border.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="OnFilterTapped" />
+                            </Border.GestureRecognizers>
+                            <HorizontalStackLayout Spacing="8" VerticalOptions="Center">
+                                <Label
+                                    FontFamily="MaterialIcons"
+                                    FontSize="16"
+                                    Text="tune"
+                                    TextColor="#9ca3af"/>
+                                <Label
+                                    x:Name="FilterLabel"
+                                    FontSize="12"
+                                    Text="Filter"
+                                    TextColor="#e5e7eb"/>
+                            </HorizontalStackLayout>
+                        </Border>
+
+                        <Border
+                            x:Name="ExportButton"
+                            Grid.Column="2"
+                            BackgroundColor="#22d3ee"
+                            HeightRequest="44"
+                            Padding="16,0"
+                            StrokeShape="RoundRectangle 10"
+                            VerticalOptions="Center">
+                            <Border.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="OnExportTapped" />
+                            </Border.GestureRecognizers>
+                            <HorizontalStackLayout Spacing="8" VerticalOptions="Center">
+                                <Label
+                                    FontFamily="MaterialIcons"
+                                    FontSize="16"
+                                    Text="download"
+                                    TextColor="#0f172a"/>
+                                <Label
+                                    x:Name="ExportLabel"
+                                    FontSize="12"
+                                    Text="Export"
+                                    TextColor="#0f172a"/>
+                            </HorizontalStackLayout>
+                        </Border>
+
+                        <Border
+                            Grid.Column="3"
+                            BackgroundColor="#111827"
+                            HeightRequest="44"
+                            Padding="8,0"
+                            Stroke="#1e293b"
+                            StrokeShape="RoundRectangle 10"
+                            VerticalOptions="Center">
+                            <HorizontalStackLayout Spacing="4" VerticalOptions="Center">
+                                <Button Text="EN" Clicked="OnLangEnClicked" FontSize="10" HeightRequest="30" CornerRadius="8" Padding="6,0" BackgroundColor="#1f2937" TextColor="#e5e7eb"/>
+                                <Button Text="RU" Clicked="OnLangRuClicked" FontSize="10" HeightRequest="30" CornerRadius="8" Padding="6,0" BackgroundColor="#1f2937" TextColor="#e5e7eb"/>
+                                <Button Text="KZ" Clicked="OnLangKzClicked" FontSize="10" HeightRequest="30" CornerRadius="8" Padding="6,0" BackgroundColor="#1f2937" TextColor="#e5e7eb"/>
+                            </HorizontalStackLayout>
+                        </Border>
+
+                    </Grid>
+
+                    <VerticalStackLayout Spacing="2">
+                        <Label
+                            x:Name="DirectoryTitleLabel"
+                            Text="Patient Directory"
+                            FontSize="42"
+                            FontAttributes="Bold"
+                            TextColor="#e5e7eb"/>
+                        <Label
+                            x:Name="DirectorySubtitleLabel"
+                            Text="Manage and view active patient profiles across the neural clinical network."
+                            FontSize="13"
+                            TextColor="#9ca3af"/>
+                    </VerticalStackLayout>
+
+                    <Grid ColumnDefinitions="*,*,*,*" ColumnSpacing="16">
+                        <Border Grid.Column="0" BackgroundColor="#111827" Padding="16" Stroke="#1e293b" StrokeShape="RoundRectangle 12">
+                            <VerticalStackLayout Spacing="4">
+                                <Label Text="TOTAL PATIENTS" FontSize="10" TextColor="#64748b"/>
+                                <HorizontalStackLayout Spacing="8">
+                                    <Label x:Name="TotalPatientsLabel" Text="0" FontSize="36" FontAttributes="Bold" TextColor="#e5e7eb"/>
+                                    <Label x:Name="TotalPatientsTrendLabel" Text="+0%" FontSize="12" TextColor="#22d3ee" VerticalOptions="End"/>
+                                </HorizontalStackLayout>
+                            </VerticalStackLayout>
+                        </Border>
+                        <Border Grid.Column="1" BackgroundColor="#111827" Padding="16" Stroke="#1e293b" StrokeShape="RoundRectangle 12">
+                            <VerticalStackLayout Spacing="4">
+                                <Label Text="CRITICAL ALERTS" FontSize="10" TextColor="#64748b"/>
+                                <HorizontalStackLayout Spacing="8">
+                                    <Label x:Name="CriticalAlertsLabel" Text="0" FontSize="36" FontAttributes="Bold" TextColor="#fca5a5"/>
+                                    <Label Text="Attention" FontSize="12" TextColor="#fca5a5" VerticalOptions="End"/>
+                                </HorizontalStackLayout>
+                            </VerticalStackLayout>
+                        </Border>
+                        <Border Grid.Column="2" BackgroundColor="#111827" Padding="16" Stroke="#1e293b" StrokeShape="RoundRectangle 12">
+                            <VerticalStackLayout Spacing="4">
+                                <Label Text="PENDING REVIEW" FontSize="10" TextColor="#64748b"/>
+                                <HorizontalStackLayout Spacing="8">
+                                    <Label x:Name="PendingReviewLabel" Text="0" FontSize="36" FontAttributes="Bold" TextColor="#e5e7eb"/>
+                                    <Label Text="Active" FontSize="12" TextColor="#9ca3af" VerticalOptions="End"/>
+                                </HorizontalStackLayout>
+                            </VerticalStackLayout>
+                        </Border>
+                        <Border Grid.Column="3" BackgroundColor="#111827" Padding="16" Stroke="#1e293b" StrokeShape="RoundRectangle 12">
+                            <VerticalStackLayout Spacing="4">
+                                <Label Text="AI DIAGNOSTICS" FontSize="10" TextColor="#64748b"/>
+                                <HorizontalStackLayout Spacing="8">
+                                    <Label x:Name="AiDiagnosticsLabel" Text="0" FontSize="36" FontAttributes="Bold" TextColor="#22d3ee"/>
+                                    <Label Text="Completed" FontSize="12" TextColor="#22d3ee" VerticalOptions="End"/>
+                                </HorizontalStackLayout>
+                            </VerticalStackLayout>
+                        </Border>
+                    </Grid>
+
+                    <Label
+                        x:Name="PatientsErrorLabel"
+                        FontSize="13"
+                        IsVisible="False"
+                        Text="Failed to load data"
+                        TextColor="#f87171"/>
+
+                    <Border BackgroundColor="#111827" Stroke="#1e293b" StrokeShape="RoundRectangle 12">
+                        <VerticalStackLayout>
+                            <Grid Padding="16,14" ColumnDefinitions="*,180,180,140">
+                                <Label Grid.Column="0" Text="PATIENT INFORMATION" FontSize="11" TextColor="#64748b"/>
+                                <Label Grid.Column="1" Text="STATUS / TRIAGE" FontSize="11" TextColor="#64748b"/>
+                                <Label Grid.Column="2" Text="LAST SYNC" FontSize="11" TextColor="#64748b"/>
+                                <Label Grid.Column="3" Text="ACTIONS" FontSize="11" TextColor="#64748b"/>
+                            </Grid>
+                            <BoxView HeightRequest="1" BackgroundColor="#1e293b"/>
+
+                            <RefreshView x:Name="PatientsRefreshView" Refreshing="OnRefreshing">
+                                <CollectionView x:Name="PatientsList" SelectionMode="None">
+                                    <CollectionView.EmptyView>
+                                        <Label
+                                            x:Name="NoPatientsLabel"
+                                            Margin="16"
+                                            FontSize="13"
+                                            Text="No patients found"
+                                            TextColor="#9ca3af"/>
+                                    </CollectionView.EmptyView>
+                                    <CollectionView.ItemTemplate>
+                                        <DataTemplate x:DataType="labvm:PatientDirectoryRowViewModel">
+                                            <Grid Padding="16,12" ColumnDefinitions="*,180,180,140">
+                                                <Grid Grid.Column="0" ColumnDefinitions="34,*" ColumnSpacing="10">
+                                                    <Border
+                                                        Grid.Column="0"
+                                                        HeightRequest="34"
+                                                        WidthRequest="34"
+                                                        BackgroundColor="#1f2937"
+                                                        Stroke="#334155"
+                                                        StrokeShape="RoundRectangle 10">
+                                                        <Label
+                                                            Text="{Binding Initials}"
+                                                            FontAttributes="Bold"
+                                                            FontSize="12"
+                                                            TextColor="#cbd5e1"
+                                                            HorizontalOptions="Center"
+                                                            VerticalOptions="Center"/>
+                                                    </Border>
+                                                    <VerticalStackLayout Grid.Column="1" Spacing="0">
+                                                        <Label
+                                                            Text="{Binding FullName}"
+                                                            FontAttributes="Bold"
+                                                            FontSize="16"
+                                                            TextColor="#e5e7eb"/>
+                                                        <Label
+                                                            Text="{Binding IdentityLine}"
+                                                            FontSize="12"
+                                                            TextColor="#9ca3af"/>
+                                                    </VerticalStackLayout>
+                                                </Grid>
+
+                                                <Border
+                                                    Grid.Column="1"
+                                                    Padding="10,4"
+                                                    HorizontalOptions="Start"
+                                                    BackgroundColor="{Binding StatusBackground}"
+                                                    StrokeShape="RoundRectangle 999">
+                                                    <Label
+                                                        Text="{Binding StatusLabel}"
+                                                        FontSize="11"
+                                                        FontAttributes="Bold"
+                                                        TextColor="{Binding StatusForeground}"/>
+                                                </Border>
+
+                                                <Label
+                                                    Grid.Column="2"
+                                                    Text="{Binding LastSyncRelative}"
+                                                    FontSize="13"
+                                                    TextColor="#d1d5db"
+                                                    VerticalOptions="Center"/>
+
+                                                <Button
+                                                    Grid.Column="3"
+                                                    Text="Open Profile"
+                                                    Clicked="OnOpenProfileClicked"
+                                                    CommandParameter="{Binding Id}"
+                                                    BackgroundColor="#1f2937"
+                                                    TextColor="#e5e7eb"
+                                                    HeightRequest="34"
+                                                    CornerRadius="8"
+                                                    FontSize="12"/>
+                                            </Grid>
+                                        </DataTemplate>
+                                    </CollectionView.ItemTemplate>
+                                </CollectionView>
+                            </RefreshView>
+                        </VerticalStackLayout>
+                    </Border>
+
+                    <Grid ColumnDefinitions="*,Auto" VerticalOptions="Center">
+                        <Label
+                            x:Name="PatientsCountLabel"
+                            FontSize="13"
+                            TextColor="#9ca3af"
+                            VerticalOptions="Center"/>
+
+                        <HorizontalStackLayout Grid.Column="1" Spacing="8">
+                            <Border x:Name="PrevPageBorder" Padding="10,8" BackgroundColor="#111827" Stroke="#1e293b" StrokeShape="RoundRectangle 8">
+                                <Border.GestureRecognizers>
+                                    <TapGestureRecognizer Tapped="OnPrevPageTapped"/>
+                                </Border.GestureRecognizers>
+                                <Label Text="‹" TextColor="#9ca3af"/>
+                            </Border>
+                            <Border x:Name="Page1Border" Padding="10,8" BackgroundColor="#22d3ee" StrokeShape="RoundRectangle 8">
+                                <Border.GestureRecognizers>
+                                    <TapGestureRecognizer Tapped="OnPageTapped" CommandParameter="1"/>
+                                </Border.GestureRecognizers>
+                                <Label x:Name="Page1Label" Text="1" TextColor="#0f172a"/>
+                            </Border>
+                            <Border x:Name="Page2Border" Padding="10,8" BackgroundColor="#111827" Stroke="#1e293b" StrokeShape="RoundRectangle 8">
+                                <Border.GestureRecognizers>
+                                    <TapGestureRecognizer Tapped="OnPageTapped" CommandParameter="2"/>
+                                </Border.GestureRecognizers>
+                                <Label x:Name="Page2Label" Text="2" TextColor="#9ca3af"/>
+                            </Border>
+                            <Border x:Name="Page3Border" Padding="10,8" BackgroundColor="#111827" Stroke="#1e293b" StrokeShape="RoundRectangle 8">
+                                <Border.GestureRecognizers>
+                                    <TapGestureRecognizer Tapped="OnPageTapped" CommandParameter="3"/>
+                                </Border.GestureRecognizers>
+                                <Label x:Name="Page3Label" Text="3" TextColor="#9ca3af"/>
+                            </Border>
+                            <Border x:Name="NextPageBorder" Padding="10,8" BackgroundColor="#111827" Stroke="#1e293b" StrokeShape="RoundRectangle 8">
+                                <Border.GestureRecognizers>
+                                    <TapGestureRecognizer Tapped="OnNextPageTapped"/>
+                                </Border.GestureRecognizers>
+                                <Label Text="›" TextColor="#9ca3af"/>
+                            </Border>
+                        </HorizontalStackLayout>
+                    </Grid>
+                </VerticalStackLayout>
+            </ScrollView>
+            <ActivityIndicator
+                x:Name="PatientsBusy"
+                HorizontalOptions="Center"
+                VerticalOptions="Center"
+                IsVisible="False"
+                IsRunning="False"
+                Scale="1.2"
+                Color="#2dd4bf"/>
+        </Grid>
+
+
+    </Grid>
+</ContentPage>
